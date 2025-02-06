@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>asia.virtualmc</groupId>
+    <artifactId>vArchaeology</artifactId>
+    <version>1.0-BETA</version>
+    <packaging>jar</packaging>
+
+    <name>vArchaeology</name>
+
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+<!--                                &lt;!&ndash; CommandAPI relocation &ndash;&gt;-->
+<!--                                <relocation>-->
+<!--                                    <pattern>dev.jorel.commandapi</pattern>-->
+<!--                                    <shadedPattern>asia.virtualmc.vArchaeology.libs.commandapi</shadedPattern>-->
+<!--                                </relocation>-->
+
+<!--                                &lt;!&ndash; IF API relocation &ndash;&gt;-->
+<!--                                <relocation>-->
+<!--                                    <pattern>com.github.stefvanschie.inventoryframework</pattern>-->
+<!--                                    <shadedPattern>asia.virtualmc.vArchaeology.libs.inventoryframework</shadedPattern>-->
+<!--                                </relocation>-->
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <repositories>
+        <!-- Paper API Repo -->
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+
+        <!-- Placeholder API Repo -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <!-- Maven Repo -->
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Paper API -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- vLibrary (Core) -->
+        <dependency>
+            <groupId>asia.virtualmc</groupId>
+            <artifactId>vLibrary</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+<!--        &lt;!&ndash; CommandAPI &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>dev.jorel</groupId>-->
+<!--            <artifactId>commandapi-bukkit-shade</artifactId>-->
+<!--            <version>9.7.0</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; IF API &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.stefvanschie.inventoryframework</groupId>-->
+<!--            <artifactId>IF</artifactId>-->
+<!--            <version>0.10.19</version>-->
+<!--        </dependency>-->
+    </dependencies>
+</project>

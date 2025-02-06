@@ -1,0 +1,5 @@
+name: vArchaeology-RF
+version: '1.0'
+main: asia.virtualmc.vArchaeology.Main
+api-version: '1.21'
+depend: [vLibrary]
