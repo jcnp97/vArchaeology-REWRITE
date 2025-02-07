@@ -16,7 +16,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         this.vlib = (VLibrary) Bukkit.getPluginManager().getPlugin("vLibrary");
         if (vlib == null) {
-            getLogger().severe("vLibrary not found/loadded! Disabling this plugin..");
+            getLogger().severe("vLibrary not found/loaded! Disabling this plugin..");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
