@@ -1,0 +1,30 @@
+package asia.virtualmc.vArchaeology.tasks;
+
+import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vArchaeology.tasks.BossBarUpdater;
+import asia.virtualmc.vLibrary.VLibrary;
+import org.bukkit.Bukkit;
+
+public class TaskManager {
+    private final Main plugin;
+    private final BossBarUpdater bossBarUpdater;
+
+
+    public TaskManager(Main plugin) {
+        this.plugin = plugin;
+        this.bossBarUpdater = new BossBarUpdater(this);
+        startTasks();
+    }
+
+    private void startTasks() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, bossBarUpdater::sendBossBarToAll, 0L, 200L);
+    }
+
+    public Main getMain() {
+        return plugin;
+    }
+
+    public BossBarUpdater getBossBarUpdater() {
+        return bossBarUpdater;
+    }
+}
