@@ -22,64 +22,53 @@ public class PlayerData implements DataHandlingLib {
     private final Plugin plugin;
     private final PlayerDataLib playerDataLib;
     private final BossBarUpdater bossBarUpdater;
-    private final Map<UUID, PlayerStats> playerStatsMap;
+    private final Map<UUID, PlayerDataLib.PlayerStats> playerDataMap;
     private final String tableName = "varch_playerData";
-    private final int MAX_LEVEL = 120;
-    private final int MIN_LEVEL = 1;
+    private final int MAX_LEVEL;
+    private final int MIN_LEVEL;
     public static final List<Integer> expTable = EXPTableConfig.ARCH_EXP_TABLE;
 
     public PlayerData(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
         this.playerDataLib = storageManager.getPlayerDataLib();
         this.bossBarUpdater = storageManager.getTaskManager().getBossBarUpdater();
-        this.playerStatsMap = new ConcurrentHashMap<>();
+        this.playerDataMap = new ConcurrentHashMap<>();
+        this.MAX_LEVEL = 120;
+        this.MIN_LEVEL = 1;
 
         playerDataLib.createTable(tableName, Main.prefix);
     }
 
-    private static class PlayerStats {
-        String name;
-        double exp;
-        double bxp;
-        double xpm;
-        int level;
-        int luck;
-        int traitPoints;
-        int talentPoints;
-        int wisdomTrait;
-        int charismaTrait;
-        int karmaTrait;
-        int dexterityTrait;
-        int rank;
-
-        PlayerStats(String name, double exp, double bxp, double xpm, int level, int luck,
-                    int traitPoints, int talentPoints, int wisdomTrait, int charismaTrait,
-                    int karmaTrait, int dexterityTrait, int rank
-        ) {
-            this.name = name;
-            this.exp = exp;
-            this.bxp = bxp;
-            this.xpm = xpm;
-            this.level = level;
-            this.luck = luck;
-            this.traitPoints = traitPoints;
-            this.talentPoints = talentPoints;
-            this.wisdomTrait = wisdomTrait;
-            this.charismaTrait = charismaTrait;
-            this.karmaTrait = karmaTrait;
-            this.dexterityTrait = dexterityTrait;
-            this.rank = rank;
+    @Override
+    public void createNewPlayerData(@NotNull UUID uuid) {
+        String name = getPlayerName(uuid);
+        try {
+            playerDataLib.createNewPlayerData(uuid, name, tableName, Main.prefix);
+            loadPlayerData(uuid);
+        } catch (Exception e) {
+            plugin.getLogger().severe(Main.prefix + "Failed to create new data on " + tableName + " for " + name +  " : " + e.getMessage());
         }
     }
 
     @Override
-    public void updatePlayerData(UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+    public void loadPlayerData(@NotNull UUID uuid) {
+        String name = getPlayerName(uuid);
+        try {
+            PlayerDataLib.PlayerStats stats = playerDataLib.loadPlayerData(uuid, tableName, Main.prefix);
+            playerDataMap.put(uuid, stats);
+        } catch (Exception e) {
+            plugin.getLogger().severe(Main.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void updatePlayerData(@NotNull UUID uuid) {
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         if (stats == null) {
             return;
         }
         try {
-            playerDataLib.storePlayerData(
+            playerDataLib.savePlayerData(
                     uuid,
                     stats.name,
                     stats.exp,
@@ -99,36 +88,29 @@ public class PlayerData implements DataHandlingLib {
             );
         } catch (Exception e) {
             plugin.getLogger().severe(
-                    Main.prefix + "Failed to save data for player " + stats.name + ": " + e.getMessage()
+                    Main.prefix + "Failed to send map data to database for player " + stats.name + ": " + e.getMessage()
             );
         }
     }
 
     @Override
     public void updateAllData() {
-        playerStatsMap.forEach((uuid, stats) -> {
-            try {
-                playerDataLib.storePlayerData(
-                        uuid, stats.name, stats.exp, stats.bxp,
-                        stats.xpm, stats.level, stats.luck,
-                        stats.traitPoints, stats.talentPoints,
-                        stats.wisdomTrait, stats.charismaTrait,
-                        stats.karmaTrait, stats.dexterityTrait,
-                        stats.rank, tableName, Main.prefix
-                );
-            } catch (Exception e) {
-                plugin.getLogger().severe(Main.prefix + "Failed to save data for player " + stats.name + ": " + e.getMessage());
-            }
-        });
+        try {
+
+            playerDataLib.saveAllData(playerDataMap, tableName, Main.prefix);
+        } catch (Exception e) {
+            plugin.getLogger().severe(Main.prefix + "Failed to send all data from hashmap to database: " + e.getMessage());
+        }
     }
 
     @Override
     public void unloadData(@NotNull UUID uuid) {
+        String name = getPlayerName(uuid);
         try {
             updatePlayerData(uuid);
-            playerStatsMap.remove(uuid);
+            playerDataMap.remove(uuid);
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to save data for player " + uuid + ": " + e.getMessage());
+            plugin.getLogger().severe(Main.prefix + "Failed to unload data for player " + name + ": " + e.getMessage());
         }
     }
 
@@ -137,7 +119,7 @@ public class PlayerData implements DataHandlingLib {
                           @NotNull EnumsLib.UpdateType type,
                           double value) {
         UUID uuid = player.getUniqueId();
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
 
         if (stats != null) {
             stats.exp = playerDataLib.getNewEXP(type, stats.exp, value);
@@ -153,7 +135,7 @@ public class PlayerData implements DataHandlingLib {
     }
 
     private void checkAndApplyLevelUp(@NotNull Player player) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         boolean levelUp = false;
         if (stats == null) return;
         int previousLevel = stats.level;
@@ -172,7 +154,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateLevel(@NotNull Player player,
                           @NotNull EnumsLib.UpdateType type,
                           int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.level = playerDataLib.getNewLevel(type, stats.level, value);
@@ -183,7 +165,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateXPM(@NotNull Player player,
                             @NotNull EnumsLib.UpdateType type,
                             double value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.xpm = playerDataLib.getNewXPM(type, stats.xpm, value);
@@ -194,7 +176,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateBXP(@NotNull Player player,
                           @NotNull EnumsLib.UpdateType type,
                           double value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.bxp = playerDataLib.getNewBXP(type, stats.bxp, value);
@@ -205,7 +187,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateTraitPoints(@NotNull Player player,
                             @NotNull EnumsLib.UpdateType type,
                             int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.traitPoints = playerDataLib.getNewTraitPoints(type, stats.traitPoints, value);
@@ -216,7 +198,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateTalentPoints(@NotNull Player player,
                                   @NotNull EnumsLib.UpdateType type,
                                   int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.talentPoints = playerDataLib.getNewTalentPoints(type, stats.talentPoints, value);
@@ -227,7 +209,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateNumericalRank(@NotNull Player player,
                                    @NotNull EnumsLib.UpdateType type,
                                    int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.rank = playerDataLib.getNewNumericalRank(type, stats.rank, value);
@@ -238,7 +220,7 @@ public class PlayerData implements DataHandlingLib {
     public void updateLuck(@NotNull Player player,
                                    @NotNull EnumsLib.UpdateType type,
                                    int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
             stats.luck = playerDataLib.getNewLuck(type, stats.luck, value);
@@ -247,7 +229,7 @@ public class PlayerData implements DataHandlingLib {
 
     @Override
     public void addWisdomTrait(@NotNull Player player, int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
             stats.wisdomTrait += value;
         }
@@ -255,7 +237,7 @@ public class PlayerData implements DataHandlingLib {
 
     @Override
     public void addKarmaTrait(@NotNull Player player, int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
             stats.karmaTrait += value;
         }
@@ -263,7 +245,7 @@ public class PlayerData implements DataHandlingLib {
 
     @Override
     public void addCharismaTrait(@NotNull Player player, int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
             stats.charismaTrait += value;
         }
@@ -271,7 +253,7 @@ public class PlayerData implements DataHandlingLib {
 
     @Override
     public void addDexterityTrait(@NotNull Player player, int value) {
-        PlayerStats stats = playerStatsMap.get(player.getUniqueId());
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
             stats.dexterityTrait += value;
         }
@@ -279,67 +261,67 @@ public class PlayerData implements DataHandlingLib {
 
     // Getter Methods
     public String getPlayerName(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.name : null;
     }
 
     public double getCurrentEXP(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.exp : 0.0;
     }
 
     public int getCurrentLevel(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.level : MIN_LEVEL;
     }
 
     public double getCurrentBXP(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.bxp : 0.0;
     }
 
     public int getCurrentLuck(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.luck : 0;
     }
 
     public double getCurrentXPM(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.xpm : 1.0;
     }
 
     public int getTraitPoints(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.traitPoints : 1;
     }
 
     public int getTalentPoints(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.talentPoints : 0;
     }
 
     public int getWisdomTrait(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.wisdomTrait : 0;
     }
 
     public int getKarmaTrait(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.karmaTrait : 0;
     }
 
     public int getCharismaTrait(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.charismaTrait : 0;
     }
 
     public int getDexterityTrait(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.dexterityTrait : 0;
     }
 
     public int getNumericalRank(@NotNull UUID uuid) {
-        PlayerStats stats = playerStatsMap.get(uuid);
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
         return stats != null ? stats.rank : 0;
     }
 }
