@@ -1,10 +1,7 @@
 package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
-//import asia.virtualmc.vArchaeology.droptables.ItemsDropTable;
-//import asia.virtualmc.vArchaeology.guis.RankGUI;
-//import asia.virtualmc.vArchaeology.guis.SellGUI;
-import asia.virtualmc.vArchaeology.storage.*;
+import asia.virtualmc.vArchaeology.storage.StorageManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,14 +14,6 @@ import java.util.UUID;
 public class PlayerJoin implements Listener {
     private final Main plugin;
     private final StorageManager storageManager;
-
-//    private final TalentTree talentTree;
-//    private final CollectionLog collectionLog;
-//    private final ItemEquipListener itemEquipListener;
-//    private final ItemsDropTable itemsDropTable;
-//    private final BlockBreakListener blockBreakListener;
-//    private final SellGUI sellGUI;
-//    private final RankGUI rankGUI;
 
     public PlayerJoin(@NotNull EventManager eventManager) {
         this.plugin = eventManager.getMain();

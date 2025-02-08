@@ -13,12 +13,16 @@ public class StorageManager {
     private final Main plugin;
     private final PlayerData playerData;
     private final Statistics statistics;
+    private final CollectionLog collectionLog;
+    private final TalentTree talentTree;
     private final VLibrary vlib;
     private final PlayerDataLib playerDataLib;
     private final OtherDataLib otherDataLib;
     private final TaskManager taskManager;
 
-    public StorageManager(@NotNull Main plugin, @NotNull VLibrary vlib, TaskManager taskManager) {
+    public StorageManager(@NotNull Main plugin,
+                          @NotNull VLibrary vlib,
+                          @NotNull TaskManager taskManager) {
         this.plugin = plugin;
         this.vlib = vlib;
         this.playerDataLib = vlib.getPlayerDataLib();
@@ -26,6 +30,8 @@ public class StorageManager {
         this.taskManager = taskManager;
         this.playerData = new PlayerData(this);
         this.statistics = new Statistics(this);
+        this.collectionLog = new CollectionLog(this);
+        this.talentTree = new TalentTree(this);
     }
 
     public Main getMain() {
@@ -38,6 +44,14 @@ public class StorageManager {
 
     public Statistics getStatistics() {
         return statistics;
+    }
+
+    public TalentTree getTalentTree() {
+        return talentTree;
+    }
+
+    public CollectionLog getCollectionLog() {
+        return collectionLog;
     }
 
     public PlayerDataLib getPlayerDataLib() {
@@ -55,6 +69,8 @@ public class StorageManager {
             try {
                 playerData.loadPlayerData(uuid);
                 statistics.loadPlayerData(uuid);
+                collectionLog.loadPlayerData(uuid);
+                talentTree.loadPlayerData(uuid);
             } catch (Exception e) {
                 plugin.getLogger().severe(Main.prefix + "Error loading data for " + name + ": " + e.getMessage());
             }
@@ -66,6 +82,8 @@ public class StorageManager {
             try {
                 playerData.unloadData(uuid);
                 statistics.unloadData(uuid);
+                collectionLog.unloadData(uuid);
+                talentTree.unloadData(uuid);
             } catch (Exception e) {
                 plugin.getLogger().severe(Main.prefix + "Error unloading data for " + name + ": " + e.getMessage());
             }
@@ -76,6 +94,8 @@ public class StorageManager {
         try {
             playerData.updateAllData();
             statistics.updateAllData();
+            collectionLog.updateAllData();
+            talentTree.updateAllData();
         } catch (Exception e) {
             plugin.getLogger().severe(Main.prefix + "An error occurred while updating data to database.");
         }
