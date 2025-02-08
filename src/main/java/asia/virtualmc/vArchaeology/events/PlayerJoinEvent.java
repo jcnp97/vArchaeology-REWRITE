@@ -5,25 +5,23 @@ import asia.virtualmc.vArchaeology.storage.StorageManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class PlayerJoin implements Listener {
+public class PlayerJoinEvent implements Listener {
     private final Main plugin;
     private final StorageManager storageManager;
 
-    public PlayerJoin(@NotNull EventManager eventManager) {
+    public PlayerJoinEvent(@NotNull EventManager eventManager) {
         this.plugin = eventManager.getMain();
         this.storageManager = eventManager.getStorageManager();
-
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(org.bukkit.event.player.PlayerJoinEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
         String name = event.getPlayer().getName();
         try {

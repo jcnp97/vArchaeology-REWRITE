@@ -18,7 +18,7 @@ public class TaskManager {
     }
 
     private void startTasks() {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, bossBarUpdater::sendBossBarToAll, 0L, 200L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, bossBarUpdater::sendBossBarToAll, 0L, 300L);
     }
 
     public Main getMain() {

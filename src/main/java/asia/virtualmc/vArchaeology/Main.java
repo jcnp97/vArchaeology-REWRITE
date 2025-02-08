@@ -31,6 +31,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        storageManager.saveAllPluginData();
     }
 
     public StorageManager getStorageManager() {
