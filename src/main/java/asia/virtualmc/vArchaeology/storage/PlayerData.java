@@ -13,7 +13,6 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,11 +21,11 @@ public class PlayerData implements DataHandlingLib {
     private final Plugin plugin;
     private final PlayerDataLib playerDataLib;
     private final BossBarUpdater bossBarUpdater;
-    private final Map<UUID, PlayerDataLib.PlayerStats> playerDataMap;
+    private final ConcurrentHashMap<UUID, PlayerDataLib.PlayerStats> playerDataMap;
     private final String tableName = "varch_playerData";
     private final int MAX_LEVEL;
     private final int MIN_LEVEL;
-    public static final List<Integer> expTable = EXPTableConfig.ARCH_EXP_TABLE;
+    public static List<Integer> expTable;
 
     public PlayerData(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
@@ -35,19 +34,9 @@ public class PlayerData implements DataHandlingLib {
         this.playerDataMap = new ConcurrentHashMap<>();
         this.MAX_LEVEL = 120;
         this.MIN_LEVEL = 1;
+        expTable = EXPTableConfig.loadEXPTable(plugin, Main.prefix);
 
         playerDataLib.createTable(tableName, Main.prefix);
-    }
-
-    @Override
-    public void createNewPlayerData(@NotNull UUID uuid) {
-        String name = getPlayerName(uuid);
-        try {
-            playerDataLib.createNewPlayerData(uuid, name, tableName, Main.prefix);
-            loadPlayerData(uuid);
-        } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to create new data on " + tableName + " for " + name +  " : " + e.getMessage());
-        }
     }
 
     @Override
@@ -82,7 +71,9 @@ public class PlayerData implements DataHandlingLib {
                     stats.charismaTrait,
                     stats.karmaTrait,
                     stats.dexterityTrait,
-                    stats.rank,
+                    stats.data1,
+                    stats.data2,
+                    stats.data3,
                     tableName,
                     Main.prefix
             );
@@ -96,7 +87,6 @@ public class PlayerData implements DataHandlingLib {
     @Override
     public void updateAllData() {
         try {
-
             playerDataLib.saveAllData(playerDataMap, tableName, Main.prefix);
         } catch (Exception e) {
             plugin.getLogger().severe(Main.prefix + "Failed to send all data from hashmap to database: " + e.getMessage());
@@ -205,18 +195,16 @@ public class PlayerData implements DataHandlingLib {
         }
     }
 
-    @Override
-    public void updateNumericalRank(@NotNull Player player,
+    public void updateADP(@NotNull Player player,
                                    @NotNull EnumsLib.UpdateType type,
                                    int value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
-            stats.rank = playerDataLib.getNewNumericalRank(type, stats.rank, value);
+            stats.data1 = playerDataLib.getNewData1(type, stats.data1, value);
         }
     }
 
-    @Override
     public void updateLuck(@NotNull Player player,
                                    @NotNull EnumsLib.UpdateType type,
                                    int value) {
@@ -227,7 +215,6 @@ public class PlayerData implements DataHandlingLib {
         }
     }
 
-    @Override
     public void addWisdomTrait(@NotNull Player player, int value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
@@ -235,7 +222,6 @@ public class PlayerData implements DataHandlingLib {
         }
     }
 
-    @Override
     public void addKarmaTrait(@NotNull Player player, int value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
@@ -243,7 +229,6 @@ public class PlayerData implements DataHandlingLib {
         }
     }
 
-    @Override
     public void addCharismaTrait(@NotNull Player player, int value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
@@ -251,7 +236,6 @@ public class PlayerData implements DataHandlingLib {
         }
     }
 
-    @Override
     public void addDexterityTrait(@NotNull Player player, int value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
         if (stats != null) {
@@ -320,8 +304,8 @@ public class PlayerData implements DataHandlingLib {
         return stats != null ? stats.dexterityTrait : 0;
     }
 
-    public int getNumericalRank(@NotNull UUID uuid) {
+    public double getADP(@NotNull UUID uuid) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
-        return stats != null ? stats.rank : 0;
+        return stats != null ? stats.data1 : 0;
     }
 }

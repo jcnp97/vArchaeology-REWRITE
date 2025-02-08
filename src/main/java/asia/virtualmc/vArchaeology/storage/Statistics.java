@@ -2,7 +2,6 @@ package asia.virtualmc.vArchaeology.storage;
 
 import asia.virtualmc.vArchaeology.Main;
 
-import asia.virtualmc.vLibrary.interfaces.DataHandlingLib;
 import asia.virtualmc.vLibrary.interfaces.OtherDataHandlingLib;
 import asia.virtualmc.vLibrary.storage.OtherDataLib;
 import org.bukkit.Bukkit;
@@ -27,22 +26,22 @@ public class Statistics implements OtherDataHandlingLib {
     }
 
     private void createTable() {
-        List<String> statList = Arrays.asList("rankAchieved", "commonComponents", "uncommonComponents",
+        List<String> statList = Arrays.asList("numericalRank", "commonComponents", "uncommonComponents",
                 "rareComponents", "uniqueComponents", "specialComponents", "mythicalComponents",
                 "exoticComponents", "blocksMined", "artefactsFound", "artefactsRestored",
-                "treasuresFound", "moneyEarned", "taxesPaid"
+                "treasuresFound", "moneyEarned", "taxesPaid", "skillAptitude"
         );
         otherDataLib.createTable(statList, tableName, Main.prefix);
     }
 
     @Override
-    public void createNewPlayerData(@NotNull UUID uuid) {
-
-    }
-
-    @Override
     public void loadPlayerData(@NotNull UUID uuid) {
-
+        String name = Bukkit.getPlayer(uuid).getName();
+        try {
+            statisticsMap.put(uuid, otherDataLib.loadPlayerData(uuid, tableName, Main.prefix));
+        } catch (Exception e) {
+            plugin.getLogger().severe(Main.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
+        }
     }
 
     @Override
@@ -79,40 +78,39 @@ public class Statistics implements OtherDataHandlingLib {
         }
     }
 
-    public int getStatistics(UUID playerUUID, int statsID) {
-        return playerStatistics.getOrDefault(playerUUID, new ConcurrentHashMap<>())
-                .getOrDefault(statsID, 0);
+    public int getDataFromMap(@NotNull UUID uuid, int dataID) {
+        return statisticsMap.getOrDefault(uuid, new ConcurrentHashMap<>())
+                .getOrDefault(dataID, 0);
     }
 
-    public Map<UUID, Map<Integer, Integer>> getPlayerStatistics() {
-        return new ConcurrentHashMap<>(playerStatistics);
+    public Map<UUID, Map<Integer, Integer>> getAllDataFromMap() {
+        return new ConcurrentHashMap<>(statisticsMap);
     }
 
-    public void incrementStatistics(UUID playerUUID, int statsID) {
-        playerStatistics.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>())
-                .merge(statsID, 1, Integer::sum);
-        //updatePlayerData(playerUUID);
+    public void incrementData(@NotNull UUID uuid, int dataID) {
+        statisticsMap.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>())
+                .merge(dataID, 1, Integer::sum);
     }
 
-    public void addStatistics(UUID playerUUID, int statsID, int value) {
-        playerStatistics.computeIfAbsent(playerUUID, k -> new ConcurrentHashMap<>())
-                .merge(statsID, value, Integer::sum);
-        //updatePlayerData(playerUUID);
+    public void addCustomValueData(@NotNull UUID uuid, int dataID, int value) {
+        statisticsMap.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>())
+                .merge(dataID, value, Integer::sum);
     }
 
-    public int[] getComponents(UUID playerUUID) {
+    // Exclusive Methods (on class)
+    public int[] getComponents(@NotNull UUID uuid) {
         int[] componentsOwned = new int[7];
 
         for (int i = 2; i < 9; i++) {
-            componentsOwned[i - 2] = playerStatistics
-                    .getOrDefault(playerUUID, new ConcurrentHashMap<>())
+            componentsOwned[i - 2] = statisticsMap
+                    .getOrDefault(uuid, new ConcurrentHashMap<>())
                     .getOrDefault(i, 0);
         }
         return componentsOwned;
     }
 
-    public void addComponents(UUID uuid, int amount) {
-        ConcurrentHashMap<Integer, Integer> statsMap = playerStatistics.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>());
+    public void addAllComponents(@NotNull UUID uuid, int amount) {
+        ConcurrentHashMap<Integer, Integer> statsMap = statisticsMap.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>());
         statsMap.merge(2, amount, Integer::sum);
         statsMap.merge(3, amount, Integer::sum);
         statsMap.merge(4, amount, Integer::sum);
@@ -123,24 +121,45 @@ public class Statistics implements OtherDataHandlingLib {
         updatePlayerData(uuid);
     }
 
-    public void subtractComponents(UUID uuid, int[] componentsRequired) {
+    public void addAllCustomComponents(@NotNull UUID uuid, int[] componentsNumber) {
         Player player = Bukkit.getPlayer(uuid);
-        if (componentsRequired.length != 7) {
+        if (componentsNumber.length != 7) {
             throw new IllegalArgumentException("componentsRequired must have exactly 7 elements.");
         }
-        ConcurrentHashMap<Integer, Integer> statsMap = playerStatistics.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>());
-        statsMap.merge(2, -componentsRequired[0], Integer::sum);
-        statsMap.merge(3, -componentsRequired[1], Integer::sum);
-        statsMap.merge(4, -componentsRequired[2], Integer::sum);
-        statsMap.merge(5, -componentsRequired[3], Integer::sum);
-        statsMap.merge(6, -componentsRequired[4], Integer::sum);
-        statsMap.merge(7, -componentsRequired[5], Integer::sum);
-        statsMap.merge(8, -componentsRequired[6], Integer::sum);
+        ConcurrentHashMap<Integer, Integer> statsMap = statisticsMap.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>());
+        statsMap.merge(2, componentsNumber[0], Integer::sum);
+        statsMap.merge(3, componentsNumber[1], Integer::sum);
+        statsMap.merge(4, componentsNumber[2], Integer::sum);
+        statsMap.merge(5, componentsNumber[3], Integer::sum);
+        statsMap.merge(6, componentsNumber[4], Integer::sum);
+        statsMap.merge(7, componentsNumber[5], Integer::sum);
+        statsMap.merge(8, componentsNumber[6], Integer::sum);
         updatePlayerData(uuid);
-        for (int i = 0; i < componentsRequired.length; i++) {
-            if (componentsRequired[i] > 0) {
-                salvageLog.logTransactionTaken(player.getName(), configManager.dropNames[i], componentsRequired[i]);
-            }
+//        for (int i = 0; i < componentsNumber.length; i++) {
+//            if (componentsNumber[i] > 0) {
+//                salvageLog.logTransactionTaken(player.getName(), configManager.dropNames[i], componentsRequired[i]);
+//            }
+//        }
+    }
+
+    public void subtractAllCustomComponents(@NotNull UUID uuid, int[] componentsNumber) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (componentsNumber.length != 7) {
+            throw new IllegalArgumentException("componentsRequired must have exactly 7 elements.");
         }
+        ConcurrentHashMap<Integer, Integer> statsMap = statisticsMap.computeIfAbsent(uuid, k -> new ConcurrentHashMap<>());
+        statsMap.merge(2, -componentsNumber[0], Integer::sum);
+        statsMap.merge(3, -componentsNumber[1], Integer::sum);
+        statsMap.merge(4, -componentsNumber[2], Integer::sum);
+        statsMap.merge(5, -componentsNumber[3], Integer::sum);
+        statsMap.merge(6, -componentsNumber[4], Integer::sum);
+        statsMap.merge(7, -componentsNumber[5], Integer::sum);
+        statsMap.merge(8, -componentsNumber[6], Integer::sum);
+        updatePlayerData(uuid);
+//        for (int i = 0; i < componentsNumber.length; i++) {
+//            if (componentsNumber[i] > 0) {
+//                salvageLog.logTransactionTaken(player.getName(), configManager.dropNames[i], componentsRequired[i]);
+//            }
+//        }
     }
 }

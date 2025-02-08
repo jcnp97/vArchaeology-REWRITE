@@ -4,13 +4,14 @@ import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.tasks.BossBarUpdater;
 import asia.virtualmc.vLibrary.VLibrary;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 public class TaskManager {
     private final Main plugin;
     private final BossBarUpdater bossBarUpdater;
 
 
-    public TaskManager(Main plugin) {
+    public TaskManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.bossBarUpdater = new BossBarUpdater(this);
         startTasks();

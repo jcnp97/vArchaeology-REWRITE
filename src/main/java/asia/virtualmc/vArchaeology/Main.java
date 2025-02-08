@@ -1,5 +1,6 @@
 package asia.virtualmc.vArchaeology;
 
+import asia.virtualmc.vArchaeology.events.EventManager;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.tasks.TaskManager;
 import asia.virtualmc.vLibrary.VLibrary;
@@ -10,6 +11,8 @@ public final class Main extends JavaPlugin {
     public static final String prefix = "[vArchaeology] ";
     private StorageManager storageManager;
     private TaskManager taskManager;
+    private EventManager eventManager;
+    // VLibrary (Core)
     private VLibrary vlib;
 
     @Override
@@ -23,6 +26,7 @@ public final class Main extends JavaPlugin {
 
         this.taskManager = new TaskManager(this);
         this.storageManager = new StorageManager(this, vlib, taskManager);
+        this.eventManager = new EventManager(this, vlib, storageManager);
     }
 
     @Override
