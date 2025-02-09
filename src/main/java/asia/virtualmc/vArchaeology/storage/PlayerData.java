@@ -196,8 +196,8 @@ public class PlayerData implements DataHandlingLib {
     }
 
     public void updateADP(@NotNull Player player,
-                                   @NotNull EnumsLib.UpdateType type,
-                                   int value) {
+                          @NotNull EnumsLib.UpdateType type,
+                          double value) {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {

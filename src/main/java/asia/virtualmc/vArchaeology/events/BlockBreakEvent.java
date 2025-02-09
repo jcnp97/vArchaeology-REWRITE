@@ -2,29 +2,30 @@ package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
 
+import asia.virtualmc.vArchaeology.items.CustomMaterials;
+import asia.virtualmc.vArchaeology.items.CustomTools;
 import asia.virtualmc.vArchaeology.storage.CollectionLog;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.configs.MaterialBlockConfig;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
+import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
+import asia.virtualmc.vLibrary.items.ItemsLib;
+import asia.virtualmc.vLibrary.items.ToolsLib;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,16 +34,17 @@ public class BlockBreakEvent implements Listener {
     private final CollectionLog collectionLog;
     private final PlayerData playerData;
     private final Statistics statistics;
-    private final NamespacedKey TOOL_KEY;
+    private final String repairCommand = "/varch repair";
     public static Map<Material, Integer> archBlocks;
+    private final List<BlockBreakHandler> handlers;
 
-    public BlockBreakEvent(@NotNull EventManager eventManager) {
+    public BlockBreakEvent(@NotNull EventManager eventManager,
+                           List<BlockBreakHandler> handlers) {
+        this.handlers = handlers;
         this.plugin = eventManager.getMain();
         this.collectionLog = eventManager.getStorageManager().getCollectionLog();
         this.playerData = eventManager.getStorageManager().getPlayerData();
         this.statistics = eventManager.getStorageManager().getStatistics();
-
-        this.TOOL_KEY = new NamespacedKey(plugin, "varch_tool");
         archBlocks = MaterialBlockConfig.loadArchBlocks(plugin);
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -54,14 +56,14 @@ public class BlockBreakEvent implements Listener {
         UUID uuid = player.getUniqueId();
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
 
-//        if (!customTools.isArchTool(mainHandItem)) {
-//            return;
-//        }
+        if (!ToolsLib.isCustomTool(mainHandItem, CustomTools.TOOL_KEY)) {
+            return;
+        }
 
-//        if (!canBreakBlocks(player, uuid, mainHandItem)) {
-//            event.setCancelled(true);
-//            return;
-//        }
+        if (!canProcessAction(player, uuid, mainHandItem)) {
+            event.setCancelled(true);
+            return;
+        }
 
         Block block = event.getBlock();
         Material material = block.getType();
@@ -74,53 +76,26 @@ public class BlockBreakEvent implements Listener {
         statistics.incrementData(uuid, 9);
         playerData.updateEXP(player, EnumsLib.UpdateType.ADD, expValue);
 
-//        if (!itemEquipListener.hasToolData(uuid)) {
-//            itemEquipListener.addPlayerData(player, mainHandItem);
-//        }
+        for (BlockBreakHandler handler : handlers) {
+            handler.onBlockBreakHandler(event);
+        }
+    }
 
-//        // Karma Trait - Two Drops & Next-Tier
-//        // Dexterity Trait - Double Artefact Discovery Progress
-//        if (!traitDataMap.containsKey(uuid)) {
-//            addTraitData(player);
-//        }
-//
-//        // Material Drops
-//        if (random.nextDouble() < itemEquipListener.getGatherValue(uuid) / 100) {
-//            Location blockLocation = event.getBlock().getLocation();
-//            giveArchMaterialDrop(player, blockLocation, expValue, true);
-//        } else {
-//            playerData.updateExp(uuid, expManager.getTotalBlockBreakEXP(uuid, expValue), "add");
-//        }
-//
-//        // Tier 99 Passive
-//        if (itemEquipListener.hasTier99Value(uuid)) {
-//            tier99Passive(player);
-//        }
-//
-//        // Artefact Discovery Progress
-//        if (canProgressAD(uuid)) {
-//            addArtefactProgress(uuid);
-//            if (random.nextDouble() < getDoubleADP(uuid) / 100) {
-//                addArtefactProgress(uuid);
-//                effectsUtil.sendPlayerMessage(uuid, "<green>Your Cosmic Focus (Dexterity Trait) has doubled your Artefact Progress gain.");
-//            }
-//        }
-//
-//        // Dexterity Bonus
-//        if (random.nextDouble() < getAddADP(uuid) / 100) {
-//            playerData.addArtefactDiscovery(uuid, 0.1);
-//            effectsUtil.sendADBProgressBarTitle(uuid, playerData.getArchADP(uuid) / 100.0, 0.1);
-//        }
-//
-//        if (random.nextInt(1, 2501) == 1) {
-//            String blockType = material.name();
-//            switch (blockType) {
-//                case "SAND" -> giveCraftingMaterial(player, 2);
-//                case "RED_SAND" -> giveCraftingMaterial(player, 3);
-//                case "SOUL_SAND" -> giveCraftingMaterial(player, 4);
-//                case "DIRT" -> giveCraftingMaterial(player, 5);
-//                case "GRAVEL" -> giveCraftingMaterial(player, 6);
-//            }
-//        }
+    private boolean canProcessAction(Player player, UUID uuid, ItemStack item) {
+        if (player.hasPotionEffect(PotionEffectType.HASTE)) {
+            player.sendMessage("§cYour haste buff prevents you from breaking this block.");
+            return false;
+        }
+
+        if (ToolsLib.getDurability(item) <= 10) {
+            player.sendMessage("§cYou need to repair your tool (using +" + repairCommand + " before you can use it again.");
+            return false;
+        }
+
+        if (ToolsLib.getToolLevel(item, CustomTools.REQ_LEVEL_KEY) > playerData.getCurrentLevel(uuid)) {
+            player.sendMessage("§cYou do not have the required level to use this tool!");
+            return false;
+        }
+        return true;
     }
 }

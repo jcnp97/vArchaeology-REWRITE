@@ -1,6 +1,9 @@
 package asia.virtualmc.vArchaeology;
 
+import asia.virtualmc.vArchaeology.core.CoreManager;
 import asia.virtualmc.vArchaeology.events.EventManager;
+import asia.virtualmc.vArchaeology.global.GlobalManager;
+import asia.virtualmc.vArchaeology.items.ItemManager;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.tasks.TaskManager;
 import asia.virtualmc.vLibrary.VLibrary;
@@ -12,6 +15,9 @@ public final class Main extends JavaPlugin {
     private StorageManager storageManager;
     private TaskManager taskManager;
     private EventManager eventManager;
+    private GlobalManager globalManager;
+    private ItemManager itemManager;
+    private CoreManager coreManager;
     // VLibrary (Core)
     private VLibrary vlib;
 
@@ -24,9 +30,12 @@ public final class Main extends JavaPlugin {
             return;
         }
 
+        this.globalManager = new GlobalManager(this);
         this.taskManager = new TaskManager(this);
-        this.storageManager = new StorageManager(this, vlib, taskManager);
-        this.eventManager = new EventManager(this, vlib, storageManager);
+        this.storageManager = new StorageManager(this);
+        this.coreManager = new CoreManager(this);
+        this.itemManager = new ItemManager(this);
+        this.eventManager = new EventManager(this);
     }
 
     @Override
@@ -45,4 +54,12 @@ public final class Main extends JavaPlugin {
     public VLibrary getVLibrary() {
         return vlib;
     }
+
+    public GlobalManager getGlobalManager() { return globalManager; }
+
+    public EventManager getEventManager() { return eventManager; }
+
+    public ItemManager getItemManager() { return itemManager; }
+
+    public CoreManager getCoreManager() { return coreManager; }
 }

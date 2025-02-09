@@ -20,14 +20,12 @@ public class StorageManager {
     private final OtherDataLib otherDataLib;
     private final TaskManager taskManager;
 
-    public StorageManager(@NotNull Main plugin,
-                          @NotNull VLibrary vlib,
-                          @NotNull TaskManager taskManager) {
+    public StorageManager(@NotNull Main plugin) {
         this.plugin = plugin;
-        this.vlib = vlib;
+        this.vlib = plugin.getVLibrary();
         this.playerDataLib = vlib.getPlayerDataLib();
         this.otherDataLib = vlib.getOtherDataLib();
-        this.taskManager = taskManager;
+        this.taskManager = plugin.getTaskManager();
         this.playerData = new PlayerData(this);
         this.statistics = new Statistics(this);
         this.collectionLog = new CollectionLog(this);

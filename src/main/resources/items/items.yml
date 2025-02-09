@@ -1,0 +1,93 @@
+# vArchaeology Drops
+itemsList:
+  purpleheart_wood: # itemName for commands
+    id: 1 # internalID
+    material: FLINT # base material
+    name: "&aPurpleheart Wood (Common)"
+    custom-model-data: 100000
+    weight: 55
+    sell-price: 100.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  imperial_steel:
+    id: 2
+    material: FLINT
+    name: "&bImperial Steel (Uncommon)"
+    custom-model-data: 100001
+    weight: 35
+    sell-price: 250.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  everlight_silvthril:
+    id: 3
+    material: FLINT
+    name: "&3Everlight Silvthril (Rare)"
+    custom-model-data: 100002
+    weight: 25
+    sell-price: 400.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  chaotic_brimstone:
+    id: 4
+    material: FLINT
+    name: "&eChaotic Brimstone (Unique)"
+    custom-model-data: 100003
+    weight: 15
+    sell-price: 650.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  hellfire_metal:
+    id: 5
+    material: FLINT
+    name: "&6Hellfire Metal (Special)"
+    custom-model-data: 100004
+    weight: 10
+    sell-price: 1250.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  aetherium_alloy:
+    id: 6
+    material: FLINT
+    name: "&5Aetherium Alloy (Mythical)"
+    custom-model-data: 100005
+    weight: 5
+    sell-price: 2500.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'
+  quintessence:
+    id: 7
+    material: FLINT
+    name: "&4Quintessence (Exotic)"
+    custom-model-data: 100006
+    weight: 1
+    sell-price: 10000.0
+    lore:
+      - '&cArchaeology Item'
+      - ''
+      - '&7This is used as a crafting material for'
+      - '&7various archaeological purposes or can'
+      - '&7be sold through &b[/varch sell]&7.'

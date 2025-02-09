@@ -92,6 +92,4 @@ public class BossBarUpdater {
             this.currentLevel = currentLevel;
         }
     }
-
-
 }
