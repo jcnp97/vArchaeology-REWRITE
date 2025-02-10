@@ -8,6 +8,7 @@ import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
 import asia.virtualmc.vLibrary.interfaces.ItemEquipHandler;
 import asia.virtualmc.vLibrary.items.ToolsLib;
+import asia.virtualmc.vLibrary.utils.EffectsUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -74,6 +75,8 @@ public class ToolStats implements ItemEquipHandler {
         double adbProgress = calculateADB(uuid, pdc);
 
         toolDataMap.put(uuid, new ToolData(gatherRate, adbProgress));
+        EffectsUtil.sendActionBarMessage(player, "<gray>Gather Rate: <yellow>" +
+                gatherRate + "<gray>AD Rate: <yellow>" + adbProgress);
     }
 
     private double calculateGatherRate(UUID uuid, PersistentDataContainer pdc) {

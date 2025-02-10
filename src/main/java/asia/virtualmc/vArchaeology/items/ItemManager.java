@@ -8,6 +8,8 @@ public class ItemManager {
     private final Main plugin;
     private final CustomMaterials customMaterials;
     private final CustomTools customTools;
+    private final CustomBXPStars customBXPStars;
+    private final CustomEXPLamps customEXPLamps;
     private final StorageManager storageManager;
 
     public ItemManager(@NotNull Main plugin) {
@@ -15,6 +17,8 @@ public class ItemManager {
         this.storageManager = plugin.getStorageManager();
         this.customMaterials = new CustomMaterials(this);
         this.customTools = new CustomTools(this);
+        this.customBXPStars = new CustomBXPStars(this);
+        this.customEXPLamps = new CustomEXPLamps(this);
     }
 
     public Main getMain() {
@@ -29,8 +33,14 @@ public class ItemManager {
 
     public CustomMaterials getCustomMaterials() { return customMaterials; }
 
+    public CustomBXPStars getCustomBXPStars() { return customBXPStars; }
+
+    public CustomEXPLamps getCustomEXPLamps() { return customEXPLamps; }
+
     public void reloadItems() {
         customMaterials.reloadConfig();
         customTools.reloadConfig();
+        customBXPStars.reloadConfig();
+        customEXPLamps.reloadConfig();
     }
 }

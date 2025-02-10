@@ -1,6 +1,7 @@
 package asia.virtualmc.vArchaeology.storage;
 
 import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.tasks.TaskManager;
 import asia.virtualmc.vLibrary.VLibrary;
 import asia.virtualmc.vLibrary.storage.OtherDataLib;
@@ -70,7 +71,7 @@ public class StorageManager {
                 collectionLog.loadPlayerData(uuid);
                 talentTree.loadPlayerData(uuid);
             } catch (Exception e) {
-                plugin.getLogger().severe(Main.prefix + "Error loading data for " + name + ": " + e.getMessage());
+                plugin.getLogger().severe(GlobalManager.prefix + "Error loading data for " + name + ": " + e.getMessage());
             }
         });
     }
@@ -83,7 +84,7 @@ public class StorageManager {
                 collectionLog.unloadData(uuid);
                 talentTree.unloadData(uuid);
             } catch (Exception e) {
-                plugin.getLogger().severe(Main.prefix + "Error unloading data for " + name + ": " + e.getMessage());
+                plugin.getLogger().severe(GlobalManager.prefix + "Error unloading data for " + name + ": " + e.getMessage());
             }
         });
     }
@@ -95,7 +96,7 @@ public class StorageManager {
             collectionLog.updateAllData();
             talentTree.updateAllData();
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "An error occurred while updating data to database.");
+            plugin.getLogger().severe(GlobalManager.prefix + "An error occurred while updating data to database.");
         }
     }
 }

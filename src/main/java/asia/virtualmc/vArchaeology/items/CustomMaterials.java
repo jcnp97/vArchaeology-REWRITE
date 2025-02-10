@@ -1,6 +1,7 @@
 package asia.virtualmc.vArchaeology.items;
 
 import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.storage.CollectionLog;
 import asia.virtualmc.vLibrary.items.ItemsLib;
 import org.bukkit.Bukkit;
@@ -34,7 +35,7 @@ public class CustomMaterials {
                 ITEM_FILE,
                 ITEM_SECTION_PATH,
                 ITEM_KEY,
-                Main.prefix,
+                GlobalManager.prefix,
                 false
         );
         itemCache = Map.copyOf(loadedItems);

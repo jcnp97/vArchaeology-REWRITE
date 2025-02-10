@@ -31,11 +31,10 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
     public void onBlockBreakHandler(BlockBreakEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
-
         long currentTime = System.currentTimeMillis();
         Long lastUsage = adpCooldowns.get(uuid);
 
-        if (lastUsage != null || (currentTime - lastUsage) < ADP_COOLDOWN) {
+        if (lastUsage != null && (currentTime - lastUsage) < ADP_COOLDOWN) {
             return;
         }
 
@@ -49,6 +48,7 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
 
     private void addArtefactProgress(@NotNull Player player) {
         UUID uuid = player.getUniqueId();
+
         double adbAdd = ToolStats.toolDataMap.get(uuid).adb();
         playerData.updateADP(player, EnumsLib.UpdateType.ADD, adbAdd);
         double adbProgress = playerData.getADP(uuid);

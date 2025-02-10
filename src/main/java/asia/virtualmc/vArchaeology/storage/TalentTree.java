@@ -2,6 +2,7 @@ package asia.virtualmc.vArchaeology.storage;
 
 import asia.virtualmc.vArchaeology.Main;
 
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vLibrary.configs.TalentTreeConfig;
 import asia.virtualmc.vLibrary.interfaces.OtherDataHandlingLib;
 import asia.virtualmc.vLibrary.storage.OtherDataLib;
@@ -27,16 +28,16 @@ public class TalentTree implements OtherDataHandlingLib {
 
     private void createTable() {
         List<String> statList = TalentTreeConfig.loadTalentNames(plugin);
-        otherDataLib.createTable(statList, tableName, Main.prefix);
+        otherDataLib.createTable(statList, tableName, GlobalManager.prefix);
     }
 
     @Override
     public void loadPlayerData(@NotNull UUID uuid) {
         String name = Bukkit.getPlayer(uuid).getName();
         try {
-            talentsMap.put(uuid, otherDataLib.loadPlayerData(uuid, tableName, Main.prefix));
+            talentsMap.put(uuid, otherDataLib.loadPlayerData(uuid, tableName, GlobalManager.prefix));
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
+            plugin.getLogger().severe(GlobalManager.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
         }
     }
 
@@ -47,19 +48,19 @@ public class TalentTree implements OtherDataHandlingLib {
             return;
         }
         try {
-            otherDataLib.savePlayerData(uuid, tableName, stats, Main.prefix);
+            otherDataLib.savePlayerData(uuid, tableName, stats, GlobalManager.prefix);
         } catch (Exception e) {
             plugin.getLogger().severe(
-                    Main.prefix + "Failed to save data for player " + uuid + "on " + tableName + " : " + e.getMessage());
+                    GlobalManager.prefix + "Failed to save data for player " + uuid + "on " + tableName + " : " + e.getMessage());
         }
     }
 
     @Override
     public void updateAllData() {
         try {
-            otherDataLib.saveAllData(tableName, talentsMap, Main.prefix);
+            otherDataLib.saveAllData(tableName, talentsMap, GlobalManager.prefix);
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to save all data to database: " + e.getMessage());
+            plugin.getLogger().severe(GlobalManager.prefix + "Failed to save all data to database: " + e.getMessage());
         }
     }
 
@@ -70,7 +71,7 @@ public class TalentTree implements OtherDataHandlingLib {
             talentsMap.remove(uuid);
         } catch (Exception e) {
             plugin.getLogger().severe(
-                    Main.prefix + "Failed to save data for player " + uuid + "on " + tableName + " : " + e.getMessage());
+                    GlobalManager.prefix + "Failed to save data for player " + uuid + "on " + tableName + " : " + e.getMessage());
         }
     }
 

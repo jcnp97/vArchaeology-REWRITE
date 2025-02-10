@@ -1,5 +1,6 @@
 package asia.virtualmc.vArchaeology;
 
+import asia.virtualmc.vArchaeology.commands.CommandManager;
 import asia.virtualmc.vArchaeology.core.CoreManager;
 import asia.virtualmc.vArchaeology.events.EventManager;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
@@ -11,13 +12,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
-    public static final String prefix = "[vArchaeology] ";
     private StorageManager storageManager;
     private TaskManager taskManager;
     private EventManager eventManager;
     private GlobalManager globalManager;
     private ItemManager itemManager;
     private CoreManager coreManager;
+    private CommandManager commandManager;
     // VLibrary (Core)
     private VLibrary vlib;
 
@@ -25,7 +26,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         this.vlib = (VLibrary) Bukkit.getPluginManager().getPlugin("vLibrary");
         if (vlib == null) {
-            getLogger().severe("vLibrary not found/loaded! Disabling this plugin..");
+            getLogger().severe(GlobalManager.prefix + "vLibrary not found/loaded! Disabling this plugin..");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -36,6 +37,12 @@ public final class Main extends JavaPlugin {
         this.coreManager = new CoreManager(this);
         this.itemManager = new ItemManager(this);
         this.eventManager = new EventManager(this);
+        this.commandManager = new CommandManager(this);
+    }
+
+    @Override
+    public void onLoad() {
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package asia.virtualmc.vArchaeology.items;
 
 import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vLibrary.items.ToolsLib;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -35,7 +36,7 @@ public class CustomTools {
                 plugin,
                 ITEM_FILE,
                 ITEM_SECTION_PATH,
-                Main.prefix
+                GlobalManager.prefix
         );
         toolCache = Map.copyOf(loadedItems);
     }

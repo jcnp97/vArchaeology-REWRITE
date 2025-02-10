@@ -14,9 +14,9 @@ public class TalentTreeValues {
     public TalentTreeValues(@NotNull GlobalManager globalManager) {
         this.plugin = globalManager.getMain();
 
-        wisdomEffects = TalentTreeConfig.getWisdomEffects(plugin, Main.prefix);
-        charismaEffects = TalentTreeConfig.getCharismaEffects(plugin, Main.prefix);
-        karmaEffects = TalentTreeConfig.getKarmaEffects(plugin, Main.prefix);
-        dexterityEffects = TalentTreeConfig.getDexterityEffects(plugin, Main.prefix);
+        wisdomEffects = TalentTreeConfig.getWisdomEffects(plugin, GlobalManager.prefix);
+        charismaEffects = TalentTreeConfig.getCharismaEffects(plugin, GlobalManager.prefix);
+        karmaEffects = TalentTreeConfig.getKarmaEffects(plugin, GlobalManager.prefix);
+        dexterityEffects = TalentTreeConfig.getDexterityEffects(plugin, GlobalManager.prefix);
     }
 }

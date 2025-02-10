@@ -2,6 +2,7 @@ package asia.virtualmc.vArchaeology.storage;
 
 import asia.virtualmc.vArchaeology.Main;
 
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.tasks.BossBarUpdater;
 import asia.virtualmc.vLibrary.configs.EXPTableConfig;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
@@ -34,19 +35,19 @@ public class PlayerData implements DataHandlingLib {
         this.playerDataMap = new ConcurrentHashMap<>();
         this.MAX_LEVEL = 120;
         this.MIN_LEVEL = 1;
-        expTable = EXPTableConfig.loadEXPTable(plugin, Main.prefix);
+        expTable = EXPTableConfig.loadEXPTable(plugin, GlobalManager.prefix);
 
-        playerDataLib.createTable(tableName, Main.prefix);
+        playerDataLib.createTable(tableName, GlobalManager.prefix);
     }
 
     @Override
     public void loadPlayerData(@NotNull UUID uuid) {
         String name = getPlayerName(uuid);
         try {
-            PlayerDataLib.PlayerStats stats = playerDataLib.loadPlayerData(uuid, tableName, Main.prefix);
+            PlayerDataLib.PlayerStats stats = playerDataLib.loadPlayerData(uuid, tableName, GlobalManager.prefix);
             playerDataMap.put(uuid, stats);
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
+            plugin.getLogger().severe(GlobalManager.prefix + "Failed to load data to hashmap (" + tableName + ") for " + name +  " : " + e.getMessage());
         }
     }
 
@@ -75,11 +76,11 @@ public class PlayerData implements DataHandlingLib {
                     stats.data2,
                     stats.data3,
                     tableName,
-                    Main.prefix
+                    GlobalManager.prefix
             );
         } catch (Exception e) {
             plugin.getLogger().severe(
-                    Main.prefix + "Failed to send map data to database for player " + stats.name + ": " + e.getMessage()
+                    GlobalManager.prefix + "Failed to send map data to database for player " + stats.name + ": " + e.getMessage()
             );
         }
     }
@@ -87,9 +88,9 @@ public class PlayerData implements DataHandlingLib {
     @Override
     public void updateAllData() {
         try {
-            playerDataLib.saveAllData(playerDataMap, tableName, Main.prefix);
+            playerDataLib.saveAllData(playerDataMap, tableName, GlobalManager.prefix);
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to send all data from hashmap to database: " + e.getMessage());
+            plugin.getLogger().severe(GlobalManager.prefix + "Failed to send all data from hashmap to database: " + e.getMessage());
         }
     }
 
@@ -100,7 +101,7 @@ public class PlayerData implements DataHandlingLib {
             updatePlayerData(uuid);
             playerDataMap.remove(uuid);
         } catch (Exception e) {
-            plugin.getLogger().severe(Main.prefix + "Failed to unload data for player " + name + ": " + e.getMessage());
+            plugin.getLogger().severe(GlobalManager.prefix + "Failed to unload data for player " + name + ": " + e.getMessage());
         }
     }
 

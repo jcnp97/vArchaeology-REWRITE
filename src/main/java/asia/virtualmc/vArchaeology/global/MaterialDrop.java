@@ -13,7 +13,7 @@ public class MaterialDrop {
     public MaterialDrop(@NotNull GlobalManager globalManager) {
         this.plugin = globalManager.getMain();
 
-        dropWeight = DropWeightConfig.readDropWeightsFile(plugin, Main.prefix);
-        dropPrice = DropPriceConfig.readDropPriceFile(plugin, Main.prefix);
+        dropWeight = DropWeightConfig.readDropWeightsFile(plugin, GlobalManager.prefix);
+        dropPrice = DropPriceConfig.readDropPriceFile(plugin, GlobalManager.prefix);
     }
 }
