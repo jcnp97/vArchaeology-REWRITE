@@ -46,13 +46,7 @@ public class ToolStats implements ItemEquipHandler {
             @Override
             public void run() {
                 if (!player.isOnline()) return;
-
-                ItemStack mainHandItem = player.getInventory().getItemInMainHand();
-                if (!isArchTool(mainHandItem, CustomTools.TOOL_KEY)) {
-                    return;
-                }
-
-                addPlayerData(player, mainHandItem);
+                loadToolData(player);
 
             }
         }.runTaskLater(plugin, 5L);
@@ -64,9 +58,15 @@ public class ToolStats implements ItemEquipHandler {
                 && ToolsLib.isCustomTool(item, TOOL_KEY);
     }
 
-    private void addPlayerData(@NotNull Player player, ItemStack item) {
+    public void loadToolData(@NotNull Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (!isArchTool(item, CustomTools.TOOL_KEY)) {
+            return;
+        }
+
         UUID uuid = player.getUniqueId();
-        toolDataMap.remove(uuid);
+        unloadToolData(uuid);
 
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
@@ -109,7 +109,11 @@ public class ToolStats implements ItemEquipHandler {
         return adpRate;
     }
 
-    public boolean playerHasDataMap(@NotNull UUID uuid) {
+    public void unloadToolData(@NotNull UUID uuid) {
+        toolDataMap.remove(uuid);
+    }
+
+    public boolean hasToolData(@NotNull UUID uuid) {
         return toolDataMap.containsKey(uuid);
     }
 }

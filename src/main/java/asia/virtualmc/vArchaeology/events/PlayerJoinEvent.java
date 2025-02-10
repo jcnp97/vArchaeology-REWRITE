@@ -1,6 +1,7 @@
 package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 
 import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
@@ -16,12 +17,15 @@ import java.util.UUID;
 public class PlayerJoinEvent implements Listener {
     private final Main plugin;
     private final StorageManager storageManager;
+    private final EventManager eventManager;
     private final List<PlayerJoinHandler> handlers;
 
     public PlayerJoinEvent(@NotNull StorageManager storageManager,
+                           @NotNull EventManager eventManager,
                            List<PlayerJoinHandler> handlers) {
         this.storageManager = storageManager;
         this.plugin = storageManager.getMain();
+        this.eventManager = eventManager;
         this.handlers = handlers;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -48,6 +52,7 @@ public class PlayerJoinEvent implements Listener {
         String name = event.getPlayer().getName();
         try {
             storageManager.unloadPlayerAllData(uuid, name);
+            eventManager.unloadPlayerEventData(uuid);
         } catch (Exception e) {
             plugin.getLogger().severe("Error unloading player data for " + name + ": " + e.getMessage());
             e.printStackTrace();

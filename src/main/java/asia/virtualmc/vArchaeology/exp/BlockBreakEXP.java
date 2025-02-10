@@ -1,6 +1,5 @@
 package asia.virtualmc.vArchaeology.exp;
 
-import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.global.TalentTreeValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
@@ -22,9 +21,7 @@ public class BlockBreakEXP {
     private final TalentTree talentTree;
     private final Statistics statistics;
     private final Random random;
-    private final String sPrefix = GlobalManager.severePrefix;
-    private final String cPrefix = GlobalManager.coloredPrefix;
-    public static final ConcurrentMap<UUID, BlockBreakData> blockBreakDataMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<UUID, BlockBreakData> blockBreakDataMap = new ConcurrentHashMap<>();
 
     public BlockBreakEXP(@NotNull StorageManager storageManager) {
         this.playerData = storageManager.getPlayerData();
@@ -35,7 +32,7 @@ public class BlockBreakEXP {
 
     public record BlockBreakData(double baseMultiplier, boolean hasTalentID12) { }
 
-    public void calculateEXPMap(@NotNull UUID uuid) {
+    public void loadEXPData(@NotNull UUID uuid) {
         // Wisdom Trait: Block-break - 2% XP/level / Material-get - 1% XP/level / Artefact-restore: 0.5% XP/level
         int traitBonus = playerData.getWisdomTrait(uuid);
         // Rank Bonuses: 1% XP/level for both block-break and material-get, 0.25% XP/level for artefact-restore
@@ -61,8 +58,12 @@ public class BlockBreakEXP {
         blockBreakDataMap.put(uuid, blockBreakData);
     }
 
-    public void unloadPlayerEXPMap(@NotNull UUID uuid) {
+    public void unloadEXPData(@NotNull UUID uuid) {
         blockBreakDataMap.remove(uuid);
+    }
+
+    public boolean hasEXPData(@NotNull UUID uuid) {
+        return blockBreakDataMap.containsKey(uuid);
     }
 
     public double getTotalBlockBreakEXP(@NotNull UUID uuid, float blockEXP) {
@@ -71,7 +72,7 @@ public class BlockBreakEXP {
 
         BlockBreakData data = blockBreakDataMap.get(uuid);
         if (data == null) {
-            calculateEXPMap(uuid);
+            loadEXPData(uuid);
             data = blockBreakDataMap.get(uuid);
             if (data == null) {
                 return 0.0;

@@ -1,5 +1,6 @@
 package asia.virtualmc.vArchaeology.handlers.blockbreak;
 
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
 import asia.virtualmc.vArchaeology.handlers.playerjoin.TraitData;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
@@ -17,12 +18,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ArtefactDiscoveryProgress implements BlockBreakHandler {
     private final PlayerData playerData;
+    private final TraitData traitData;
     private static final long ADP_COOLDOWN = 60_000;
     private final Map<UUID, Long> adpCooldowns = new ConcurrentHashMap<>();
     private final Random random;
 
-    public ArtefactDiscoveryProgress(@NotNull PlayerData playerData) {
+    public ArtefactDiscoveryProgress(@NotNull PlayerData playerData,
+                                     @NotNull TraitData traitData) {
         this.playerData = playerData;
+        this.traitData = traitData;
         this.random = new Random();
     }
 
@@ -39,7 +43,7 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
 
         adpCooldowns.put(uuid, currentTime);
         addArtefactProgress(player);
-        if (random.nextDouble() < TraitData.traitDataMap.get(uuid).doubleADP() / 100) {
+        if (random.nextDouble() < traitData.getTraitData(uuid).doubleADP() / 100) {
             addArtefactProgress(player);
             EffectsUtil.sendPlayerMessage(player, "<green>Your Dexterity trait has doubled your Artefact Discovery progress.");
         }

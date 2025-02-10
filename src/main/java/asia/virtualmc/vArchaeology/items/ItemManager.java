@@ -20,8 +20,8 @@ public class ItemManager {
         this.storageManager = plugin.getStorageManager();
         this.customMaterials = new CustomMaterials(this);
         this.customTools = new CustomTools(this);
-        this.customBXPStars = new CustomBXPStars(this);
-        this.customEXPLamps = new CustomEXPLamps(this);
+        this.customBXPStars = new CustomBXPStars(storageManager);
+        this.customEXPLamps = new CustomEXPLamps(storageManager);
         this.customCrafting = new CustomCrafting(this);
         this.customCharms = new CustomCharms(this);
         this.customUDArtefacts = new CustomUDArtefacts(this);

@@ -12,13 +12,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TraitData implements PlayerJoinHandler {
     private final PlayerData playerData;
-    public static Map<UUID, TraitDataRecord> traitDataMap;
-    public record TraitDataRecord(double extraRoll, double nextTier, double doubleADP, double addADP) {}
+    private final Map<UUID, TraitDataRecord> traitDataMap;
 
     public TraitData(@NotNull PlayerData playerData) {
         this.playerData = playerData;
         traitDataMap = new ConcurrentHashMap<>();
     }
+
+    public record TraitDataRecord(double extraRoll, double nextTier, double doubleADP, double addADP) {}
 
     @Override
     public void onPlayerJoinHandler(org.bukkit.event.player.PlayerJoinEvent event) {
@@ -39,5 +40,9 @@ public class TraitData implements PlayerJoinHandler {
     public void onPlayerQuitHandler(PlayerQuitEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
         traitDataMap.remove(uuid);
+    }
+
+    public TraitDataRecord getTraitData(@NotNull UUID uuid) {
+        return traitDataMap.get(uuid);
     }
 }

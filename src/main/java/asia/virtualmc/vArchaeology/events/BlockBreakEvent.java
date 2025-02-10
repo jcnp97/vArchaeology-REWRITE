@@ -71,24 +71,32 @@ public class BlockBreakEvent implements Listener {
             return;
         }
 
+        // preload data map if currently not exist
+        preloadAllData(player, uuid);
+
         Block block = event.getBlock();
         Material material = block.getType();
-        Integer expValue = archBlocks.get(material);
-        if (expValue == null) {
+        Integer blockBaseEXP = archBlocks.get(material);
+        if (blockBaseEXP == null) {
             return;
         }
+        double finalEXP = blockBreakEXP.getTotalBlockBreakEXP(uuid, blockBaseEXP);
 
+        // remove vanilla drops
         event.setDropItems(false);
+        // increment blocks mined statistics
         statistics.incrementData(uuid, 9);
-        playerData.updateEXP(player, EnumsLib.UpdateType.ADD, blockBreakEXP.getTotalBlockBreakEXP(uuid, expValue));
+        // updateEXP
+        playerData.updateEXP(player, EnumsLib.UpdateType.ADD, finalEXP);
 
+        // iterate all handlers
         for (BlockBreakHandler handler : handlers) {
             handler.onBlockBreakHandler(event);
         }
     }
 
-    private void preloadAllData(@NotNull UUID uuid) {
-
+    private void preloadAllData(@NotNull Player player, @NotNull UUID uuid) {
+        if (!toolStats.hasToolData(uuid)) toolStats.loadToolData(player);
     }
 
     private boolean canProcessAction(@NotNull Player player, @NotNull UUID uuid, ItemStack item) {

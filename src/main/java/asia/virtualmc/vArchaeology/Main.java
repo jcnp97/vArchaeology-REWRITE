@@ -34,13 +34,13 @@ public final class Main extends JavaPlugin {
         }
 
         this.globalManager = new GlobalManager(this);
-        this.taskManager = new TaskManager(this);
         this.storageManager = new StorageManager(this);
         this.coreManager = new CoreManager(this);
         this.itemManager = new ItemManager(this);
         this.expManager = new EXPManager(this);
         this.eventManager = new EventManager(this);
         this.commandManager = new CommandManager(this);
+        this.taskManager = new TaskManager(this);
     }
 
     @Override

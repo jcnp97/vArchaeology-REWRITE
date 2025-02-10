@@ -1,6 +1,7 @@
 package asia.virtualmc.vArchaeology.global;
 
 import asia.virtualmc.vArchaeology.Main;
+import asia.virtualmc.vLibrary.configs.DropEXPConfig;
 import asia.virtualmc.vLibrary.configs.DropPriceConfig;
 import asia.virtualmc.vLibrary.configs.DropWeightConfig;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class MaterialDrop {
     private final Main plugin;
     public static int[] dropWeight;
+    public static int[] dropEXP;
     public static double[] dropPrice;
 
     public MaterialDrop(@NotNull GlobalManager globalManager) {
@@ -15,5 +17,6 @@ public class MaterialDrop {
 
         dropWeight = DropWeightConfig.readDropWeightsFile(plugin, GlobalManager.prefix);
         dropPrice = DropPriceConfig.readDropPriceFile(plugin, GlobalManager.prefix);
+        dropEXP = DropEXPConfig.readDropEXPFile(plugin, GlobalManager.prefix);
     }
 }

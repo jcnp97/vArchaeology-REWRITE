@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class EventManager {
     private final Main plugin;
@@ -42,9 +43,10 @@ public class EventManager {
         this.itemManager = plugin.getItemManager();
         this.expManager = plugin.getExpManager();
         this.miscellaneousEvent = new MiscellaneousEvent(this);
-        this.artefactDiscoveryProgress = new ArtefactDiscoveryProgress(storageManager.getPlayerData());
-        this.toolStats = new ToolStats(storageManager);
+
         this.traitData = new TraitData(storageManager.getPlayerData());
+        this.artefactDiscoveryProgress = new ArtefactDiscoveryProgress(storageManager.getPlayerData(), traitData);
+        this.toolStats = new ToolStats(storageManager);
 
         List<BlockBreakHandler> blockBreak = Arrays.asList(
                 artefactDiscoveryProgress,
@@ -65,7 +67,7 @@ public class EventManager {
                 toolStats,
                 expManager.getBlockBreakEXP(), blockBreak);
         this.itemEquipEvent = new ItemEquipEvent(this, itemEquip);
-        this.playerJoinEvent = new PlayerJoinEvent(storageManager, playerJoin);
+        this.playerJoinEvent = new PlayerJoinEvent(storageManager, this, playerJoin);
     }
 
     public Main getMain() {
@@ -93,4 +95,11 @@ public class EventManager {
     }
 
     public ToolStats getToolStats() { return toolStats; }
+
+    public ArtefactDiscoveryProgress getArtefactDiscoveryProgress() { return artefactDiscoveryProgress; }
+
+    public void unloadPlayerEventData(@NotNull UUID uuid) {
+        toolStats.unloadToolData(uuid);
+        expManager.unloadEXPData(uuid);
+    }
 }

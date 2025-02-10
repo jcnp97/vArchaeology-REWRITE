@@ -17,9 +17,9 @@ import java.util.UUID;
 public class CustomMaterials {
     private final Main plugin;
     public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/items.yml";
+    private final String ITEM_FILE = "items/drops.yml";
     private static Map<Integer, ItemStack> itemCache;
-    private CollectionLog collectionLog;
+    private final CollectionLog collectionLog;
 
     public CustomMaterials(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
@@ -30,7 +30,7 @@ public class CustomMaterials {
 
     private void createItems() {
         String ITEM_SECTION_PATH = "itemsList";
-        Map<Integer, ItemStack> loadedItems = ItemsLib.loadItemsFromFile(
+        Map<Integer, ItemStack> loadedItems = ItemsLib.loadDropsFromFile(
                 plugin,
                 ITEM_FILE,
                 ITEM_SECTION_PATH,
