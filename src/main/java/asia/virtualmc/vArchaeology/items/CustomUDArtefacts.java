@@ -10,37 +10,37 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class CustomEXPLamps {
+public class CustomUDArtefacts {
     private final Main plugin;
     public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/miscellaneous.yml";
-    private static Map<Integer, ItemStack> lampCache;
+    private final String ITEM_FILE = "items/artefacts.yml";
+    private static Map<Integer, ItemStack> udArtefactCache;
 
-    public CustomEXPLamps(@NotNull ItemManager itemManager) {
+    public CustomUDArtefacts(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
-        ITEM_KEY = new NamespacedKey(plugin, "varch_lamp");
+        ITEM_KEY = new NamespacedKey(plugin, "varch_artefact");
         createItems();
     }
 
     private void createItems() {
-        String ITEM_SECTION_PATH = "lampsList";
+        String ITEM_SECTION_PATH = "artefactsList";
         Map<Integer, ItemStack> loadedItems = ItemsLib.loadItemsFromFile(
                 plugin,
                 ITEM_FILE,
                 ITEM_SECTION_PATH,
                 ITEM_KEY,
                 GlobalManager.prefix,
-                false
+                true
         );
-        lampCache = Map.copyOf(loadedItems);
+        udArtefactCache = Map.copyOf(loadedItems);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {
-        return lampCache;
+        return udArtefactCache;
     }
 
     public void giveMaterialID(@NotNull Player player, int itemID, int amount) {
-        ItemStack item = lampCache.get(itemID);
+        ItemStack item = udArtefactCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
             return;
@@ -54,7 +54,7 @@ public class CustomEXPLamps {
 
     public void reloadConfig() {
         try {
-            lampCache.clear();
+            udArtefactCache.clear();
             createItems();
         } catch (Exception e) {
             plugin.getLogger().severe("§There are issues when reloading " + ITEM_FILE + ": "

@@ -3,7 +3,6 @@ package asia.virtualmc.vArchaeology.handlers.blockbreak;
 import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
 import asia.virtualmc.vArchaeology.handlers.playerjoin.TraitData;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
-import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
 import asia.virtualmc.vLibrary.utils.EffectsUtil;
@@ -22,8 +21,8 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
     private final Map<UUID, Long> adpCooldowns = new ConcurrentHashMap<>();
     private final Random random;
 
-    public ArtefactDiscoveryProgress(@NotNull StorageManager storageManager) {
-        this.playerData = storageManager.getPlayerData();
+    public ArtefactDiscoveryProgress(@NotNull PlayerData playerData) {
+        this.playerData = playerData;
         this.random = new Random();
     }
 
@@ -55,9 +54,9 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
         EffectsUtil.sendADBProgressBarTitle(uuid, adbProgress / 100.0, adbAdd);
     }
 
-//    public void cleanupExpired() {
-//        long currentTime = System.currentTimeMillis();
-//        adpCooldowns.entrySet().removeIf(entry ->
-//                currentTime - entry.getValue() >= ADP_COOLDOWN);
-//    }
+    public void cleanupExpired() {
+        long currentTime = System.currentTimeMillis();
+        adpCooldowns.entrySet().removeIf(entry ->
+                currentTime - entry.getValue() >= ADP_COOLDOWN);
+    }
 }

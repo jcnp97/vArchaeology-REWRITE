@@ -1,8 +1,8 @@
 package asia.virtualmc.vArchaeology.core;
 
-import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.MaterialDrop;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
+import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,16 +10,14 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DropTable {
-    private final Main plugin;
     private final Random random;
     private final TalentTree talentTree;
     private final PlayerData playerData;
     public static final Map<UUID, List<Integer>> playerDropTables = new ConcurrentHashMap<>();
 
-    public DropTable(@NotNull CoreManager coreManager) {
-        this.plugin = coreManager.getMain();
-        this.talentTree = coreManager.getStorageManager().getTalentTree();
-        this.playerData = coreManager.getStorageManager().getPlayerData();
+    public DropTable(@NotNull StorageManager storageManager) {
+        this.talentTree = storageManager.getTalentTree();
+        this.playerData = storageManager.getPlayerData();
         this.random = new Random();
     }
 

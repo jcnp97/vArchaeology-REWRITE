@@ -12,7 +12,7 @@ public class CommandManager {
     public CommandManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.itemManager = plugin.getItemManager();
-        this.itemCommands = new ItemCommands(this);
+        this.itemCommands = new ItemCommands(itemManager);
     }
 
     public Main getMain() {

@@ -10,6 +10,9 @@ public class ItemManager {
     private final CustomTools customTools;
     private final CustomBXPStars customBXPStars;
     private final CustomEXPLamps customEXPLamps;
+    private final CustomCrafting customCrafting;
+    private final CustomCharms customCharms;
+    private final CustomUDArtefacts customUDArtefacts;
     private final StorageManager storageManager;
 
     public ItemManager(@NotNull Main plugin) {
@@ -19,6 +22,9 @@ public class ItemManager {
         this.customTools = new CustomTools(this);
         this.customBXPStars = new CustomBXPStars(this);
         this.customEXPLamps = new CustomEXPLamps(this);
+        this.customCrafting = new CustomCrafting(this);
+        this.customCharms = new CustomCharms(this);
+        this.customUDArtefacts = new CustomUDArtefacts(this);
     }
 
     public Main getMain() {
@@ -37,10 +43,19 @@ public class ItemManager {
 
     public CustomEXPLamps getCustomEXPLamps() { return customEXPLamps; }
 
+    public CustomCrafting getCustomCrafting() { return customCrafting; }
+
+    public CustomUDArtefacts getCustomUDArtefacts() { return customUDArtefacts; }
+
+    public CustomCharms getCustomCharms() { return customCharms; }
+
     public void reloadItems() {
         customMaterials.reloadConfig();
         customTools.reloadConfig();
         customBXPStars.reloadConfig();
         customEXPLamps.reloadConfig();
+        customCrafting.reloadConfig();
+        customUDArtefacts.reloadConfig();
+        customCharms.reloadConfig();
     }
 }

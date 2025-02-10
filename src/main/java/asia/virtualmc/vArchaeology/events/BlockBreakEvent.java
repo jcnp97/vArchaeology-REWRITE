@@ -2,7 +2,8 @@ package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
 
-import asia.virtualmc.vArchaeology.items.CustomMaterials;
+import asia.virtualmc.vArchaeology.exp.BlockBreakEXP;
+import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
 import asia.virtualmc.vArchaeology.items.CustomTools;
 import asia.virtualmc.vArchaeology.storage.CollectionLog;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
@@ -11,11 +12,8 @@ import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.configs.MaterialBlockConfig;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
-import asia.virtualmc.vLibrary.items.ItemsLib;
 import asia.virtualmc.vLibrary.items.ToolsLib;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,22 +29,30 @@ import java.util.UUID;
 
 public class BlockBreakEvent implements Listener {
     private final Main plugin;
+    private final StorageManager storageManager;
     private final CollectionLog collectionLog;
     private final PlayerData playerData;
     private final Statistics statistics;
+    private final BlockBreakEXP blockBreakEXP;
+    private final ToolStats toolStats;
     private final String repairCommand = "/varch repair";
     public static Map<Material, Integer> archBlocks;
     private final List<BlockBreakHandler> handlers;
 
-    public BlockBreakEvent(@NotNull EventManager eventManager,
+    public BlockBreakEvent(@NotNull StorageManager storageManager,
+                           @NotNull ToolStats toolStats,
+                           @NotNull BlockBreakEXP blockBreakEXP,
                            List<BlockBreakHandler> handlers) {
+        this.storageManager = storageManager;
+        this.plugin = storageManager.getMain();
+        this.toolStats = toolStats;
+        this.collectionLog = storageManager.getCollectionLog();
+        this.playerData = storageManager.getPlayerData();
+        this.statistics = storageManager.getStatistics();
+        this.blockBreakEXP = blockBreakEXP;
         this.handlers = handlers;
-        this.plugin = eventManager.getMain();
-        this.collectionLog = eventManager.getStorageManager().getCollectionLog();
-        this.playerData = eventManager.getStorageManager().getPlayerData();
-        this.statistics = eventManager.getStorageManager().getStatistics();
-        archBlocks = MaterialBlockConfig.loadArchBlocks(plugin);
 
+        archBlocks = MaterialBlockConfig.loadArchBlocks(plugin);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -74,14 +80,18 @@ public class BlockBreakEvent implements Listener {
 
         event.setDropItems(false);
         statistics.incrementData(uuid, 9);
-        playerData.updateEXP(player, EnumsLib.UpdateType.ADD, expValue);
+        playerData.updateEXP(player, EnumsLib.UpdateType.ADD, blockBreakEXP.getTotalBlockBreakEXP(uuid, expValue));
 
         for (BlockBreakHandler handler : handlers) {
             handler.onBlockBreakHandler(event);
         }
     }
 
-    private boolean canProcessAction(Player player, UUID uuid, ItemStack item) {
+    private void preloadAllData(@NotNull UUID uuid) {
+
+    }
+
+    private boolean canProcessAction(@NotNull Player player, @NotNull UUID uuid, ItemStack item) {
         if (player.hasPotionEffect(PotionEffectType.HASTE)) {
             player.sendMessage("§cYour haste buff prevents you from breaking this block.");
             return false;

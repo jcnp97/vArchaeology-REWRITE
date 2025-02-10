@@ -49,7 +49,7 @@ public class CustomMaterials {
         ItemStack item = itemCache.get(itemID);
         UUID uuid = player.getUniqueId();
         if (item == null) {
-            player.sendMessage("§cInvalid item ID: " + itemID);
+            player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
             return;
         }
         blockLocation.getWorld().dropItemNaturally(blockLocation, item.clone());

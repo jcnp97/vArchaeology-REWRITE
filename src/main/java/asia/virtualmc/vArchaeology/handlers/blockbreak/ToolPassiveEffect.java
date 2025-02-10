@@ -3,9 +3,7 @@ package asia.virtualmc.vArchaeology.handlers.blockbreak;
 import asia.virtualmc.vArchaeology.core.DropTable;
 import asia.virtualmc.vArchaeology.items.CustomMaterials;
 import asia.virtualmc.vArchaeology.items.CustomTools;
-import asia.virtualmc.vArchaeology.items.ItemManager;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
-import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
 import asia.virtualmc.vLibrary.items.ToolsLib;
@@ -25,12 +23,12 @@ public class ToolPassiveEffect implements BlockBreakHandler {
     private final DropTable dropTable;
     private final CustomMaterials customMaterials;
 
-    public ToolPassiveEffect(@NotNull StorageManager storageManager,
+    public ToolPassiveEffect(@NotNull PlayerData playerData,
                              @NotNull DropTable dropTable,
-                             @NotNull ItemManager itemManager) {
-        this.playerData = storageManager.getPlayerData();
+                             @NotNull CustomMaterials customMaterials) {
+        this.playerData = playerData;
         this.dropTable = dropTable;
-        this.customMaterials = itemManager.getCustomMaterials();
+        this.customMaterials = customMaterials;
         this.random = new Random();
     }
 

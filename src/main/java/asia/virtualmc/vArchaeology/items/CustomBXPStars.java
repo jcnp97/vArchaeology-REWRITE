@@ -42,7 +42,7 @@ public class CustomBXPStars {
     public void giveMaterialID(@NotNull Player player, int itemID, int amount) {
         ItemStack item = starCache.get(itemID);
         if (item == null) {
-            player.sendMessage("§cInvalid item ID: " + itemID);
+            player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
             return;
         }
 
@@ -51,15 +51,6 @@ public class CustomBXPStars {
                     + " with key: " + ITEM_KEY + " to " + player.getName());
         }
     }
-
-//    public void takeMaterialID(@NotNull Player player, int itemID, int amount) {
-//        Map<Integer, ItemStack> itemsMap = ItemsLib.checkItemsToRemove(player, ITEM_KEY, itemID, amount);
-//        if (ItemsLib.removeItems(player, itemsMap)) {
-//            //add transaction logs here
-//            String itemName = itemCache.get(itemID).getItemMeta().getDisplayName();
-//            player.sendMessage("§cYour item: " + itemName + " x" + amount + " has been taken from you.");
-//        }
-//    }
 
     public void reloadConfig() {
         try {

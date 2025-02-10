@@ -8,9 +8,7 @@ import asia.virtualmc.vLibrary.configs.EXPTableConfig;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.DataHandlingLib;
 import asia.virtualmc.vLibrary.storage.PlayerDataLib;
-import asia.virtualmc.vLibrary.utils.EXPDisplayUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlayerData implements DataHandlingLib {
-    private final Plugin plugin;
+    private final Main plugin;
     private final PlayerDataLib playerDataLib;
     private final BossBarUpdater bossBarUpdater;
     private final ConcurrentHashMap<UUID, PlayerDataLib.PlayerStats> playerDataMap;
@@ -116,8 +114,8 @@ public class PlayerData implements DataHandlingLib {
             stats.exp = playerDataLib.getNewEXP(type, stats.exp, value);
 
             if (type == EnumsLib.UpdateType.ADD) {
-                EXPDisplayUtils.showEXPActionBar(player, stats.exp, value,
-                        expTable.get(stats.level));
+//                EXPDisplayUtils.showEXPActionBar(player, stats.exp, value,
+//                        expTable.get(stats.level));
                 bossBarUpdater.updateEXPMetrics(uuid, stats.exp, value,
                         expTable.get(stats.level), stats.level);
                 checkAndApplyLevelUp(player);

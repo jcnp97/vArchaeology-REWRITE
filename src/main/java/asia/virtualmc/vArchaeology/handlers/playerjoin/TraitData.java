@@ -2,7 +2,6 @@ package asia.virtualmc.vArchaeology.handlers.playerjoin;
 
 import asia.virtualmc.vArchaeology.global.TalentTreeValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
-import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.interfaces.PlayerJoinHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +15,8 @@ public class TraitData implements PlayerJoinHandler {
     public static Map<UUID, TraitDataRecord> traitDataMap;
     public record TraitDataRecord(double extraRoll, double nextTier, double doubleADP, double addADP) {}
 
-    public TraitData(@NotNull StorageManager storageManager) {
-        this.playerData = storageManager.getPlayerData();
+    public TraitData(@NotNull PlayerData playerData) {
+        this.playerData = playerData;
         traitDataMap = new ConcurrentHashMap<>();
     }
 

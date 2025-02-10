@@ -18,11 +18,11 @@ public class PlayerJoinEvent implements Listener {
     private final StorageManager storageManager;
     private final List<PlayerJoinHandler> handlers;
 
-    public PlayerJoinEvent(@NotNull EventManager eventManager,
+    public PlayerJoinEvent(@NotNull StorageManager storageManager,
                            List<PlayerJoinHandler> handlers) {
-        this.plugin = eventManager.getMain();
+        this.storageManager = storageManager;
+        this.plugin = storageManager.getMain();
         this.handlers = handlers;
-        this.storageManager = eventManager.getStorageManager();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

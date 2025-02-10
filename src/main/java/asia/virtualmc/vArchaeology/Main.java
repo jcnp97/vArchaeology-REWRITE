@@ -3,6 +3,7 @@ package asia.virtualmc.vArchaeology;
 import asia.virtualmc.vArchaeology.commands.CommandManager;
 import asia.virtualmc.vArchaeology.core.CoreManager;
 import asia.virtualmc.vArchaeology.events.EventManager;
+import asia.virtualmc.vArchaeology.exp.EXPManager;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.items.ItemManager;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
@@ -19,6 +20,7 @@ public final class Main extends JavaPlugin {
     private ItemManager itemManager;
     private CoreManager coreManager;
     private CommandManager commandManager;
+    private EXPManager expManager;
     // VLibrary (Core)
     private VLibrary vlib;
 
@@ -36,6 +38,7 @@ public final class Main extends JavaPlugin {
         this.storageManager = new StorageManager(this);
         this.coreManager = new CoreManager(this);
         this.itemManager = new ItemManager(this);
+        this.expManager = new EXPManager(this);
         this.eventManager = new EventManager(this);
         this.commandManager = new CommandManager(this);
     }
@@ -69,4 +72,6 @@ public final class Main extends JavaPlugin {
     public ItemManager getItemManager() { return itemManager; }
 
     public CoreManager getCoreManager() { return coreManager; }
+
+    public EXPManager getExpManager() { return  expManager; }
 }

@@ -64,7 +64,7 @@ public class ToolStats implements ItemEquipHandler {
                 && ToolsLib.isCustomTool(item, TOOL_KEY);
     }
 
-    private void addPlayerData(Player player, ItemStack item) {
+    private void addPlayerData(@NotNull Player player, ItemStack item) {
         UUID uuid = player.getUniqueId();
         toolDataMap.remove(uuid);
 
@@ -75,11 +75,11 @@ public class ToolStats implements ItemEquipHandler {
         double adbProgress = calculateADB(uuid, pdc);
 
         toolDataMap.put(uuid, new ToolData(gatherRate, adbProgress));
-        EffectsUtil.sendActionBarMessage(player, "<gray>Gather Rate: <yellow>" +
-                gatherRate + "<gray>AD Rate: <yellow>" + adbProgress);
+        EffectsUtil.sendActionBarMessage(player, "<gray>Gathering Rate: <yellow>%" +
+                gatherRate + " | <gray>Discovery Rate: <yellow>%" + adbProgress);
     }
 
-    private double calculateGatherRate(UUID uuid, PersistentDataContainer pdc) {
+    private double calculateGatherRate(@NotNull UUID uuid, PersistentDataContainer pdc) {
         int karmaLevel = playerData.getKarmaTrait(uuid);
         // Tool Gather Rate
         double gatherRate = pdc.getOrDefault(CustomTools.GATHER_KEY, PersistentDataType.DOUBLE, 0.0);
@@ -93,7 +93,7 @@ public class ToolStats implements ItemEquipHandler {
         return gatherRate;
     }
 
-    private double calculateADB(UUID uuid, PersistentDataContainer pdc) {
+    private double calculateADB(@NotNull UUID uuid, PersistentDataContainer pdc) {
         int dexterityLevel = playerData.getDexterityTrait(uuid);
         // Tool ADB
         double adpRate = pdc.getOrDefault(CustomTools.ADP_RATE, PersistentDataType.DOUBLE, 0.0);
@@ -107,5 +107,9 @@ public class ToolStats implements ItemEquipHandler {
         if (dexterityLevel >= 50) adpRate += TalentTreeValues.dexterityEffects[3];
 
         return adpRate;
+    }
+
+    public boolean playerHasDataMap(@NotNull UUID uuid) {
+        return toolDataMap.containsKey(uuid);
     }
 }

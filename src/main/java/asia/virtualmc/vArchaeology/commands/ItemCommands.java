@@ -1,11 +1,7 @@
 package asia.virtualmc.vArchaeology.commands;
 
-import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
-import asia.virtualmc.vArchaeology.items.CustomBXPStars;
-import asia.virtualmc.vArchaeology.items.CustomEXPLamps;
-import asia.virtualmc.vArchaeology.items.CustomMaterials;
-import asia.virtualmc.vArchaeology.items.CustomTools;
+import asia.virtualmc.vArchaeology.items.*;
 import asia.virtualmc.vLibrary.libs.commandapi.CommandAPICommand;
 import asia.virtualmc.vLibrary.libs.commandapi.arguments.*;
 
@@ -15,20 +11,24 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemCommands {
-    private final Main plugin;
     private final CustomMaterials customMaterials;
     private final CustomTools customTools;
     private final CustomEXPLamps customEXPLamps;
     private final CustomBXPStars customBXPStars;
+    private final CustomCrafting customCrafting;
+    private final CustomCharms customCharms;
+    private final CustomUDArtefacts customUDArtefacts;
     private final String sPrefix = GlobalManager.severePrefix;
     private final String cPrefix = GlobalManager.coloredPrefix;
 
-    public ItemCommands(@NotNull CommandManager commandManager) {
-        this.plugin = commandManager.getMain();
-        this.customMaterials = commandManager.getItemManager().getCustomMaterials();
-        this.customTools = commandManager.getItemManager().getCustomTools();
-        this.customEXPLamps = commandManager.getItemManager().getCustomEXPLamps();
-        this.customBXPStars = commandManager.getItemManager().getCustomBXPStars();
+    public ItemCommands(@NotNull ItemManager itemManager) {
+        this.customMaterials = itemManager.getCustomMaterials();
+        this.customTools = itemManager.getCustomTools();
+        this.customEXPLamps = itemManager.getCustomEXPLamps();
+        this.customBXPStars = itemManager.getCustomBXPStars();
+        this.customCrafting = itemManager.getCustomCrafting();
+        this.customCharms = itemManager.getCustomCharms();
+        this.customUDArtefacts = itemManager.getCustomUDArtefacts();
         registerCommands();
     }
 
@@ -90,18 +90,18 @@ public class ItemCommands {
                         .executes((sender, args) -> {
                             giveStarItem(sender, args);
                         }))
-//                .withSubcommand(new CommandAPICommand("charms")
-//                        .withArguments(new MultiLiteralArgument("item_name",
-//                                "common", "uncommon", "rare", "unique",
-//                                        "special", "mythical", "exotic"))
-//                        .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
-//                        .withPermission("varchaeology.admin.command.get.charms")
-//                        .executesPlayer((player, args) -> {
-//                            giveCharmItem(player, args);
-//                        })
-//                        .executes((sender, args) -> {
-//                            giveCharmItem(sender, args);
-//                        }))
+                .withSubcommand(new CommandAPICommand("charms")
+                        .withArguments(new MultiLiteralArgument("item_name",
+                                "common", "uncommon", "rare", "unique",
+                                        "special", "mythical", "exotic"))
+                        .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
+                        .withPermission("varchaeology.admin.command.get.charms")
+                        .executesPlayer((player, args) -> {
+                            giveCharmItem(player, args);
+                        })
+                        .executes((sender, args) -> {
+                            giveCharmItem(sender, args);
+                        }))
 //                .withSubcommand(new CommandAPICommand("crafting")
 //                        .withArguments(new MultiLiteralArgument("item_name",
 //                                "small", "medium", "large", "huge"))
@@ -123,6 +123,17 @@ public class ItemCommands {
 //                        .executes((sender, args) -> {
 //                            giveCollectionItem(sender, args);
 //                        }))
+                .withSubcommand(new CommandAPICommand("ud_artefacts")
+                        .withArguments(new MultiLiteralArgument("item_name",
+                                "small", "medium", "large", "huge"))
+                        .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
+                        .withPermission("varchaeology.admin.command.get.ud_artefacts")
+                        .executesPlayer((player, args) -> {
+                            giveUDArtefactItem(player, args);
+                        })
+                        .executes((sender, args) -> {
+                            giveUDArtefactItem(sender, args);
+                        }))
                 ;
     }
 
@@ -198,7 +209,7 @@ public class ItemCommands {
         }
 
         String itemName = (String) args.get("item_name");
-        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (drop) to " + target.getName());
+        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (lamp) to " + target.getName());
         int itemID = getStarLampIDFromName(itemName);
         customEXPLamps.giveMaterialID(target, itemID, amount);
     }
@@ -214,7 +225,7 @@ public class ItemCommands {
         }
 
         String itemName = (String) args.get("item_name");
-        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (drop) to " + target.getName());
+        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (star) to " + target.getName());
         int itemID = getStarLampIDFromName(itemName);
         customBXPStars.giveMaterialID(target, itemID, amount);
     }
@@ -227,5 +238,37 @@ public class ItemCommands {
             case "huge" -> 4;
             default -> throw new IllegalArgumentException("Unknown item: " + name);
         };
+    }
+
+    private void giveCharmItem(CommandSender sender, CommandArguments args) {
+        Player target = (Player) args.getOptional("player").map(obj -> (Player) obj)
+                .orElse(sender instanceof Player ? (Player) sender : null);
+        int amount = args.getOptional("value").map(obj -> (int) obj).orElse(1);
+
+        if (target == null) {
+            sender.sendMessage(sPrefix + "You must specify a player when using this command from the console.");
+            return;
+        }
+
+        String itemName = (String) args.get("item_name");
+        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (charm) to " + target.getName());
+        int itemID = getDropIDFromName(itemName);
+        customMaterials.giveMaterialID(target, itemID, amount);
+    }
+
+    private void giveUDArtefactItem(CommandSender sender, CommandArguments args) {
+        Player target = (Player) args.getOptional("player").map(obj -> (Player) obj)
+                .orElse(sender instanceof Player ? (Player) sender : null);
+        int amount = args.getOptional("value").map(obj -> (int) obj).orElse(1);
+
+        if (target == null) {
+            sender.sendMessage(sPrefix + "You must specify a player when using this command from the console.");
+            return;
+        }
+
+        String itemName = (String) args.get("item_name");
+        sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (charm) to " + target.getName());
+        int itemID = getDropIDFromName(itemName);
+        customMaterials.giveMaterialID(target, itemID, amount);
     }
 }

@@ -48,7 +48,7 @@ public class CustomTools {
     public void giveToolID(@NotNull Player player, int toolID) {
         ItemStack item = toolCache.get(toolID);
         if (item == null) {
-            player.sendMessage("§cInvalid tool ID: " + toolID);
+            player.sendMessage("§cInvalid item ID: " + toolID + " from " + ITEM_FILE);
             return;
         }
 

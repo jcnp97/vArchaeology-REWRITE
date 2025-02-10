@@ -10,20 +10,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class CustomEXPLamps {
+public class CustomCrafting {
     private final Main plugin;
     public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/miscellaneous.yml";
-    private static Map<Integer, ItemStack> lampCache;
+    private final String ITEM_FILE = "items/crafting-materials.yml";
+    private static Map<Integer, ItemStack> craftingCache;
 
-    public CustomEXPLamps(@NotNull ItemManager itemManager) {
+    public CustomCrafting(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
-        ITEM_KEY = new NamespacedKey(plugin, "varch_lamp");
+        ITEM_KEY = new NamespacedKey(plugin, "varch_crafting");
         createItems();
     }
 
     private void createItems() {
-        String ITEM_SECTION_PATH = "lampsList";
+        String ITEM_SECTION_PATH = "craftingList";
         Map<Integer, ItemStack> loadedItems = ItemsLib.loadItemsFromFile(
                 plugin,
                 ITEM_FILE,
@@ -32,15 +32,15 @@ public class CustomEXPLamps {
                 GlobalManager.prefix,
                 false
         );
-        lampCache = Map.copyOf(loadedItems);
+        craftingCache = Map.copyOf(loadedItems);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {
-        return lampCache;
+        return craftingCache;
     }
 
     public void giveMaterialID(@NotNull Player player, int itemID, int amount) {
-        ItemStack item = lampCache.get(itemID);
+        ItemStack item = craftingCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
             return;
@@ -52,9 +52,18 @@ public class CustomEXPLamps {
         }
     }
 
+//    public void takeMaterialID(@NotNull Player player, int itemID, int amount) {
+//        Map<Integer, ItemStack> itemsMap = ItemsLib.checkItemsToRemove(player, ITEM_KEY, itemID, amount);
+//        if (ItemsLib.removeItems(player, itemsMap)) {
+//            //add transaction logs here
+//            String itemName = itemCache.get(itemID).getItemMeta().getDisplayName();
+//            player.sendMessage("§cYour item: " + itemName + " x" + amount + " has been taken from you.");
+//        }
+//    }
+
     public void reloadConfig() {
         try {
-            lampCache.clear();
+            craftingCache.clear();
             createItems();
         } catch (Exception e) {
             plugin.getLogger().severe("§There are issues when reloading " + ITEM_FILE + ": "

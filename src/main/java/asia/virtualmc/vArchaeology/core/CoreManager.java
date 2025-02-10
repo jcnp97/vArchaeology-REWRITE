@@ -12,7 +12,7 @@ public class CoreManager {
     public CoreManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.storageManager = plugin.getStorageManager();
-        this.dropTable = new DropTable(this);
+        this.dropTable = new DropTable(storageManager);
     }
 
     public Main getMain() {

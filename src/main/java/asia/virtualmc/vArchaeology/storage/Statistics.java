@@ -7,14 +7,13 @@ import asia.virtualmc.vLibrary.interfaces.OtherDataHandlingLib;
 import asia.virtualmc.vLibrary.storage.OtherDataLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Statistics implements OtherDataHandlingLib {
-    private final Plugin plugin;
+    private final Main plugin;
     private final OtherDataLib otherDataLib;
     private final String tableName = "varch_statistics";
     private final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, Integer>> statisticsMap;
