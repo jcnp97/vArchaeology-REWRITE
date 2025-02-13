@@ -25,6 +25,8 @@ public class Statistics implements OtherDataHandlingLib {
         createTable();
     }
 
+    // 1: rank
+    // 2 - 8: components
     private void createTable() {
         List<String> statList = Arrays.asList("numericalRank", "commonComponents", "uncommonComponents",
                 "rareComponents", "uniqueComponents", "specialComponents", "mythicalComponents",

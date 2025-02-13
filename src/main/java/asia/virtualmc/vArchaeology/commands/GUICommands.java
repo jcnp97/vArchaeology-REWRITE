@@ -31,7 +31,7 @@ public class GUICommands {
                 .withPermission("varchaeology.use")
                 .executes((sender, args) -> {
                     if (sender instanceof Player player) {
-                        collectionLogGUI.openCollectionLog(player);
+                        collectionLogGUI.openCollectionLog(player, 1);
                     } else {
                         sender.sendMessage("This command can only be used by players.");
                     }
