@@ -7,6 +7,7 @@ import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.VLibrary;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.items.ItemsLib;
+import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import asia.virtualmc.vLibrary.utils.DigitUtils;
 import asia.virtualmc.vLibrary.utils.EffectsUtil;
 import net.kyori.adventure.sound.Sound;
@@ -21,7 +22,7 @@ public class CustomEXPLamps {
     private final Main plugin;
     private final PlayerData playerData;
     public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/miscellaneous.yml";
+    private final String ITEM_FILE = "items/lamps.yml";
     private static Map<Integer, ItemStack> lampCache;
 
     public CustomEXPLamps(@NotNull StorageManager storageManager) {
@@ -42,6 +43,8 @@ public class CustomEXPLamps {
                 false
         );
         lampCache = Map.copyOf(loadedItems);
+        ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
+                lampCache.size() + " items from " + ITEM_FILE);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {
@@ -69,13 +72,5 @@ public class CustomEXPLamps {
             plugin.getLogger().severe("§There are issues when reloading " + ITEM_FILE + ": "
                     + e.getMessage());
         }
-    }
-
-    // Usage Method
-    public void addLampEXP(@NotNull Player player, double exp) {
-        String formattedEXP = DigitUtils.formattedNoDecimals(exp);
-        playerData.updateBXP(player, EnumsLib.UpdateType.ADD, exp);
-        EffectsUtil.sendPlayerMessage(player, "<green>You have received " + formattedEXP + " Archaeology bonus XP!");
-        EffectsUtil.playSound(player, "minecraft:entity.player.levelup", Sound.Source.PLAYER, 1.0f, 1.0f);
     }
 }

@@ -3,6 +3,7 @@ package asia.virtualmc.vArchaeology.items;
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vLibrary.items.ToolsLib;
+import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +40,8 @@ public class CustomTools {
                 GlobalManager.prefix
         );
         toolCache = Map.copyOf(loadedItems);
+        ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
+                toolCache.size() + " items from " + ITEM_FILE);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {

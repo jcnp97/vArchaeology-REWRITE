@@ -1,0 +1,94 @@
+# YAML FILE
+globalSettings:
+  material: FLINT
+  starting-model-data: 100000
+  starting-id: 1
+  per-rarity-lore:
+    common:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <green>Common<gray>, <yellow>Archaeology Item"
+    uncommon:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <aqua>Uncommon<gray>, <yellow>Archaeology Item"
+    rare:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <dark_aqua>Rare<gray>, <yellow>Archaeology Item"
+    unique:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <yellow>Unique<gray>, <yellow>Archaeology Item"
+    special:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <gold>Special<gray>, <yellow>Archaeology Item"
+    mythical:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <dark_purple>Mythical<gray>, <yellow>Archaeology Item"
+    exotic:
+      - "<gray>This is used as a crafting material for"
+      - "<gray>various archaeological purposes or can"
+      - "<gray>be sold through <aqua>[/varch sell]<gray>."
+      - ""
+      - "<dark_gray>Tags: <dark_red>Exotic<gray>, <yellow>Archaeology Item"
+dropsList:
+  1: # groupID
+    common:
+      - "Purpleheart Wood"
+    uncommon:
+      - "Imperial Steel"
+    rare:
+      - "Everlight Silvthril"
+    unique:
+      - "Chaotic Brimstone"
+    special:
+      - "Hellfire Metal"
+    mythical:
+      - "Aetherium Alloy"
+    exotic:
+      - "Quintessence"
+
+raritySettings:
+  exp:
+    common: 20
+    uncommon: 35
+    rare: 60
+    unique: 80
+    special: 150
+    mythical: 300
+    exotic: 1250
+  # Refers to the weight of each material.
+  # Total weight: 143
+  # common actual rate: 55/143 = 38.46%
+  weight:
+    common: 55
+    uncommon: 35
+    rare: 25
+    unique: 15
+    special: 8
+    mythical: 4
+    exotic: 1
+  # Refers to the sell price of each material.
+  sell-price:
+    common: 100
+    uncommon: 250
+    rare: 400
+    unique: 650
+    special: 1250
+    mythical: 2500
+    exotic: 10000

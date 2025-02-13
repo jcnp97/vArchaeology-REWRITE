@@ -1,4 +1,4 @@
-package asia.virtualmc.vArchaeology.handlers.itemequip;
+package asia.virtualmc.vArchaeology.handlers.item_equip;
 
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.TalentTreeValues;
@@ -28,14 +28,14 @@ public class ToolStats implements ItemEquipHandler {
     private final Main plugin;
     private final TalentTree talentTree;
     private final PlayerData playerData;
-    public static Map<UUID, ToolData> toolDataMap;
-    public record ToolData(double gather, double adb) {}
+    private final Map<UUID, ToolData> toolDataMap;
+    public record ToolData(double gather, double adb, boolean enhancedT99) {}
 
     public ToolStats(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
         this.talentTree = storageManager.getTalentTree();
         this.playerData = storageManager.getPlayerData();
-        toolDataMap = new ConcurrentHashMap<>();
+        this.toolDataMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -73,10 +73,11 @@ public class ToolStats implements ItemEquipHandler {
 
         double gatherRate = calculateGatherRate(uuid, pdc);
         double adbProgress = calculateADB(uuid, pdc);
+        boolean hasEnhancedT99 = ToolsLib.compareTool(item, CustomTools.TOOL_KEY, 11);
 
-        toolDataMap.put(uuid, new ToolData(gatherRate, adbProgress));
-        EffectsUtil.sendActionBarMessage(player, "<gray>Gathering Rate: <yellow>%" +
-                gatherRate + " | <gray>Discovery Rate: <yellow>%" + adbProgress);
+        toolDataMap.put(uuid, new ToolData(gatherRate, adbProgress, hasEnhancedT99));
+        EffectsUtil.sendActionBarMessage(player, "<gray>Gathering Rate: <yellow>" +
+                gatherRate + "% | <gray>Discovery Rate: <yellow>" + adbProgress + "%");
     }
 
     private double calculateGatherRate(@NotNull UUID uuid, PersistentDataContainer pdc) {
@@ -115,5 +116,9 @@ public class ToolStats implements ItemEquipHandler {
 
     public boolean hasToolData(@NotNull UUID uuid) {
         return toolDataMap.containsKey(uuid);
+    }
+
+    public ToolData getToolStats(@NotNull UUID uuid) {
+        return toolDataMap.get(uuid);
     }
 }

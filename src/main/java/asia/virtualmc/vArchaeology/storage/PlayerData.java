@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PlayerData implements DataHandlingLib {
     private final Main plugin;
     private final PlayerDataLib playerDataLib;
-    private final BossBarUpdater bossBarUpdater;
+    private BossBarUpdater bossBarUpdater;
     private final ConcurrentHashMap<UUID, PlayerDataLib.PlayerStats> playerDataMap;
     private final String tableName = "varch_playerData";
     private final int MAX_LEVEL;
@@ -29,7 +29,6 @@ public class PlayerData implements DataHandlingLib {
     public PlayerData(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
         this.playerDataLib = storageManager.getPlayerDataLib();
-        this.bossBarUpdater = storageManager.getTaskManager().getBossBarUpdater();
         this.playerDataMap = new ConcurrentHashMap<>();
         this.MAX_LEVEL = 120;
         this.MIN_LEVEL = 1;
@@ -107,6 +106,11 @@ public class PlayerData implements DataHandlingLib {
     public void updateEXP(@NotNull Player player,
                           @NotNull EnumsLib.UpdateType type,
                           double value) {
+
+        if (bossBarUpdater == null) {
+            bossBarUpdater = plugin.getTaskManager().getBossBarUpdater();
+        }
+
         UUID uuid = player.getUniqueId();
         PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
 
@@ -200,7 +204,12 @@ public class PlayerData implements DataHandlingLib {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(player.getUniqueId());
 
         if (stats != null) {
-            stats.data1 = playerDataLib.getNewData1(type, stats.data1, value);
+            double newADP = playerDataLib.getNewData1(type, stats.data1, value);
+            if (newADP >= 100.0) {
+                stats.data1 = 0;
+            } else {
+                stats.data1 = newADP;
+            }
         }
     }
 

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemManager {
     private final Main plugin;
-    private final CustomMaterials customMaterials;
+    private final CustomDrops customDrops;
     private final CustomTools customTools;
     private final CustomBXPStars customBXPStars;
     private final CustomEXPLamps customEXPLamps;
@@ -18,7 +18,7 @@ public class ItemManager {
     public ItemManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.storageManager = plugin.getStorageManager();
-        this.customMaterials = new CustomMaterials(this);
+        this.customDrops = new CustomDrops(this);
         this.customTools = new CustomTools(this);
         this.customBXPStars = new CustomBXPStars(storageManager);
         this.customEXPLamps = new CustomEXPLamps(storageManager);
@@ -37,7 +37,7 @@ public class ItemManager {
 
     public CustomTools getCustomTools() { return customTools; }
 
-    public CustomMaterials getCustomMaterials() { return customMaterials; }
+    public CustomDrops getCustomDrops() { return customDrops; }
 
     public CustomBXPStars getCustomBXPStars() { return customBXPStars; }
 
@@ -50,7 +50,7 @@ public class ItemManager {
     public CustomCharms getCustomCharms() { return customCharms; }
 
     public void reloadItems() {
-        customMaterials.reloadConfig();
+        customDrops.reloadConfig();
         customTools.reloadConfig();
         customBXPStars.reloadConfig();
         customEXPLamps.reloadConfig();

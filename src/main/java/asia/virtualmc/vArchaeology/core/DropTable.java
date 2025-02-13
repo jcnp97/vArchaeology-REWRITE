@@ -1,9 +1,9 @@
 package asia.virtualmc.vArchaeology.core;
 
 import asia.virtualmc.vArchaeology.global.MaterialDrop;
-import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -12,16 +12,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DropTable {
     private final Random random;
     private final TalentTree talentTree;
-    private final PlayerData playerData;
-    public static final Map<UUID, List<Integer>> playerDropTables = new ConcurrentHashMap<>();
+    private final Map<UUID, List<Integer>> playerDropTables;
 
     public DropTable(@NotNull StorageManager storageManager) {
         this.talentTree = storageManager.getTalentTree();
-        this.playerData = storageManager.getPlayerData();
+        this.playerDropTables = new ConcurrentHashMap<>();
         this.random = new Random();
     }
 
-    public void loadPlayerDropTable(@NotNull UUID uuid, int archLevel) {
+    public void loadDropTable(@NotNull UUID uuid, int archLevel) {
         if (playerDropTables.containsKey(uuid)) return;
         
         List<Integer> dropTable = new ArrayList<>();
@@ -36,15 +35,12 @@ public class DropTable {
         playerDropTables.put(uuid, dropTable);
     }
 
-    public void unloadPlayerDropTable(@NotNull UUID uuid) {
+    public void unloadDropTable(@NotNull UUID uuid) {
         playerDropTables.remove(uuid);
     }
     
     public int rollDropTable(@NotNull UUID uuid) {
         List<Integer> dropTable = playerDropTables.get(uuid);
-        if (dropTable == null || dropTable.isEmpty()) {
-            loadPlayerDropTable(uuid, playerData.getCurrentLevel(uuid));
-        }
 
         int totalWeight = dropTable.stream().mapToInt(Integer::intValue).sum();
         int randomNumber = random.nextInt(totalWeight) + 1;
@@ -57,5 +53,9 @@ public class DropTable {
             }
         }
         return 0;
+    }
+
+    public boolean hasDropTable(@NotNull UUID uuid) {
+        return playerDropTables.containsKey(uuid);
     }
 }

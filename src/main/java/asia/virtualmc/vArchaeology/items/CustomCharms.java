@@ -3,6 +3,7 @@ package asia.virtualmc.vArchaeology.items;
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vLibrary.items.ItemsLib;
+import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,6 +34,8 @@ public class CustomCharms {
                 false
         );
         charmCache = Map.copyOf(loadedItems);
+        ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
+                charmCache.size() + " items from " + ITEM_FILE);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {

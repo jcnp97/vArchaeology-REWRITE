@@ -1,0 +1,116 @@
+craftingList:
+  1:
+    material: GUSTER_BANNER_PATTERN
+    name: "<dark_purple>Upper Half Handle Blueprint [1/5]"
+    custom-model-data: 1
+    lore:
+      - '&7One of the materials needed to craft'
+      - '&4Mattock of Time and Space Blueprint&7.'
+      - '&7You can obtain other blueprints from'
+      - 'specific blocks below.'
+      - ''
+      - '&7• &eUpper Half Handle &7- &aSAND'
+      - '&7• &eLower Half Handle &7- &aRED SAND'
+      - '&7• &eHead Pin &7- &aSOUL SAND'
+      - '&7• &eAdze Blade &7- &aDIRT'
+      - '&7• &eAxe Blade &7- &aGRAVEL'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  2:
+    material: BORDURE_INDENTED_BANNER_PATTERN
+    name: "<dark_purple>Lower Half Handle Blueprint [2/5]"
+    custom-model-data: 1
+    lore:
+      - '&7One of the materials needed to craft'
+      - '&4Mattock of Time and Space Blueprint&7.'
+      - '&7You can obtain other blueprints from'
+      - 'specific blocks below.'
+      - ''
+      - '&7• &eUpper Half Handle &7- &aSAND'
+      - '&7• &eLower Half Handle &7- &aRED SAND'
+      - '&7• &eHead Pin &7- &aSOUL SAND'
+      - '&7• &eAdze Blade &7- &aDIRT'
+      - '&7• &eAxe Blade &7- &aGRAVEL'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  3:
+    material: FLOWER_BANNER_PATTERN
+    name: "<dark_purple>Head Pin Blueprint [3/5]"
+    custom-model-data: 2
+    lore:
+      - '&7One of the materials needed to craft'
+      - '&4Mattock of Time and Space Blueprint&7.'
+      - '&7You can obtain other blueprints from'
+      - 'specific blocks below.'
+      - ''
+      - '&7• &eUpper Half Handle &7- &aSAND'
+      - '&7• &eLower Half Handle &7- &aRED SAND'
+      - '&7• &eHead Pin &7- &aSOUL SAND'
+      - '&7• &eAdze Blade &7- &aDIRT'
+      - '&7• &eAxe Blade &7- &aGRAVEL'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  4:
+    material: GLOBE_BANNER_PATTERN
+    name: "<dark_purple>Adze Blade Blueprint [4/5]"
+    custom-model-data: 1
+    lore:
+      - '&7One of the materials needed to craft'
+      - '&4Mattock of Time and Space Blueprint&7.'
+      - '&7You can obtain other blueprints from'
+      - 'specific blocks below.'
+      - ''
+      - '&7• &eUpper Half Handle &7- &aSAND'
+      - '&7• &eLower Half Handle &7- &aRED SAND'
+      - '&7• &eHead Pin &7- &aSOUL SAND'
+      - '&7• &eAdze Blade &7- &aDIRT'
+      - '&7• &eAxe Blade &7- &aGRAVEL'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  5:
+    material: FIELD_MASONED_BANNER_PATTERN
+    name: "<dark_purple>Axe Blade Blueprint [5/5]"
+    custom-model-data: 1
+    lore:
+      - '&7One of the materials needed to craft'
+      - '&4Mattock of Time and Space Blueprint&7.'
+      - '&7You can obtain other blueprints from'
+      - 'specific blocks below.'
+      - ''
+      - '&7• &eUpper Half Handle &7- &aSAND'
+      - '&7• &eLower Half Handle &7- &aRED SAND'
+      - '&7• &eHead Pin &7- &aSOUL SAND'
+      - '&7• &eAdze Blade &7- &aDIRT'
+      - '&7• &eAxe Blade &7- &aGRAVEL'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  6:
+    material: FLOW_BANNER_PATTERN
+    name: "<dark_purple>Mattock of Time and Space Blueprint"
+    custom-model-data: 1
+    lore:
+      - '&7Combined with &5Dark Echo Mattock &7to'
+      - '&7craft a &4Mattock of Time and Space&7.'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'
+  7:
+    material: ECHO_SHARD # base material
+    name: "<dark_purple>Time-Space Fragment"
+    custom-model-data: 1
+    lore:
+      - '&7This is used to enhanced a &4Mattock'
+      - '&4of Time and Space&7, gaining extra'
+      - '&7abilities.'
+      - ''
+      - '&5Time-Space Convergence&7: Every time you'
+      - '&7receive a material, there is a 10% chance'
+      - '&7to receive an extra material.'
+      - ''
+      - '&5Chronal Focus&7: There is a 10% chance to'
+      - '&7gain extra Artefact Discovery by 1%.'
+      - ''
+      - '&5Future Sight&7: Converts your next drop'
+      - '&7to one tier higher. If is an exotic drop,'
+      - '&7you''ll receive an extra common drop.'
+      - ''
+      - '&8Tags: &cArchaeology Crafting Material'

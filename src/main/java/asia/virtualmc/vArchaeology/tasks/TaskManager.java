@@ -15,9 +15,9 @@ public class TaskManager {
 
     public TaskManager(@NotNull Main plugin) {
         this.plugin = plugin;
-        this.bossBarUpdater = new BossBarUpdater(this);
-        this.eventManager = plugin.getEventManager();
         this.storageManager = plugin.getStorageManager();
+        this.eventManager = plugin.getEventManager();
+        this.bossBarUpdater = new BossBarUpdater(this);
 
         startTasks();
     }

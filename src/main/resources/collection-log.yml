@@ -1,0 +1,165 @@
+# vArchaeology Collection Log
+globalSettings:
+  material: FLINT
+  starting-model-data: 100000
+  starting-id: 1
+  rarity-lore:
+    1:
+      - "<gray>Obtained as a <green>Common <gray>drop."
+    2:
+      - "<gray>Obtained as an <aqua>Uncommon <gray>drop."
+    3:
+      - "<gray>Obtained as a <dark_aqua>Rare <gray>drop."
+    4:
+      - "<gray>Obtained as a <yellow>Unique <gray>drop."
+    5:
+      - "<gray>Obtained as a <gold>Special <gray>drop."
+    6:
+      - "<gray>Obtained as a <dark_purple>Mythical <gray>drop."
+    7:
+      - "<gray>Obtained as an <dark_red>Exotic <gray>drop."
+  group-lore:
+    1:
+      - "<gray>Obtained from <gold>Collection #1 <gray>artefacts."
+    2:
+      - "<gray>Obtained from <gold>Collection #2 <gray>artefacts."
+    3:
+      - "<gray>Obtained from <gold>Collection #3 <gray>artefacts."
+    4:
+      - "<gray>Obtained from <gold>Collection #4 <gray>artefacts."
+    5:
+      - "<gray>Obtained from <gold>Collection #5 <gray>artefacts."
+    6:
+      - "<gray>Obtained from <gold>Collection #6 <gray>artefacts."
+    7:
+      - "<gray>Obtained from <gold>Collection #7 <gray>artefacts."
+    8:
+      - "<gray>Obtained from <gold>Collection #8 <gray>artefacts."
+collectionList:
+  0: #groupID - if no group lore under ID found, no lore will be added.
+    1: #rarityID - if no rarity lore under ID found, no lore will be added.
+      - "Purpleheart Wood" # Item DisplayName
+    2:
+      - "Imperial Steel"
+    3:
+      - "Everlight Silvthril"
+    4:
+      - "Chaotic Brimstone"
+    5:
+      - "Hellfire Metal"
+    6:
+      - "Aetherium Alloy"
+    7:
+      - "Quintessence"
+  1:
+    0:
+      - "Centurion's Sword"
+      - "Centurion's Seal"
+      - "Venator Crossbow"
+      - "Venator Dagger"
+      - "Primis Standard"
+      - "Legionary Gladius"
+      - "Legionary Shield"
+      - "Zaros Effigy"
+      - "Hookah Pipe"
+      - "Wine Goblet"
+      - "Crest of Dagon"
+      - "Training Dummy"
+  2:
+    0:
+      - "Disorder Painting"
+      - "Legatus Figurine"
+      - "Solem in Umbra Painting"
+      - "Imp Mask"
+      - "Lesser Demon Mask"
+      - "Greater Demon Mask"
+      - "Teleportation Crystal"
+      - "Ritual Dagger"
+      - "Ritual Bell"
+      - "Rod of Asclepius"
+      - "Chaotic Ewer"
+      - "Songbird Recorder"
+  3:
+    0:
+      - "Frying Pan"
+      - "Hallowed Lantern"
+      - "Branding Iron"
+      - "Manacles"
+      - "Ancient Timepiece"
+      - "Legatus Pendant"
+      - "Ceremonial Ornament"
+      - "Dragonkin Device"
+      - "Peacock Parasol"
+      - "Ceremonial Plume"
+      - "Aviansie Dreamcoat"
+      - "Strange Totem"
+  4:
+    0:
+      - "Everlight Harp"
+      - "Everlight Trumpet"
+      - "Everlight Violin"
+      - "Folded-Arm Figurine"
+      - "Incite Fear Spell Scroll"
+      - "Pontifex Signet Ring"
+      - "Curse Tablet"
+      - "Dominion Discus"
+      - "Dominarian Device"
+      - "Fishing Trident"
+      - "Herobrine's Book"
+      - "Friendship Bracelet"
+  5:
+    0:
+      - "Urn of Shadow"
+      - "Urn of Smoke"
+      - "Urn of Blood"
+      - "Urn of Ice"
+      - "Urn of Miasma"
+      - "Hand of the Ancients"
+      - "Decorative Amphora"
+      - "Loarnab Rod"
+      - "Lingam Stone"
+      - "Demon's Cube"
+      - "Alchemist Flask"
+      - "Animate Dead Spell Scroll"
+  6:
+    0:
+      - "The Lake of Fire Painting"
+      - "Inquisitor's Ceremonial Armor"
+      - "Inquisitor's Ceremonial Mask"
+      - "Inquisitor's Seal"
+      - "Gladiator Helmet"
+      - "Gladiator Sword"
+      - "Model Chariot"
+      - "Chaos Star"
+      - "Eudoxian Tablet"
+      - "Soul Scroll"
+      - "Dragon Hook Sword"
+      - "Hobgoblin Sword"
+  7:
+    0:
+      - "Raksha Idol"
+      - "Gold Dish"
+      - "Xolo Spear"
+      - "Ancient Globe"
+      - "Spherical Astrolabe"
+      - "Tsutsaroth Helm"
+      - "Spear of Annihilation"
+      - "Praetorian Staff"
+      - "Kontos Lance"
+      - "Doru Spear"
+      - "Tsutsaroth Urumi"
+      - "Tsutsaroth Pauldron"
+  8:
+    0:
+      - "Xolo Hard Hat"
+      - "Prototype Godsword"
+      - "Prototype Godstaff"
+      - "Prototype Godbow"
+      - "Night Goggles"
+      - "Master Control"
+      - "Comfort Gatestone"
+      - "The Lord of Light Painting"
+      - "Xolo Shield"
+      - "Ancient Cooking Pot"
+      - "Battle Plans"
+      - "War God Sculpture"

@@ -1,10 +1,10 @@
 package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
-import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
+import asia.virtualmc.vArchaeology.core.DropTable;
+import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 
-import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
 import asia.virtualmc.vLibrary.interfaces.PlayerJoinHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,14 +18,19 @@ public class PlayerJoinEvent implements Listener {
     private final Main plugin;
     private final StorageManager storageManager;
     private final EventManager eventManager;
+    private final DropTable dropTable;
+    private final PlayerData playerData;
     private final List<PlayerJoinHandler> handlers;
 
     public PlayerJoinEvent(@NotNull StorageManager storageManager,
                            @NotNull EventManager eventManager,
+                           @NotNull DropTable dropTable,
                            List<PlayerJoinHandler> handlers) {
         this.storageManager = storageManager;
         this.plugin = storageManager.getMain();
         this.eventManager = eventManager;
+        this.dropTable = dropTable;
+        this.playerData = storageManager.getPlayerData();
         this.handlers = handlers;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -36,6 +41,7 @@ public class PlayerJoinEvent implements Listener {
         String name = event.getPlayer().getName();
         try {
             storageManager.loadPlayerAllData(uuid, name);
+            //dropTable.loadDropTable(uuid, playerData.getCurrentLevel(uuid));
         } catch (Exception e) {
             plugin.getLogger().severe("Error loading player data for " + name + ": " + e.getMessage());
             e.printStackTrace();
@@ -53,6 +59,7 @@ public class PlayerJoinEvent implements Listener {
         try {
             storageManager.unloadPlayerAllData(uuid, name);
             eventManager.unloadPlayerEventData(uuid);
+            dropTable.unloadDropTable(uuid);
         } catch (Exception e) {
             plugin.getLogger().severe("Error unloading player data for " + name + ": " + e.getMessage());
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package asia.virtualmc.vArchaeology.handlers.playerjoin;
+package asia.virtualmc.vArchaeology.handlers.player_join;
 
 import asia.virtualmc.vArchaeology.global.TalentTreeValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;

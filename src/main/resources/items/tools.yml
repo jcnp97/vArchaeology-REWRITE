@@ -1,0 +1,214 @@
+# vArchaeology Tools
+toolsList:
+  copper_mattock:
+    id: 1 # internalID
+    material: STONE_SHOVEL # base material
+    name: "<green>Copper Mattock (Tier 1)" # custom name
+    custom-model-data: 100000
+    gathering-rate: 1.5
+    ad-bonus: 0.08
+    unbreaking: 0
+    required-level: 1
+    lore:
+      - '&7Required Level: &e1'
+      - '&7Gathering Rate: &e1.5%'
+      - '&7Artefact Progress: &e0.08%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  flint_mattock:
+    id: 2 # internalID
+    material: STONE_SHOVEL # base material
+    name: "<green>Flint Mattock (Tier 15)" # custom name
+    custom-model-data: 100001
+    gathering-rate: 3.0
+    ad-bonus: 0.10
+    unbreaking: 1
+    required-level: 15
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e15'
+      - '&7Gathering Rate: &e3.0%'
+      - '&7Artefact Progress: &e0.10%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  prismarine_mattock:
+    id: 3 # internalID
+    material: STONE_SHOVEL # base material
+    name: "<green>Prismarine Mattock (Tier 30)" # custom name
+    custom-model-data: 100002
+    gathering-rate: 4.5
+    ad-bonus: 0.12
+    unbreaking: 2
+    required-level: 30
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e30'
+      - '&7Gathering Rate: &e4.5%'
+      - '&7Artefact Progress: &e0.12%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  carbon_steel_mattock:
+    id: 4 # internalID
+    material: STONE_SHOVEL # base material
+    name: "<aqua>Carbon-Steel Mattock (Tier 40)" # custom name
+    custom-model-data: 100003
+    gathering-rate: 6.0
+    ad-bonus: 0.14
+    unbreaking: 3
+    required-level: 40
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e40'
+      - '&7Gathering Rate: &e6.0%'
+      - '&7Artefact Progress: &e0.14%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  netherium_mattock:
+    id: 5 # internalID
+    material: IRON_SHOVEL # base material
+    name: "<red>Netherium Mattock (Tier 50)" # custom name
+    custom-model-data: 100000
+    gathering-rate: 7.5
+    ad-bonus: 0.16
+    unbreaking: 1
+    required-level: 50
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e50'
+      - '&7Gathering Rate: &e7.5%'
+      - '&7Artefact Progress: &e0.16%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  amethyst_mattock:
+    id: 6 # internalID
+    material: IRON_SHOVEL # base material
+    name: "<purple>Amethyst Mattock (Tier 60)" # custom name
+    custom-model-data: 100001
+    gathering-rate: 9.0
+    ad-bonus: 0.18
+    unbreaking: 2
+    required-level: 60
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e60'
+      - '&7Gathering Rate: &e9.0%'
+      - '&7Artefact Progress: &e0.18%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  gold_alloy_mattock:
+    id: 7 # internalID
+    material: IRON_SHOVEL # base material
+    name: "<gold>Gold-Alloy Mattock (Tier 70)" # custom name
+    custom-model-data: 100002
+    gathering-rate: 10.5
+    ad-bonus: 0.20
+    unbreaking: 3
+    required-level: 70
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e70'
+      - '&7Gathering Rate: &e10.5%'
+      - '&7Artefact Progress: &e0.20%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  titanium_mattock:
+    id: 8 # internalID
+    material: DIAMOND_SHOVEL # base material
+    name: "<gray>Titanium Mattock (Tier 80)" # custom name
+    custom-model-data: 100000
+    gathering-rate: 12.0
+    ad-bonus: 0.25
+    unbreaking: 0
+    required-level: 80
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e80'
+      - '&7Gathering Rate: &e12.0%'
+      - '&7Artefact Progress: &e0.25%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  dark_echo_mattock:
+    id: 9 # internalID
+    material: NETHERITE_SHOVEL # base material
+    name: "<dark_purple>Dark Echo Mattock (Tier 90)" # custom name
+    custom-model-data: 100000
+    gathering-rate: 13.5
+    ad-bonus: 0.3
+    unbreaking: 0
+    required-level: 90
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e90'
+      - '&7Gathering Rate: &e13.5%'
+      - '&7Artefact Progress: &e0.30%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  mattock_of_time_and_space:
+    id: 10 # internalID
+    material: NETHERITE_SHOVEL # base material
+    name: "<dark_red>Mattock of Time and Space (Tier 99)" # custom name
+    custom-model-data: 100001
+    gathering-rate: 15.0
+    ad-bonus: 0.4
+    unbreaking: 10
+    required-level: 99
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e99'
+      - '&7Gathering Rate: &e15.0%'
+      - '&7Artefact Progress: &e0.40%'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  mattock_of_time_and_space_enhanced:
+    id: 11 # internalID
+    material: NETHERITE_SHOVEL # base material
+    name: "<dark_red>Enhanced Mattock of Time and Space (Tier 99)" # custom name
+    custom-model-data: 100001
+    gathering-rate: 15.0
+    ad-bonus: 0.4
+    unbreaking: 10
+    required-level: 99
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e99'
+      - '&7Gathering Rate: &e15.0%'
+      - '&7Artefact Progress: &e0.40%'
+      - ''
+      - '&5Time-Space Convergence&7: Every time you'
+      - '&7receive a material, provides a 10% chance'
+      - '&7to receive an extra material.'
+      - ''
+      - '&5Chronal Focus&7: Provides a 1% chance to'
+      - '&7increase Artefact Discovery by 1%.'
+      - ''
+      - '&5Future Sight&7: Provides a 10% chance to'
+      - '&7increase tier of your drops by 1.'
+      - ''
+      - '&8Tags: &eArchaeology Tool'
+  admin:
+    id: 12 # internalID
+    material: NETHERITE_SHOVEL # base material
+    name: "&4Admin Mattock" # custom name
+    custom-model-data: 100001
+    gathering-rate: 100.0
+    ad-bonus: 100.0
+    unbreaking: 10
+    required-level: 99
+    lore:
+      - '&cArchaeology Tool'
+      - ''
+      - '&7Required Level: &e99'
+      - '&7Gathering Rate: &e99.0%'
+      - '&7Artefact Progress: &e99%'
+      - ''
+      - '&4For administrators only.'

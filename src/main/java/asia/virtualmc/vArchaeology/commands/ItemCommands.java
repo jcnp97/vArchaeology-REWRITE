@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemCommands {
-    private final CustomMaterials customMaterials;
+    private final CustomDrops customDrops;
     private final CustomTools customTools;
     private final CustomEXPLamps customEXPLamps;
     private final CustomBXPStars customBXPStars;
@@ -22,7 +22,7 @@ public class ItemCommands {
     private final String cPrefix = GlobalManager.coloredPrefix;
 
     public ItemCommands(@NotNull ItemManager itemManager) {
-        this.customMaterials = itemManager.getCustomMaterials();
+        this.customDrops = itemManager.getCustomDrops();
         this.customTools = itemManager.getCustomTools();
         this.customEXPLamps = itemManager.getCustomEXPLamps();
         this.customBXPStars = itemManager.getCustomBXPStars();
@@ -48,60 +48,40 @@ public class ItemCommands {
                         ))
                         .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
                         .withPermission("varchaeology.admin.command.get.drops")
-                        .executesPlayer((player, args) -> {
-                            giveDropItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveDropItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveDropItem)
+                        .executes(this::giveDropItem))
                 .withSubcommand(new CommandAPICommand("tools")
                         .withArguments(new MultiLiteralArgument("item_name",
                                 "copper_mattock", "flint_mattock", "prismarine_mattock", "carbon_steel_mattock",
                                 "netherium_mattock", "amethyst_mattock", "gold_alloy_mattock", "titanium_mattock",
-                                "dark_echo_mattock", "mattock_of_time_and_space", "admin"
+                                "dark_echo_mattock", "mattock_of_time_and_space", "mattock_of_time_and_space_e", "admin"
                         ))
                         .withOptionalArguments(new PlayerArgument("player"))
                         .withPermission("varchaeology.admin.command.get.tools")
-                        .executesPlayer((player, args) -> {
-                            giveToolItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveToolItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveToolItem)
+                        .executes(this::giveToolItem))
                 .withSubcommand(new CommandAPICommand("lamps")
                         .withArguments(new MultiLiteralArgument("item_name",
                                 "small", "medium", "large", "huge"))
                         .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
                         .withPermission("varchaeology.admin.command.get.lamps")
-                        .executesPlayer((player, args) -> {
-                            giveLampItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveLampItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveLampItem)
+                        .executes(this::giveLampItem))
                 .withSubcommand(new CommandAPICommand("stars")
                         .withArguments(new MultiLiteralArgument("item_name",
                                 "small", "medium", "large", "huge"))
                         .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
                         .withPermission("varchaeology.admin.command.get.stars")
-                        .executesPlayer((player, args) -> {
-                            giveStarItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveStarItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveStarItem)
+                        .executes(this::giveStarItem))
                 .withSubcommand(new CommandAPICommand("charms")
                         .withArguments(new MultiLiteralArgument("item_name",
                                 "common", "uncommon", "rare", "unique",
                                         "special", "mythical", "exotic"))
                         .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
                         .withPermission("varchaeology.admin.command.get.charms")
-                        .executesPlayer((player, args) -> {
-                            giveCharmItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveCharmItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveCharmItem)
+                        .executes(this::giveCharmItem))
 //                .withSubcommand(new CommandAPICommand("crafting")
 //                        .withArguments(new MultiLiteralArgument("item_name",
 //                                "small", "medium", "large", "huge"))
@@ -128,12 +108,8 @@ public class ItemCommands {
                                 "small", "medium", "large", "huge"))
                         .withOptionalArguments(new PlayerArgument("player"), new IntegerArgument("value", 1))
                         .withPermission("varchaeology.admin.command.get.ud_artefacts")
-                        .executesPlayer((player, args) -> {
-                            giveUDArtefactItem(player, args);
-                        })
-                        .executes((sender, args) -> {
-                            giveUDArtefactItem(sender, args);
-                        }))
+                        .executesPlayer(this::giveUDArtefactItem)
+                        .executes(this::giveUDArtefactItem))
                 ;
     }
 
@@ -149,8 +125,9 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (drop) to " + target.getName());
+        assert itemName != null;
         int itemID = getDropIDFromName(itemName);
-        customMaterials.giveMaterialID(target, itemID, amount);
+        customDrops.giveMaterialID(target, itemID, amount);
     }
 
     private int getDropIDFromName(String name) {
@@ -177,6 +154,7 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give 1 of " + itemName + " (tool) to " + target.getName());
+        assert itemName != null;
         int itemID = getToolIDFromName(itemName);
         customTools.giveToolID(target, itemID);
     }
@@ -193,7 +171,8 @@ public class ItemCommands {
             case "titanium_mattock" -> 8;
             case "dark_echo_mattock" -> 9;
             case "mattock_of_time_and_space" -> 10;
-            case "admin" -> 11;
+            case "mattock_of_time_and_space_e" -> 11;
+            case "admin" -> 12;
             default -> throw new IllegalArgumentException("Unknown item: " + name);
         };
     }
@@ -210,6 +189,7 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (lamp) to " + target.getName());
+        assert itemName != null;
         int itemID = getStarLampIDFromName(itemName);
         customEXPLamps.giveMaterialID(target, itemID, amount);
     }
@@ -226,6 +206,7 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (star) to " + target.getName());
+        assert itemName != null;
         int itemID = getStarLampIDFromName(itemName);
         customBXPStars.giveMaterialID(target, itemID, amount);
     }
@@ -252,8 +233,9 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (charm) to " + target.getName());
+        assert itemName != null;
         int itemID = getDropIDFromName(itemName);
-        customMaterials.giveMaterialID(target, itemID, amount);
+        customDrops.giveMaterialID(target, itemID, amount);
     }
 
     private void giveUDArtefactItem(CommandSender sender, CommandArguments args) {
@@ -268,7 +250,8 @@ public class ItemCommands {
 
         String itemName = (String) args.get("item_name");
         sender.sendMessage(cPrefix + "Attempting to give " + amount + " of " + itemName + " (charm) to " + target.getName());
+        assert itemName != null;
         int itemID = getDropIDFromName(itemName);
-        customMaterials.giveMaterialID(target, itemID, amount);
+        customDrops.giveMaterialID(target, itemID, amount);
     }
 }

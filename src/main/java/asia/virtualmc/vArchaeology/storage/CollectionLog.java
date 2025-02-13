@@ -26,7 +26,7 @@ public class CollectionLog implements OtherDataHandlingLib {
     }
 
     private void createTable() {
-        List<String> statList = CollectionLogConfig.loadCollections(plugin);
+        List<String> statList = CollectionLogConfig.loadCLFileForDatabase(plugin);
         otherDataLib.createTable(statList, tableName, GlobalManager.prefix);
     }
 
@@ -74,6 +74,7 @@ public class CollectionLog implements OtherDataHandlingLib {
         }
     }
 
+    // For Individual ID look-ups
     public int getDataFromMap(@NotNull UUID uuid, int dataID) {
         return collectionsMap.getOrDefault(uuid, new ConcurrentHashMap<>())
                 .getOrDefault(dataID, 0);

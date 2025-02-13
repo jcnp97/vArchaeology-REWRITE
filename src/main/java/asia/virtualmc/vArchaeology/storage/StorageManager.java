@@ -2,7 +2,6 @@ package asia.virtualmc.vArchaeology.storage;
 
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
-import asia.virtualmc.vArchaeology.tasks.TaskManager;
 import asia.virtualmc.vLibrary.VLibrary;
 import asia.virtualmc.vLibrary.storage.OtherDataLib;
 import asia.virtualmc.vLibrary.storage.PlayerDataLib;
@@ -19,14 +18,12 @@ public class StorageManager {
     private final VLibrary vlib;
     private final PlayerDataLib playerDataLib;
     private final OtherDataLib otherDataLib;
-    private final TaskManager taskManager;
 
     public StorageManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.vlib = plugin.getVLibrary();
         this.playerDataLib = vlib.getPlayerDataLib();
         this.otherDataLib = vlib.getOtherDataLib();
-        this.taskManager = plugin.getTaskManager();
         this.playerData = new PlayerData(this);
         this.statistics = new Statistics(this);
         this.collectionLog = new CollectionLog(this);
@@ -58,10 +55,6 @@ public class StorageManager {
     }
 
     public OtherDataLib getOtherDataLib() { return otherDataLib; }
-
-    public TaskManager getTaskManager() {
-        return taskManager;
-    }
 
     public void loadPlayerAllData(@NotNull UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {

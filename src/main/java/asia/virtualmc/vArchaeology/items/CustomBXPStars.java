@@ -6,6 +6,7 @@ import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.items.ItemsLib;
+import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import asia.virtualmc.vLibrary.utils.DigitUtils;
 import asia.virtualmc.vLibrary.utils.EffectsUtil;
 import net.kyori.adventure.sound.Sound;
@@ -20,7 +21,7 @@ public class CustomBXPStars {
     private final Main plugin;
     private final PlayerData playerData;
     public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/miscellaneous.yml";
+    private final String ITEM_FILE = "items/stars.yml";
     private static Map<Integer, ItemStack> starCache;
 
     public CustomBXPStars(@NotNull StorageManager storageManager) {
@@ -41,6 +42,8 @@ public class CustomBXPStars {
                 false
         );
         starCache = Map.copyOf(loadedItems);
+        ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
+                starCache.size() + " items from " + ITEM_FILE);
     }
 
     public static Map<Integer, ItemStack> getItemCache() {

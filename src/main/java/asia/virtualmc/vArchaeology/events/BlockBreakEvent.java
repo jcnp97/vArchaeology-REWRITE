@@ -2,8 +2,9 @@ package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
 
+import asia.virtualmc.vArchaeology.core.DropTable;
 import asia.virtualmc.vArchaeology.exp.BlockBreakEXP;
-import asia.virtualmc.vArchaeology.handlers.itemequip.ToolStats;
+import asia.virtualmc.vArchaeology.handlers.item_equip.ToolStats;
 import asia.virtualmc.vArchaeology.items.CustomTools;
 import asia.virtualmc.vArchaeology.storage.CollectionLog;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
@@ -28,14 +29,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BlockBreakEvent implements Listener {
-    private final Main plugin;
-    private final StorageManager storageManager;
-    private final CollectionLog collectionLog;
     private final PlayerData playerData;
     private final Statistics statistics;
     private final BlockBreakEXP blockBreakEXP;
     private final ToolStats toolStats;
-    private final String repairCommand = "/varch repair";
     public static Map<Material, Integer> archBlocks;
     private final List<BlockBreakHandler> handlers;
 
@@ -43,10 +40,8 @@ public class BlockBreakEvent implements Listener {
                            @NotNull ToolStats toolStats,
                            @NotNull BlockBreakEXP blockBreakEXP,
                            List<BlockBreakHandler> handlers) {
-        this.storageManager = storageManager;
-        this.plugin = storageManager.getMain();
+        Main plugin = storageManager.getMain();
         this.toolStats = toolStats;
-        this.collectionLog = storageManager.getCollectionLog();
         this.playerData = storageManager.getPlayerData();
         this.statistics = storageManager.getStatistics();
         this.blockBreakEXP = blockBreakEXP;
@@ -80,6 +75,7 @@ public class BlockBreakEvent implements Listener {
         if (blockBaseEXP == null) {
             return;
         }
+
         double finalEXP = blockBreakEXP.getTotalBlockBreakEXP(uuid, blockBaseEXP);
 
         // remove vanilla drops
@@ -106,6 +102,7 @@ public class BlockBreakEvent implements Listener {
         }
 
         if (ToolsLib.getDurability(item) <= 10) {
+            String repairCommand = "/varch repair";
             player.sendMessage("§cYou need to repair your tool (using +" + repairCommand + " before you can use it again.");
             return false;
         }
