@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CollectionLogGUI {
     private final CollectionLogGUILib collectionLogGUILib;
@@ -22,19 +23,24 @@ public class CollectionLogGUI {
         Main plugin = guiManager.getMain();
         this.collectionLogGUILib = plugin.getVLibrary().getGuiManager().getCollectionLogGUI();
         this.collectionLog = guiManager.getStorageManager().getCollectionLog();
-        this.collectionsMap = CollectionLogConfig.loadCLFileForGUI(plugin,
-                "collection-log.yml", GlobalManager.prefix);
 
-        totalCollections = collectionsMap.size();
+        // Use thread-safe ConcurrentHashMap
+        this.collectionsMap = new ConcurrentHashMap<>(CollectionLogConfig.loadCLFileForGUI(
+                plugin, "collection-log.yml", GlobalManager.prefix));
+
+        this.totalCollections = collectionsMap.size();
     }
 
+    // Method below used for collection.getAllDataFromMap
+    // public Map<UUID, Map<Integer, Integer>> getAllDataFromMap() {
+    //        return new ConcurrentHashMap<>(collectionsMap);
+    // }
     public void openCollectionLog(@NotNull Player player) {
         UUID uuid = player.getUniqueId();
-        collectionLogGUILib.openCollectionLog(player,
-                collectionsMap, collectionLog.getAllDataFromMap().get(uuid), totalCollections,
-                1);
+        collectionLogGUILib.openCollectionLog(player, collectionsMap, collectionLog.getAllDataFromMap().get(uuid), totalCollections, 1);
     }
 }
+
 //    public void openCollectionLog(Player player, int pageNumber) {
 //        pageNumber = Math.min(Math.max(1, pageNumber), totalPages);
 //        UUID uuid = player.getUniqueId();
