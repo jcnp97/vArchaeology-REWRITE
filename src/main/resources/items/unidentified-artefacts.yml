@@ -1,0 +1,90 @@
+# vArchaeology Artefacts
+itemsList:
+  collection_1:
+    material: EXPLORER_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #1<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_2:
+    material: FRIEND_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #2<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_3:
+    material: DANGER_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #3<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_4:
+    material: MOURNER_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #4<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_5:
+    material: PRIZE_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #5<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_6:
+    material: SHEAF_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #6<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_7:
+    material: SKULL_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #7<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"
+  collection_8:
+    material: HEARTBREAK_POTTERY_SHERD
+    name: "<dark_gray>Unidentified Artefact"
+    lore:
+      - "<gray>This can be restored by right-clicking"
+      - "<gray>the item on an Archaeology Workbench."
+      - ""
+      - "<gray>When restored, this artefact can produce"
+      - "<gray>an item from <gold>Collection #8<gray>."
+      - ""
+      - "<dark_gray>Tags: <red>Unidentified Artefact"

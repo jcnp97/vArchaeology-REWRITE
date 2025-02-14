@@ -5,6 +5,7 @@ import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vLibrary.configs.GUIConfig;
+import asia.virtualmc.vLibrary.core.EconomyLib;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.guis.GUILib;
 import asia.virtualmc.vLibrary.libs.inventoryframework.gui.GuiItem;
@@ -26,10 +27,11 @@ public class RestoredArtefactGUI {
     private final Main plugin;
     private final Statistics statistics;
     private final PlayerData playerData;
-    private final Map<Integer, ItemStack> baseCollectionCache = new HashMap<>();
+    private final EconomyLib economyLib;
 
     public RestoredArtefactGUI(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
+        this.economyLib = plugin.getVLibrary().getEconomyLib();
         this.statistics = storageManager.getStatistics();
         this.playerData = storageManager.getPlayerData();
     }
@@ -76,7 +78,7 @@ public class RestoredArtefactGUI {
         return button;
     }
 
-    private ItemStack createSellButton(double totalPrice, int archAptitude, double mult) {
+    private ItemStack createSellButton(double totalPrice, int archAptitude, double multiplier) {
         ItemStack button = new ItemStack(Material.PAPER);
         String formatPrice = DigitUtils.formattedNoDecimals(totalPrice);
         String aptitude = DigitUtils.formattedNoDecimals(archAptitude);
@@ -87,12 +89,14 @@ public class RestoredArtefactGUI {
             meta.setLore(List.of(
                     "§7Total Price: §a$" + formatPrice,
                     "§7Aptitude (Bonus Base): §a$" + aptitude,
-                    "§7Multiplier: §a" + mult + "X"
+                    "§7Multiplier: §a" + multiplier + "X"
             ));
             button.setItemMeta(meta);
         }
         return button;
     }
+
+    // Todo: add augments/jewel button
 
     public void openConfirmationGUI(Player player, int processType, double totalPrice) {
 
@@ -131,7 +135,7 @@ public class RestoredArtefactGUI {
                 EffectsUtil.sendPlayerMessage(player,"<#00FFA2>You have <yellow>" +
                         playerData.getTalentPoints(uuid) + " <#00FFA2>talent points that you can spend on <aqua>[/varch talent]<#00FFA2>.");
             } else if (processType == 2) {
-                sellGUI.addEconomy(player, totalValue);
+                economyLib.addEconomy(player, totalValue);
                 EffectsUtil.spawnFireworks(plugin, player, 3, 3);
                 String formatPrice = DigitUtils.formattedTwoDecimals(totalValue);
                 EffectsUtil.sendTitleMessage(player, "", "<#7CFEA7>You have received <gold>$" +

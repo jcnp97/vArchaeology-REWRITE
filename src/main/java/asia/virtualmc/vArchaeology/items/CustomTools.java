@@ -7,45 +7,49 @@ import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class CustomTools {
     private final Main plugin;
-    public static NamespacedKey TOOL_KEY;
-    public static NamespacedKey GATHER_KEY;
-    public static NamespacedKey REQ_LEVEL_KEY;
-    public static NamespacedKey ADP_RATE;
-    private static Map<Integer, ItemStack> toolCache;
-    private final String ITEM_FILE = "items/tools.yml";
+    public static final NamespacedKey TOOL_KEY;
+    public static final NamespacedKey NAME_KEY;
+    public static final NamespacedKey GATHER_KEY;
+    public static final NamespacedKey REQ_LEVEL_KEY;
+    public static final NamespacedKey ADP_RATE;
+    private static final String ITEM_FILE = "items/tools.yml";
+    private final Map<Integer, ItemStack> toolCache;
+
+    static {
+        TOOL_KEY = new NamespacedKey(Main.getInstance(), "custom_tool");
+        NAME_KEY = new NamespacedKey(Main.getInstance(), "tool_name");
+        GATHER_KEY = new NamespacedKey(Main.getInstance(), "gathering_rate");
+        REQ_LEVEL_KEY = new NamespacedKey(Main.getInstance(), "required_level");
+        ADP_RATE = new NamespacedKey(Main.getInstance(), "adp_rate");
+    }
 
     public CustomTools(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
-        TOOL_KEY = new NamespacedKey(plugin, "custom_tool");
-        GATHER_KEY = new NamespacedKey(plugin, "gathering_rate");
-        REQ_LEVEL_KEY = new NamespacedKey(plugin, "required_level");
-        ADP_RATE = new NamespacedKey(plugin, "adp_rate");
+        this.toolCache = new HashMap<>();
         createTools();
     }
 
     private void createTools() {
-        String ITEM_SECTION_PATH = "toolsList";
         Map<Integer, ItemStack> loadedItems = ToolsLib.loadToolsFromFile(
                 plugin,
                 ITEM_FILE,
-                ITEM_SECTION_PATH,
                 GlobalManager.prefix
         );
-        toolCache = Map.copyOf(loadedItems);
+        toolCache.clear();
+        toolCache.putAll(loadedItems);
+
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 toolCache.size() + " items from " + ITEM_FILE);
-    }
-
-    public static Map<Integer, ItemStack> getItemCache() {
-        return toolCache;
     }
 
     public void giveToolID(@NotNull Player player, int toolID) {
@@ -73,11 +77,28 @@ public class CustomTools {
 
     public void reloadConfig() {
         try {
-            toolCache.clear();
             createTools();
         } catch (Exception e) {
             plugin.getLogger().severe("§There are issues when reloading " + ITEM_FILE + ": "
                     + e.getMessage());
         }
+    }
+
+    public List<String> getItemNames() {
+        List<String> itemNames = new ArrayList<>();
+        for (ItemStack item : toolCache.values()) {
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    itemNames.add(name);
+                }
+            }
+        }
+        return itemNames;
+    }
+
+    public Map<Integer, ItemStack> getToolsCache() {
+        return new HashMap<>(toolCache);
     }
 }

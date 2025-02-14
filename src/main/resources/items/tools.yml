@@ -1,7 +1,6 @@
 # vArchaeology Tools
-toolsList:
+itemsList:
   copper_mattock:
-    id: 1 # internalID
     material: STONE_SHOVEL # base material
     name: "<green>Copper Mattock (Tier 1)" # custom name
     custom-model-data: 100000
@@ -10,13 +9,12 @@ toolsList:
     unbreaking: 0
     required-level: 1
     lore:
-      - '&7Required Level: &e1'
-      - '&7Gathering Rate: &e1.5%'
-      - '&7Artefact Progress: &e0.08%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>1"
+      - "<gray>Gathering Rate: <yellow>1.5%"
+      - "<gray>Artefact Progress: <yellow>0.08%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   flint_mattock:
-    id: 2 # internalID
     material: STONE_SHOVEL # base material
     name: "<green>Flint Mattock (Tier 15)" # custom name
     custom-model-data: 100001
@@ -25,15 +23,12 @@ toolsList:
     unbreaking: 1
     required-level: 15
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e15'
-      - '&7Gathering Rate: &e3.0%'
-      - '&7Artefact Progress: &e0.10%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>15"
+      - "<gray>Gathering Rate: <yellow>3.0%"
+      - "<gray>Artefact Progress: <yellow>0.10%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   prismarine_mattock:
-    id: 3 # internalID
     material: STONE_SHOVEL # base material
     name: "<green>Prismarine Mattock (Tier 30)" # custom name
     custom-model-data: 100002
@@ -42,15 +37,12 @@ toolsList:
     unbreaking: 2
     required-level: 30
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e30'
-      - '&7Gathering Rate: &e4.5%'
-      - '&7Artefact Progress: &e0.12%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>30"
+      - "<gray>Gathering Rate: <yellow>4.5%"
+      - "<gray>Artefact Progress: <yellow>0.12%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   carbon_steel_mattock:
-    id: 4 # internalID
     material: STONE_SHOVEL # base material
     name: "<aqua>Carbon-Steel Mattock (Tier 40)" # custom name
     custom-model-data: 100003
@@ -59,15 +51,12 @@ toolsList:
     unbreaking: 3
     required-level: 40
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e40'
-      - '&7Gathering Rate: &e6.0%'
-      - '&7Artefact Progress: &e0.14%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>40"
+      - "<gray>Gathering Rate: <yellow>6.0%"
+      - "<gray>Artefact Progress: <yellow>0.14%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   netherium_mattock:
-    id: 5 # internalID
     material: IRON_SHOVEL # base material
     name: "<red>Netherium Mattock (Tier 50)" # custom name
     custom-model-data: 100000
@@ -76,15 +65,12 @@ toolsList:
     unbreaking: 1
     required-level: 50
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e50'
-      - '&7Gathering Rate: &e7.5%'
-      - '&7Artefact Progress: &e0.16%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>50"
+      - "<gray>Gathering Rate: <yellow>7.5%"
+      - "<gray>Artefact Progress: <yellow>0.16%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   amethyst_mattock:
-    id: 6 # internalID
     material: IRON_SHOVEL # base material
     name: "<purple>Amethyst Mattock (Tier 60)" # custom name
     custom-model-data: 100001
@@ -93,15 +79,12 @@ toolsList:
     unbreaking: 2
     required-level: 60
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e60'
-      - '&7Gathering Rate: &e9.0%'
-      - '&7Artefact Progress: &e0.18%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>60"
+      - "<gray>Gathering Rate: <yellow>9.0%"
+      - "<gray>Artefact Progress: <yellow>0.18%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   gold_alloy_mattock:
-    id: 7 # internalID
     material: IRON_SHOVEL # base material
     name: "<gold>Gold-Alloy Mattock (Tier 70)" # custom name
     custom-model-data: 100002
@@ -110,15 +93,12 @@ toolsList:
     unbreaking: 3
     required-level: 70
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e70'
-      - '&7Gathering Rate: &e10.5%'
-      - '&7Artefact Progress: &e0.20%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>70"
+      - "<gray>Gathering Rate: <yellow>10.5%"
+      - "<gray>Artefact Progress: <yellow>0.20%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   titanium_mattock:
-    id: 8 # internalID
     material: DIAMOND_SHOVEL # base material
     name: "<gray>Titanium Mattock (Tier 80)" # custom name
     custom-model-data: 100000
@@ -127,15 +107,12 @@ toolsList:
     unbreaking: 0
     required-level: 80
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e80'
-      - '&7Gathering Rate: &e12.0%'
-      - '&7Artefact Progress: &e0.25%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>80"
+      - "<gray>Gathering Rate: <yellow>12.0%"
+      - "<gray>Artefact Progress: <yellow>0.25%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   dark_echo_mattock:
-    id: 9 # internalID
     material: NETHERITE_SHOVEL # base material
     name: "<dark_purple>Dark Echo Mattock (Tier 90)" # custom name
     custom-model-data: 100000
@@ -144,15 +121,12 @@ toolsList:
     unbreaking: 0
     required-level: 90
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e90'
-      - '&7Gathering Rate: &e13.5%'
-      - '&7Artefact Progress: &e0.30%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>90"
+      - "<gray>Gathering Rate: <yellow>13.5%"
+      - "<gray>Artefact Progress: <yellow>0.30%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   mattock_of_time_and_space:
-    id: 10 # internalID
     material: NETHERITE_SHOVEL # base material
     name: "<dark_red>Mattock of Time and Space (Tier 99)" # custom name
     custom-model-data: 100001
@@ -161,15 +135,12 @@ toolsList:
     unbreaking: 10
     required-level: 99
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e99'
-      - '&7Gathering Rate: &e15.0%'
-      - '&7Artefact Progress: &e0.40%'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>99"
+      - "<gray>Gathering Rate: <yellow>15.0%"
+      - "<gray>Artefact Progress: <yellow>0.40%"
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   mattock_of_time_and_space_enhanced:
-    id: 11 # internalID
     material: NETHERITE_SHOVEL # base material
     name: "<dark_red>Enhanced Mattock of Time and Space (Tier 99)" # custom name
     custom-model-data: 100001
@@ -178,37 +149,32 @@ toolsList:
     unbreaking: 10
     required-level: 99
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e99'
-      - '&7Gathering Rate: &e15.0%'
-      - '&7Artefact Progress: &e0.40%'
-      - ''
-      - '&5Time-Space Convergence&7: Every time you'
-      - '&7receive a material, provides a 10% chance'
-      - '&7to receive an extra material.'
-      - ''
-      - '&5Chronal Focus&7: Provides a 1% chance to'
-      - '&7increase Artefact Discovery by 1%.'
-      - ''
-      - '&5Future Sight&7: Provides a 10% chance to'
-      - '&7increase tier of your drops by 1.'
-      - ''
-      - '&8Tags: &eArchaeology Tool'
+      - "<gray>Required Level: <yellow>99"
+      - "<gray>Gathering Rate: <yellow>15.0%"
+      - "<gray>Artefact Progress: <yellow>0.40%"
+      - ""
+      - "<dark_purple>Time-Space Convergence<gray>: Every time you"
+      - "<gray>receive a material, provides a 10% chance"
+      - "<gray>to receive an extra material."
+      - ""
+      - "<dark_purple>Chronal Focus<gray>: Provides a 1% chance to"
+      - "<gray>increase Artefact Discovery by 1%."
+      - ""
+      - "<dark_purple>Future Sight<gray>: Provides a 10% chance to"
+      - "<gray>increase tier of your drops by 1."
+      - ""
+      - "<dark_gray>Tags: <yellow>Archaeology Tool"
   admin:
-    id: 12 # internalID
     material: NETHERITE_SHOVEL # base material
-    name: "&4Admin Mattock" # custom name
+    name: "<dark_red>Admin Mattock" # custom name
     custom-model-data: 100001
     gathering-rate: 100.0
     ad-bonus: 100.0
     unbreaking: 10
     required-level: 99
     lore:
-      - '&cArchaeology Tool'
-      - ''
-      - '&7Required Level: &e99'
-      - '&7Gathering Rate: &e99.0%'
-      - '&7Artefact Progress: &e99%'
-      - ''
-      - '&4For administrators only.'
+      - "<gray>Required Level: <yellow>99"
+      - "<gray>Gathering Rate: <yellow>99.0%"
+      - "<gray>Artefact Progress: <yellow>99%"
+      - ""
+      - "<dark_gray>Tags: <dark_red>For Admin Only"

@@ -52,16 +52,10 @@ public class ToolStats implements ItemEquipHandler {
         }.runTaskLater(plugin, 5L);
     }
 
-    private boolean isArchTool(ItemStack item, NamespacedKey TOOL_KEY) {
-        return item != null
-                && item.getType() != Material.AIR
-                && ToolsLib.isCustomTool(item, TOOL_KEY);
-    }
-
     public void loadToolData(@NotNull Player player) {
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (!isArchTool(item, CustomTools.TOOL_KEY)) {
+        if (!ToolsLib.isCustomTool(item, CustomTools.TOOL_KEY)) {
             return;
         }
 

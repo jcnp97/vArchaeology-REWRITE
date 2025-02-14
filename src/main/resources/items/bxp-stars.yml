@@ -1,0 +1,46 @@
+# vArchaeology Stars
+itemsList:
+  small_star: # itemName for commands
+    material: AMETHYST_SHARD # base material
+    name: "&aSmall BXP Star"
+    custom-model-data: 100000
+    lore:
+      - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
+      - ""
+      - "<gray>Provides bonus XP to your Archaeology"
+      - "<gray>skill based on your current level."
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology BXP Star"
+  medium_star: # itemName for commands
+    material: AMETHYST_SHARD # base material
+    name: "&bMedium BXP Star"
+    custom-model-data: 100001
+    lore:
+      - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
+      - ""
+      - "<gray>Provides bonus XP to your Archaeology"
+      - "<gray>skill based on your current level."
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology BXP Star"
+  large_star: # itemName for commands
+    material: AMETHYST_SHARD # base material
+    name: "&5Large BXP Star"
+    custom-model-data: 100002
+    lore:
+      - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
+      - ""
+      - "<gray>Provides bonus XP to your Archaeology"
+      - "<gray>skill based on your current level."
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology BXP Star"
+  huge_star: # itemName for commands
+    material: AMETHYST_SHARD # base material
+    name: "&4Huge BXP Star"
+    custom-model-data: 100003
+    lore:
+      - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
+      - ""
+      - "<gray>Provides bonus XP to your Archaeology"
+      - "<gray>skill based on your current level."
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology BXP Star"

@@ -2,56 +2,59 @@ package asia.virtualmc.vArchaeology.items;
 
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
-import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
-import asia.virtualmc.vLibrary.VLibrary;
-import asia.virtualmc.vLibrary.enums.EnumsLib;
+import asia.virtualmc.vLibrary.interfaces.CustomItemsLib;
 import asia.virtualmc.vLibrary.items.ItemsLib;
 import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
-import asia.virtualmc.vLibrary.utils.DigitUtils;
-import asia.virtualmc.vLibrary.utils.EffectsUtil;
-import net.kyori.adventure.sound.Sound;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class CustomEXPLamps {
+public class CustomEXPLamps implements CustomItemsLib {
     private final Main plugin;
-    private final PlayerData playerData;
-    public static NamespacedKey ITEM_KEY;
-    private final String ITEM_FILE = "items/lamps.yml";
-    private static Map<Integer, ItemStack> lampCache;
+    public static final NamespacedKey ITEM_KEY;
+    public static final NamespacedKey NAME_KEY;
+    private static final String ITEM_FILE = "items/exp-lamps.yml";
+    private final Map<Integer, ItemStack> lampCache;
+
+    static {
+        ITEM_KEY = new NamespacedKey(Main.getInstance(), "exp_lamp");
+        NAME_KEY = new NamespacedKey(Main.getInstance(), "item_name");
+    }
 
     public CustomEXPLamps(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
-        this.playerData = storageManager.getPlayerData();
-        ITEM_KEY = new NamespacedKey(plugin, "varch_lamp");
+        this.lampCache = new HashMap<>();
         createItems();
     }
 
-    private void createItems() {
-        String ITEM_SECTION_PATH = "lampsList";
+    @Override
+    public void createItems() {
         Map<Integer, ItemStack> loadedItems = ItemsLib.loadItemsFromFile(
                 plugin,
                 ITEM_FILE,
-                ITEM_SECTION_PATH,
                 ITEM_KEY,
+                NAME_KEY,
                 GlobalManager.prefix,
                 false
         );
-        lampCache = Map.copyOf(loadedItems);
+
+        lampCache.clear();
+        lampCache.putAll(loadedItems);
+
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 lampCache.size() + " items from " + ITEM_FILE);
     }
 
-    public static Map<Integer, ItemStack> getItemCache() {
-        return lampCache;
-    }
-
-    public void giveMaterialID(@NotNull Player player, int itemID, int amount) {
+    @Override
+    public void giveItem(@NotNull Player player, int itemID, int amount) {
         ItemStack item = lampCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
@@ -64,13 +67,32 @@ public class CustomEXPLamps {
         }
     }
 
+    @Override
     public void reloadConfig() {
         try {
-            lampCache.clear();
             createItems();
         } catch (Exception e) {
             plugin.getLogger().severe("§There are issues when reloading " + ITEM_FILE + ": "
                     + e.getMessage());
         }
+    }
+
+    @Override
+    public List<String> getItemNames() {
+        List<String> itemNames = new ArrayList<>();
+        for (ItemStack item : lampCache.values()) {
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    itemNames.add(name);
+                }
+            }
+        }
+        return itemNames;
+    }
+
+    public Map<Integer, ItemStack> getItemsCache() {
+        return new HashMap<>(lampCache);
     }
 }

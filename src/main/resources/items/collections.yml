@@ -1,0 +1,141 @@
+# vArchaeology Collections (Restored Artefacts)
+globalSettings:
+  material: FLINT
+  starting-model-data: 100007
+  starting-id: 8
+  rarity-lore:
+    1:
+      - "<gray>Obtained as a <green>Common <gray>drop."
+    2:
+      - "<gray>Obtained as an <aqua>Uncommon <gray>drop."
+    3:
+      - "<gray>Obtained as a <dark_aqua>Rare <gray>drop."
+    4:
+      - "<gray>Obtained as a <yellow>Unique <gray>drop."
+    5:
+      - "<gray>Obtained as a <gold>Special <gray>drop."
+    6:
+      - "<gray>Obtained as a <dark_purple>Mythical <gray>drop."
+    7:
+      - "<gray>Obtained as an <dark_red>Exotic <gray>drop."
+  group-lore:
+    1:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• &eOffer to monolith for talent points"
+      - "<gray>• &eSell to Archaeology Collectors for USD"
+      - "<gray>• &eConvert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+collectionList:
+  1:
+    0:
+      - "Centurion's Sword"
+      - "Centurion's Seal"
+      - "Venator Crossbow"
+      - "Venator Dagger"
+      - "Primis Standard"
+      - "Legionary Gladius"
+      - "Legionary Shield"
+      - "Zaros Effigy"
+      - "Hookah Pipe"
+      - "Wine Goblet"
+      - "Crest of Dagon"
+      - "Training Dummy"
+  2:
+    0:
+      - "Disorder Painting"
+      - "Legatus Figurine"
+      - "Solem in Umbra Painting"
+      - "Imp Mask"
+      - "Lesser Demon Mask"
+      - "Greater Demon Mask"
+      - "Teleportation Crystal"
+      - "Ritual Dagger"
+      - "Ritual Bell"
+      - "Rod of Asclepius"
+      - "Chaotic Ewer"
+      - "Songbird Recorder"
+  3:
+    0:
+      - "Frying Pan"
+      - "Hallowed Lantern"
+      - "Branding Iron"
+      - "Manacles"
+      - "Ancient Timepiece"
+      - "Legatus Pendant"
+      - "Ceremonial Ornament"
+      - "Dragonkin Device"
+      - "Peacock Parasol"
+      - "Ceremonial Plume"
+      - "Aviansie Dreamcoat"
+      - "Strange Totem"
+  4:
+    0:
+      - "Everlight Harp"
+      - "Everlight Trumpet"
+      - "Everlight Violin"
+      - "Folded-Arm Figurine"
+      - "Incite Fear Spell Scroll"
+      - "Pontifex Signet Ring"
+      - "Curse Tablet"
+      - "Dominion Discus"
+      - "Dominarian Device"
+      - "Fishing Trident"
+      - "Herobrine's Book"
+      - "Friendship Bracelet"
+  5:
+    0:
+      - "Urn of Shadow"
+      - "Urn of Smoke"
+      - "Urn of Blood"
+      - "Urn of Ice"
+      - "Urn of Miasma"
+      - "Hand of the Ancients"
+      - "Decorative Amphora"
+      - "Loarnab Rod"
+      - "Lingam Stone"
+      - "Demon's Cube"
+      - "Alchemist Flask"
+      - "Animate Dead Spell Scroll"
+  6:
+    0:
+      - "The Lake of Fire Painting"
+      - "Inquisitor's Ceremonial Armor"
+      - "Inquisitor's Ceremonial Mask"
+      - "Inquisitor's Seal"
+      - "Gladiator Helmet"
+      - "Gladiator Sword"
+      - "Model Chariot"
+      - "Chaos Star"
+      - "Eudoxian Tablet"
+      - "Soul Scroll"
+      - "Dragon Hook Sword"
+      - "Hobgoblin Sword"
+  7:
+    0:
+      - "Raksha Idol"
+      - "Gold Dish"
+      - "Xolo Spear"
+      - "Ancient Globe"
+      - "Spherical Astrolabe"
+      - "Tsutsaroth Helm"
+      - "Spear of Annihilation"
+      - "Praetorian Staff"
+      - "Kontos Lance"
+      - "Doru Spear"
+      - "Tsutsaroth Urumi"
+      - "Tsutsaroth Pauldron"
+  8:
+    0:
+      - "Xolo Hard Hat"
+      - "Prototype Godsword"
+      - "Prototype Godstaff"
+      - "Prototype Godbow"
+      - "Night Goggles"
+      - "Master Control"
+      - "Comfort Gatestone"
+      - "The Lord of Light Painting"
+      - "Xolo Shield"
+      - "Ancient Cooking Pot"
+      - "Battle Plans"
+      - "War God Sculpture"
