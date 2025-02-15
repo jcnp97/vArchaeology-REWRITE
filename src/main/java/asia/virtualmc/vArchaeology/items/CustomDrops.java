@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -18,28 +17,23 @@ import java.util.*;
 public class CustomDrops implements CustomItemsLib {
     private final Main plugin;
     private final CollectionLog collectionLog;
-    public static final NamespacedKey ITEM_KEY;
-    public static final NamespacedKey NAME_KEY;
+    private static NamespacedKey ITEM_KEY;
     private static final String ITEM_FILE = "items/drops.yml";
-    private final Map<Integer, DropsLib.DropDetails> itemCache;
-    private final Map<String, Integer> nameToIDCache;
-
-    static {
-        ITEM_KEY = new NamespacedKey(Main.getInstance(), "unidentified_artefact");
-        NAME_KEY = new NamespacedKey(Main.getInstance(), "item_name");
-    }
+    private final Map<String, DropsLib.DropDetails> dropCache;
+    private final Map<Integer, List<String>> dropByRarity;
 
     public CustomDrops(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
         this.collectionLog = itemManager.getStorageManager().getCollectionLog();
-        this.itemCache = new HashMap<>();
-        this.nameToIDCache = new HashMap<>();
+        this.dropCache = new HashMap<>();
+        this.dropByRarity = new HashMap<>();
+        ITEM_KEY = new NamespacedKey(plugin, "archaeology_drop");
         createItems();
     }
 
     @Override
     public void createItems() {
-        Map<Integer, DropsLib.DropDetails> loadedItems = DropsLib.loadDropsFromFile(
+        Map<String, DropsLib.DropDetails> loadedItems = DropsLib.loadDropsFromFile(
                 plugin,
                 ITEM_FILE,
                 ITEM_KEY,
@@ -47,46 +41,54 @@ public class CustomDrops implements CustomItemsLib {
                 false
         );
 
-        itemCache.clear();
-        itemCache.putAll(loadedItems);
-        populateNameToIDCache();
+        dropCache.clear();
+        dropCache.putAll(loadedItems);
+        populateDropByRarity();
+
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
-                itemCache.size() + " items from " + ITEM_FILE);
+                dropCache.size() + " items from " + ITEM_FILE);
     }
 
     // Drop items naturally, used for block-break events
-    public void dropItem(@NotNull Player player, Location blockLocation, int itemID) {
-        ItemStack item = itemCache.get(itemID).itemStack;
+    public void dropItem(@NotNull Player player, int itemID, Location blockLocation) {
+        String itemName = getRandomItem(itemID);
+        ItemStack item = dropCache.get(itemName).itemStack;
         UUID uuid = player.getUniqueId();
         if (item == null) {
-            player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
+            player.sendMessage("§cInvalid item ID: " + itemName + " from " + ITEM_FILE);
             return;
         }
         blockLocation.getWorld().dropItemNaturally(blockLocation, item.clone());
         collectionLog.addCustomValueData(uuid, itemID, 1);
     }
 
+    private String getRandomItem(int key) {
+        List<String> items = dropByRarity.get(key);
+        if (items == null || items.isEmpty()) {
+            return null;
+        }
+        Random random = new Random();
+        return items.get(random.nextInt(items.size()));
+    }
+
     @Override
     public void giveItem(@NotNull Player player, @NotNull String itemName, int amount) {
-        Integer itemID = nameToIDCache.get(itemName);
-        ItemStack item = itemCache.get(itemID).itemStack;
+        ItemStack item = dropCache.get(itemName).itemStack;
         if (item == null) {
-            player.sendMessage("§cInvalid item ID: " + itemID);
+            player.sendMessage("§cInvalid item ID: " + itemName);
             return;
         }
 
         if (!DropsLib.giveItem(player, item, amount)) {
-            plugin.getLogger().severe("§There are issues when giving itemID: " + itemID
+            plugin.getLogger().severe("§There are issues when giving itemID: " + itemName
                     + " with key: " + ITEM_KEY + " to " + player.getName());
         }
     }
 
-    public void takeItem(@NotNull Player player, int itemID, int amount) {
-        Map<Integer, ItemStack> itemsMap = DropsLib.checkItemsToRemove(player, ITEM_KEY, itemID, amount);
+    public void takeItem(@NotNull Player player, int rarityID, int amount) {
+        Map<Integer, ItemStack> itemsMap = DropsLib.checkItemsToRemove(player, ITEM_KEY, rarityID, amount);
         if (DropsLib.removeItems(player, itemsMap)) {
             //add transaction logs here
-            String itemName = itemCache.get(itemID).itemStack.getItemMeta().getDisplayName();
-            player.sendMessage("§cYour item: " + itemName + " x" + amount + " has been taken from you.");
         }
     }
 
@@ -102,35 +104,34 @@ public class CustomDrops implements CustomItemsLib {
 
     @Override
     public List<String> getItemNames() {
-        List<String> itemNames = new ArrayList<>();
-        for (DropsLib.DropDetails details : itemCache.values()) {
-            if (details != null && details.itemStack != null && details.itemStack.hasItemMeta()) {
-                String name = details.itemStack.getItemMeta().getPersistentDataContainer()
-                        .get(NAME_KEY, PersistentDataType.STRING);
-                if (name != null) {
-                    itemNames.add(name);
-                }
-            }
-        }
-        return itemNames;
+        return new ArrayList<>(dropCache.keySet());
     }
 
-    private void populateNameToIDCache() {
-        nameToIDCache.clear();
-        for (Map.Entry<Integer, DropsLib.DropDetails> entry : itemCache.entrySet()) {
+    private void populateDropByRarity() {
+        dropByRarity.clear();
+
+        for (Map.Entry<String, DropsLib.DropDetails> entry : dropCache.entrySet()) {
+            String itemName = entry.getKey();
             ItemStack item = entry.getValue().itemStack;
-            if (item != null && item.hasItemMeta()) {
-                String name = item.getItemMeta().getPersistentDataContainer()
-                        .get(NAME_KEY, PersistentDataType.STRING);
-                if (name != null) {
-                    nameToIDCache.put(name, entry.getKey());
+
+            if (item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "rarity_id"), org.bukkit.persistence.PersistentDataType.INTEGER)) {
+                Integer rarityID = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "rarity_id"), org.bukkit.persistence.PersistentDataType.INTEGER);
+
+                if (rarityID != null) {
+                    dropByRarity.computeIfAbsent(rarityID, k -> new ArrayList<>()).add(itemName);
+                } else {
+                    plugin.getLogger().warning("Rarity ID is missing for item: " + itemName);
                 }
             }
         }
     }
 
 
-    public Map<Integer, DropsLib.DropDetails> getItemsCache() {
-        return new HashMap<>(itemCache);
+    public Map<String, DropsLib.DropDetails> getItemsCache() {
+        return new HashMap<>(dropCache);
+    }
+
+    public static NamespacedKey getItemKey() {
+        return ITEM_KEY;
     }
 }

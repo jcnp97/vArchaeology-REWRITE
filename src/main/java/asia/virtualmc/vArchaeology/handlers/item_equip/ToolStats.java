@@ -9,8 +9,6 @@ import asia.virtualmc.vArchaeology.storage.TalentTree;
 import asia.virtualmc.vLibrary.interfaces.ItemEquipHandler;
 import asia.virtualmc.vLibrary.items.ToolsLib;
 import asia.virtualmc.vLibrary.utils.EffectsUtil;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +53,7 @@ public class ToolStats implements ItemEquipHandler {
     public void loadToolData(@NotNull Player player) {
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (!ToolsLib.isCustomTool(item, CustomTools.TOOL_KEY)) {
+        if (!ToolsLib.isCustomTool(item, CustomTools.getToolKey())) {
             return;
         }
 
@@ -67,7 +65,7 @@ public class ToolStats implements ItemEquipHandler {
 
         double gatherRate = calculateGatherRate(uuid, pdc);
         double adbProgress = calculateADB(uuid, pdc);
-        boolean hasEnhancedT99 = ToolsLib.compareTool(item, CustomTools.TOOL_KEY, 11);
+        boolean hasEnhancedT99 = ToolsLib.compareTool(item, CustomTools.getToolKey(), 11);
 
         toolDataMap.put(uuid, new ToolData(gatherRate, adbProgress, hasEnhancedT99));
         EffectsUtil.sendActionBarMessage(player, "<gray>Gathering Rate: <yellow>" +
@@ -77,7 +75,7 @@ public class ToolStats implements ItemEquipHandler {
     private double calculateGatherRate(@NotNull UUID uuid, PersistentDataContainer pdc) {
         int karmaLevel = playerData.getKarmaTrait(uuid);
         // Tool Gather Rate
-        double gatherRate = pdc.getOrDefault(CustomTools.GATHER_KEY, PersistentDataType.DOUBLE, 0.0);
+        double gatherRate = pdc.getOrDefault(CustomTools.getGatherKey(), PersistentDataType.DOUBLE, 0.0);
         // Talent ID 3
         gatherRate += talentTree.getDataFromMap(uuid, 3) * 0.1;
         // Karma Trait
@@ -91,7 +89,7 @@ public class ToolStats implements ItemEquipHandler {
     private double calculateADB(@NotNull UUID uuid, PersistentDataContainer pdc) {
         int dexterityLevel = playerData.getDexterityTrait(uuid);
         // Tool ADB
-        double adpRate = pdc.getOrDefault(CustomTools.ADP_RATE, PersistentDataType.DOUBLE, 0.0);
+        double adpRate = pdc.getOrDefault(CustomTools.getADPRate(), PersistentDataType.DOUBLE, 0.0);
         // Talent ID 8
         adpRate += talentTree.getDataFromMap(uuid, 8) * 0.01;
         // Talent ID 17

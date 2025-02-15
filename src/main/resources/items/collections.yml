@@ -1,29 +1,64 @@
 # vArchaeology Collections (Restored Artefacts)
 globalSettings:
+  generate-model: true
   material: FLINT
   starting-model-data: 100007
   starting-id: 8
-  rarity-lore:
-    1:
-      - "<gray>Obtained as a <green>Common <gray>drop."
-    2:
-      - "<gray>Obtained as an <aqua>Uncommon <gray>drop."
-    3:
-      - "<gray>Obtained as a <dark_aqua>Rare <gray>drop."
-    4:
-      - "<gray>Obtained as a <yellow>Unique <gray>drop."
-    5:
-      - "<gray>Obtained as a <gold>Special <gray>drop."
-    6:
-      - "<gray>Obtained as a <dark_purple>Mythical <gray>drop."
-    7:
-      - "<gray>Obtained as an <dark_red>Exotic <gray>drop."
   group-lore:
     1:
       - "<gray>When right-clicking this item, you can:"
-      - "<gray>• &eOffer to monolith for talent points"
-      - "<gray>• &eSell to Archaeology Collectors for USD"
-      - "<gray>• &eConvert to component for augmentations"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    2:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    3:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    4:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    5:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    6:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    7:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
+      - ""
+      - "<dark_gray>Tags: <red>Archaeology Collection"
+    8:
+      - "<gray>When right-clicking this item, you can:"
+      - "<gray>• <yellow>Offer to monolith for talent points"
+      - "<gray>• <yellow>Sell to Archaeology Collectors for USD"
+      - "<gray>• <yellow>Convert to component for augmentations"
       - ""
       - "<dark_gray>Tags: <red>Archaeology Collection"
 collectionList:

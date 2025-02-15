@@ -1,67 +1,67 @@
 itemsList:
   common_charm:
     material: NETHER_STAR # base material
-    name: "&aCommon Charm"
+    name: "<green>Common Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   uncommon_charm:
     material: NETHER_STAR
-    name: "&bUncommon Charm"
+    name: "<aqua>Uncommon Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   rare_charm:
     material: NETHER_STAR # base material
-    name: "&3Rare Charm"
+    name: "<dark_aqua>Rare Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   unique_charm:
     material: NETHER_STAR # base material
-    name: "&eUnique Charm"
+    name: "<yellow>Unique Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   special_charm:
     material: NETHER_STAR # base material
-    name: "&6Special Charm"
+    name: "<gold>Special Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   mythical_charm:
@@ -69,12 +69,12 @@ itemsList:
     name: "<dark_purple>Mythical Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"
   exotic_charm:
@@ -82,11 +82,11 @@ itemsList:
     name: "<dark_red>Exotic Charm"
     custom-model-data: 100000
     lore:
-      - "<gray>When held on your off-hand during excavation,"
-      - "<gray>your next material drop will be a guaranteed"
-      - "<gray>rarity based on the quality of the charm."
+      - "<gray>When held on your off-hand during"
+      - "<gray>excavation, your next material drop"
+      - "<gray> will be a guaranteed rarity based"
+      - "<gray>on the quality of the charm."
       - ""
-      - "<gray>Consumes <red>1 <gray>item every time you get"
-      - "<gray>a material drop."
+      - "<gray>Consumes <red>1 <gray>on every material drop."
       - ""
       - "<dark_gray>Tags: <yellow>Archaeology Charm"

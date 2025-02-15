@@ -56,7 +56,7 @@ public class EventManager {
                 storageManager.getPlayerData(), traitData, toolStats);
         this.dropProvider = new DropProvider(itemManager.getCustomDrops(),
                 traitData, toolStats, coreManager.getDropTable(), storageManager,
-                expManager.getMaterialGetEXP());
+                expManager.getMaterialGetEXP(), expManager.getBlockBreakEXP());
         this.craftingProvider = new CraftingProvider(itemManager.getCustomCrafting(),
                 storageManager.getPlayerData());
 
@@ -80,8 +80,7 @@ public class EventManager {
         );
 
         this.blockBreakEvent = new BlockBreakEvent(storageManager,
-                toolStats,
-                expManager.getBlockBreakEXP(), blockBreak);
+                toolStats, blockBreak);
         this.itemEquipEvent = new ItemEquipEvent(this, itemEquip);
         this.playerJoinEvent = new PlayerJoinEvent(storageManager, this, coreManager.getDropTable(), playerJoin);
         this.itemInteractEvent = new ItemInteractEvent(this, itemInteract);

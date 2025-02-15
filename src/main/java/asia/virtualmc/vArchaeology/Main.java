@@ -25,7 +25,6 @@ public final class Main extends JavaPlugin {
     private GUIManager guiManager;
     // VLibrary (Core)
     private VLibrary vlib;
-    private static Main instance;
 
     @Override
     public void onEnable() {
@@ -56,8 +55,6 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         storageManager.saveAllPluginData();
     }
-
-    public static Main getInstance() { return instance; }
 
     public StorageManager getStorageManager() {
         return storageManager;

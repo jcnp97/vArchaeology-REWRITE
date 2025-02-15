@@ -2,7 +2,7 @@
 itemsList:
   small_lamp: # itemName for commands
     material: LANTERN # base material
-    name: "&aSmall XP Lamp"
+    name: "<green>Small XP Lamp"
     custom-model-data: 100000
     lore:
       - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
@@ -13,7 +13,7 @@ itemsList:
       - "<dark_gray>Tags: <red>Archaeology XP Lamp"
   medium_lamp: # itemName for commands
     material: LANTERN # base material
-    name: "&bMedium XP Lamp"
+    name: "<aqua>Medium XP Lamp"
     custom-model-data: 100001
     lore:
       - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
@@ -24,7 +24,7 @@ itemsList:
       - "<dark_gray>Tags: <red>Archaeology XP Lamp"
   large_lamp: # itemName for commands
     material: LANTERN # base material
-    name: "&5Large XP Lamp"
+    name: "<dark_purple>Large XP Lamp"
     custom-model-data: 100002
     lore:
       - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"
@@ -35,7 +35,7 @@ itemsList:
       - "<dark_gray>Tags: <red>Archaeology XP Lamp"
   huge_lamp: # itemName for commands
     material: LANTERN # base material
-    name: "&4Huge XP Lamp"
+    name: "<dark_red>Huge XP Lamp"
     custom-model-data: 100003
     lore:
       - "<gray>[<yellow><bold>!</bold><gray>] <green>Right-click to consume"

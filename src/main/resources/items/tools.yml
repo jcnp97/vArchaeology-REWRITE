@@ -72,7 +72,7 @@ itemsList:
       - "<dark_gray>Tags: <yellow>Archaeology Tool"
   amethyst_mattock:
     material: IRON_SHOVEL # base material
-    name: "<purple>Amethyst Mattock (Tier 60)" # custom name
+    name: "<light_purple>Amethyst Mattock (Tier 60)" # custom name
     custom-model-data: 100001
     gathering-rate: 9.0
     ad-bonus: 0.18

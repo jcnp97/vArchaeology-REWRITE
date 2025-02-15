@@ -36,18 +36,18 @@ public class CraftingProvider implements BlockBreakHandler {
         Material blockMaterial = block.getType();
         Location location = event.getBlock().getLocation();
 
-        if (random.nextInt(1, 3) == 1) {
+        if (random.nextInt(1, 3) == 2) {
             switch (blockMaterial) {
-                case Material.SAND -> customCrafting.dropItemNaturally(
-                        player, location, 1);
-                case Material.RED_SAND -> customCrafting.dropItemNaturally(
-                        player, location, 2);
-                case Material.SOUL_SAND -> customCrafting.dropItemNaturally(
-                        player, location, 3);
-                case Material.DIRT -> customCrafting.dropItemNaturally(
-                        player, location, 4);
-                case Material.GRAVEL -> customCrafting.dropItemNaturally(
-                        player, location, 5);
+                case Material.SAND -> customCrafting.dropItem(
+                        player, location, "mots_blueprint_1");
+                case Material.RED_SAND -> customCrafting.dropItem(
+                        player, location, "mots_blueprint_2");
+                case Material.SOUL_SAND -> customCrafting.dropItem(
+                        player, location, "mots_blueprint_3");
+                case Material.DIRT -> customCrafting.dropItem(
+                        player, location, "mots_blueprint_4");
+                case Material.GRAVEL -> customCrafting.dropItem(
+                        player, location, "mots_blueprint_5");
             }
         }
     }

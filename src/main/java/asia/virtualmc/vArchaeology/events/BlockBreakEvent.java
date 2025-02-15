@@ -31,23 +31,18 @@ import java.util.UUID;
 public class BlockBreakEvent implements Listener {
     private final PlayerData playerData;
     private final Statistics statistics;
-    private final BlockBreakEXP blockBreakEXP;
     private final ToolStats toolStats;
-    public static Map<Material, Integer> archBlocks;
     private final List<BlockBreakHandler> handlers;
 
     public BlockBreakEvent(@NotNull StorageManager storageManager,
                            @NotNull ToolStats toolStats,
-                           @NotNull BlockBreakEXP blockBreakEXP,
                            List<BlockBreakHandler> handlers) {
         Main plugin = storageManager.getMain();
         this.toolStats = toolStats;
         this.playerData = storageManager.getPlayerData();
         this.statistics = storageManager.getStatistics();
-        this.blockBreakEXP = blockBreakEXP;
         this.handlers = handlers;
 
-        archBlocks = MaterialBlockConfig.loadArchBlocks(plugin);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -57,7 +52,7 @@ public class BlockBreakEvent implements Listener {
         UUID uuid = player.getUniqueId();
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
 
-        if (!ToolsLib.isCustomTool(mainHandItem, CustomTools.TOOL_KEY)) {
+        if (!ToolsLib.isCustomTool(mainHandItem, CustomTools.getToolKey())) {
             return;
         }
 
@@ -69,21 +64,10 @@ public class BlockBreakEvent implements Listener {
         // preload data map if currently not exist
         preloadAllData(player, uuid);
 
-        Block block = event.getBlock();
-        Material material = block.getType();
-        Integer blockBaseEXP = archBlocks.get(material);
-        if (blockBaseEXP == null) {
-            return;
-        }
-
-        double finalEXP = blockBreakEXP.getTotalBlockBreakEXP(uuid, blockBaseEXP);
-
         // remove vanilla drops
         event.setDropItems(false);
         // increment blocks mined statistics
         statistics.incrementData(uuid, 9);
-        // updateEXP
-        playerData.updateEXP(player, EnumsLib.UpdateType.ADD, finalEXP);
 
         // iterate all handlers
         for (BlockBreakHandler handler : handlers) {
@@ -107,7 +91,7 @@ public class BlockBreakEvent implements Listener {
             return false;
         }
 
-        if (ToolsLib.getToolLevel(item, CustomTools.REQ_LEVEL_KEY) > playerData.getCurrentLevel(uuid)) {
+        if (ToolsLib.getToolLevel(item, CustomTools.getReqLevelKey()) > playerData.getCurrentLevel(uuid)) {
             player.sendMessage("§cYou do not have the required level to use this tool!");
             return false;
         }

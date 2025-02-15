@@ -49,6 +49,7 @@ public class DropTable {
         for (int i = 0; i < dropTable.size(); i++) {
             cumulativeWeight += dropTable.get(i);
             if (randomNumber <= cumulativeWeight) {
+                //Bukkit.getPlayer(uuid).sendMessage("Number: " + (i + 1) + " over " + totalWeight);
                 return i + 1;
             }
         }

@@ -84,26 +84,26 @@ public class BlockBreakEXP {
             blockEXP *= 2;
         }
 
-        double totalXP = data.baseMultiplier() * blockEXP;
-        double currentBonus = playerData.getCurrentBXP(uuid);
-
-        if (currentBonus <= 0) {
-            EXPDisplayUtils.showEXPActionBar(player, playerData.getCurrentEXP(uuid),
-                    totalXP, 0, PlayerData.expTable.get(playerData.getCurrentLevel(uuid))
-                    );
-            return totalXP;
-        }
-
-        double bonusXP = Math.min(currentBonus, totalXP);
-        if (bonusXP >= totalXP) {
-            playerData.updateBXP(player, EnumsLib.UpdateType.SUBTRACT, totalXP);
-        } else {
-            playerData.updateBXP(player, EnumsLib.UpdateType.SET, 0);
-        }
-
-        EXPDisplayUtils.showEXPActionBar(player, playerData.getCurrentEXP(uuid),
-                totalXP, bonusXP, PlayerData.expTable.get(playerData.getCurrentLevel(uuid))
-        );
-        return Math.ceil(totalXP + bonusXP);
+        return data.baseMultiplier() * blockEXP;
+//        double currentBonus = playerData.getCurrentBXP(uuid);
+//
+//        if (currentBonus <= 0) {
+//            EXPDisplayUtils.showEXPActionBar(player, playerData.getCurrentEXP(uuid),
+//                    totalXP, 0, PlayerData.expTable.get(playerData.getCurrentLevel(uuid))
+//                    );
+//            return totalXP;
+//        }
+//
+//        double bonusXP = Math.min(currentBonus, totalXP);
+//        if (bonusXP >= totalXP) {
+//            playerData.updateBXP(player, EnumsLib.UpdateType.SUBTRACT, totalXP);
+//        } else {
+//            playerData.updateBXP(player, EnumsLib.UpdateType.SET, 0);
+//        }
+//
+//        EXPDisplayUtils.showEXPActionBar(player, playerData.getCurrentEXP(uuid),
+//                totalXP, bonusXP, PlayerData.expTable.get(playerData.getCurrentLevel(uuid))
+//        );
+//        return Math.ceil(totalXP + bonusXP);
     }
 }

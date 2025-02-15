@@ -8,6 +8,7 @@ import asia.virtualmc.vLibrary.configs.EXPTableConfig;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.DataHandlingLib;
 import asia.virtualmc.vLibrary.storage.PlayerDataLib;
+import asia.virtualmc.vLibrary.utils.EXPDisplayUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -105,7 +106,8 @@ public class PlayerData implements DataHandlingLib {
     @Override
     public void updateEXP(@NotNull Player player,
                           @NotNull EnumsLib.UpdateType type,
-                          double value) {
+                          double value,
+                          boolean enableBXP) {
 
         if (bossBarUpdater == null) {
             bossBarUpdater = plugin.getTaskManager().getBossBarUpdater();
@@ -115,16 +117,32 @@ public class PlayerData implements DataHandlingLib {
         PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
 
         if (stats != null) {
-            stats.exp = playerDataLib.getNewEXP(type, stats.exp, value);
+            if (type == EnumsLib.UpdateType.ADD && enableBXP) {
+                double bonusXP = getBonusXP(uuid, value);
+                stats.exp = playerDataLib.getNewEXP(type, stats.exp, value + bonusXP);
 
-            if (type == EnumsLib.UpdateType.ADD) {
-//                EXPDisplayUtils.showEXPActionBar(player, stats.exp, value,
-//                        expTable.get(stats.level));
-                bossBarUpdater.updateEXPMetrics(uuid, stats.exp, value,
+                bossBarUpdater.updateEXPMetrics(uuid, stats.exp, value + bonusXP,
                         expTable.get(stats.level), stats.level);
+                EXPDisplayUtils.showEXPActionBar(player, stats.exp, value, bonusXP, expTable.get(stats.level));
                 checkAndApplyLevelUp(player);
+            } else {
+                stats.exp = playerDataLib.getNewEXP(type, stats.exp, value);
             }
         }
+    }
+
+    private double getBonusXP(@NotNull UUID uuid, double value) {
+        PlayerDataLib.PlayerStats stats = playerDataMap.get(uuid);
+        if (stats.bxp == 0) return 0;
+        double bonusXP = Math.min(stats.bxp, value);
+
+        if (bonusXP >= value) {
+            stats.bxp -= value;
+        } else {
+            stats.bxp = 0;
+        }
+
+        return bonusXP;
     }
 
     private void checkAndApplyLevelUp(@NotNull Player player) {

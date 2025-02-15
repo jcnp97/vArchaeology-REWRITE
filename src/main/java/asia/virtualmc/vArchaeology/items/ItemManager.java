@@ -13,6 +13,7 @@ public class ItemManager {
     private final CustomCrafting customCrafting;
     private final CustomCharms customCharms;
     private final CustomUDArtefacts customUDArtefacts;
+    private final CustomCollections customCollections;
     private final StorageManager storageManager;
 
     public ItemManager(@NotNull Main plugin) {
@@ -25,6 +26,7 @@ public class ItemManager {
         this.customCrafting = new CustomCrafting(this);
         this.customCharms = new CustomCharms(this);
         this.customUDArtefacts = new CustomUDArtefacts(this);
+        this.customCollections = new CustomCollections(this);
     }
 
     public Main getMain() {
@@ -49,6 +51,8 @@ public class ItemManager {
 
     public CustomCharms getCustomCharms() { return customCharms; }
 
+    public CustomCollections getCustomCollections() { return customCollections; }
+
     public void reloadItems() {
         customDrops.reloadConfig();
         customTools.reloadConfig();
@@ -57,5 +61,6 @@ public class ItemManager {
         customCrafting.reloadConfig();
         customUDArtefacts.reloadConfig();
         customCharms.reloadConfig();
+        customCollections.reloadConfig();
     }
 }

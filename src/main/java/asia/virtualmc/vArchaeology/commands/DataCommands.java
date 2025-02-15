@@ -70,7 +70,7 @@ public class DataCommands {
         switch (commandType) {
             case "exp" -> {
                 sender.sendMessage(cPrefix + "Modifying " + target.getName() + "'s EXP by " + amount);
-                playerData.updateEXP(target, updateType, amount);
+                playerData.updateEXP(target, updateType, amount, false);
             }
             case "level" -> {
                 sender.sendMessage(cPrefix + "Modifying " + target.getName() + "'s Level by " + amount);

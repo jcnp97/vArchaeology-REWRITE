@@ -31,13 +31,13 @@ public class BXPStar implements ItemInteractHandler {
         }
 
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(CustomBXPStars.ITEM_KEY, PersistentDataType.INTEGER)) return;
+        if (!pdc.has(CustomBXPStars.getItemKey(), PersistentDataType.INTEGER)) return;
 
         event.setCancelled(true);
         Player player = event.getPlayer();
 
-        if (pdc.has(CustomBXPStars.ITEM_KEY, PersistentDataType.INTEGER)) {
-            int lampID = ItemsLib.getItemID(item, CustomBXPStars.ITEM_KEY);
+        if (pdc.has(CustomBXPStars.getItemKey(), PersistentDataType.INTEGER)) {
+            int lampID = ItemsLib.getItemID(item, CustomBXPStars.getItemKey());
             int initialAmount = player.getInventory().getItemInMainHand().getAmount();
             int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
             double initialXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, initialAmount);
@@ -55,12 +55,12 @@ public class BXPStar implements ItemInteractHandler {
         }
 
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(CustomBXPStars.ITEM_KEY, PersistentDataType.INTEGER)) return;
+        if (!pdc.has(CustomBXPStars.getItemKey(), PersistentDataType.INTEGER)) return;
 
         event.setCancelled(true);
 
-        if (pdc.has(CustomBXPStars.ITEM_KEY, PersistentDataType.INTEGER)) {
-            int lampID = ItemsLib.getItemID(item, CustomBXPStars.ITEM_KEY);
+        if (pdc.has(CustomBXPStars.getItemKey(), PersistentDataType.INTEGER)) {
+            int lampID = ItemsLib.getItemID(item, CustomBXPStars.getItemKey());
             int initialAmount = player.getInventory().getItemInMainHand().getAmount();
             int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
             double initialXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, initialAmount);
@@ -72,7 +72,7 @@ public class BXPStar implements ItemInteractHandler {
     private void processBXPAction(@NotNull Player player, double initialXP) {
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        int lampID = ItemsLib.getItemID(item, CustomBXPStars.ITEM_KEY);
+        int lampID = ItemsLib.getItemID(item, CustomBXPStars.getItemKey());
         int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
         int finalAmount = player.getInventory().getItemInMainHand().getAmount();
         double finalXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, finalAmount);

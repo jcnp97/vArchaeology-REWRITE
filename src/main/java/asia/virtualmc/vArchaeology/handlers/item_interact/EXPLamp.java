@@ -30,13 +30,13 @@ public class EXPLamp implements ItemInteractHandler {
         }
 
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(CustomEXPLamps.ITEM_KEY, PersistentDataType.INTEGER)) return;
+        if (!pdc.has(CustomEXPLamps.getItemKey(), PersistentDataType.INTEGER)) return;
 
         event.setCancelled(true);
         Player player = event.getPlayer();
 
-        if (pdc.has(CustomEXPLamps.ITEM_KEY, PersistentDataType.INTEGER)) {
-            int lampID = ItemsLib.getItemID(item, CustomEXPLamps.ITEM_KEY);
+        if (pdc.has(CustomEXPLamps.getItemKey(), PersistentDataType.INTEGER)) {
+            int lampID = ItemsLib.getItemID(item, CustomEXPLamps.getItemKey());
             int initialAmount = player.getInventory().getItemInMainHand().getAmount();
             int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
             double initialXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, initialAmount);
@@ -54,12 +54,12 @@ public class EXPLamp implements ItemInteractHandler {
         }
 
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(CustomEXPLamps.ITEM_KEY, PersistentDataType.INTEGER)) return;
+        if (!pdc.has(CustomEXPLamps.getItemKey(), PersistentDataType.INTEGER)) return;
 
         event.setCancelled(true);
 
-        if (pdc.has(CustomEXPLamps.ITEM_KEY, PersistentDataType.INTEGER)) {
-            int lampID = ItemsLib.getItemID(item, CustomEXPLamps.ITEM_KEY);
+        if (pdc.has(CustomEXPLamps.getItemKey(), PersistentDataType.INTEGER)) {
+            int lampID = ItemsLib.getItemID(item, CustomEXPLamps.getItemKey());
             int initialAmount = player.getInventory().getItemInMainHand().getAmount();
             int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
             double initialXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, initialAmount);
@@ -71,7 +71,7 @@ public class EXPLamp implements ItemInteractHandler {
     private void processXPAction(@NotNull Player player, double initialXP) {
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        int lampID = ItemsLib.getItemID(item, CustomEXPLamps.ITEM_KEY);
+        int lampID = ItemsLib.getItemID(item, CustomEXPLamps.getItemKey());
         int skillLevel = playerData.getCurrentLevel(player.getUniqueId());
         int finalAmount = player.getInventory().getItemInMainHand().getAmount();
         double finalXP = EXPItemLib.getLampOrStarXP(skillLevel, lampID, finalAmount);
@@ -80,7 +80,7 @@ public class EXPLamp implements ItemInteractHandler {
             if (finalXP == initialXP) {
                 player.getInventory().removeItem(item);
                 LampGUI.lampEXPEffects(player, finalXP);
-                playerData.updateEXP(player, EnumsLib.UpdateType.ADD, finalXP);
+                playerData.updateEXP(player, EnumsLib.UpdateType.ADD, finalXP, false);
             } else {
                 player.sendMessage("§cYour inventory had changed. Please try again.");
             }
