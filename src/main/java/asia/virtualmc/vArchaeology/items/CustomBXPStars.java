@@ -23,6 +23,7 @@ public class CustomBXPStars implements CustomItemsLib {
     public static final NamespacedKey NAME_KEY;
     private static final String ITEM_FILE = "items/bxp-stars.yml";
     private final Map<Integer, ItemStack> starCache;
+    private final Map<String, Integer> nameToIDCache;
 
     static {
         ITEM_KEY = new NamespacedKey(Main.getInstance(), "bxp_star");
@@ -32,6 +33,7 @@ public class CustomBXPStars implements CustomItemsLib {
     public CustomBXPStars(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
         this.starCache = new HashMap<>();
+        this.nameToIDCache = new HashMap<>();
         createItems();
     }
 
@@ -54,7 +56,8 @@ public class CustomBXPStars implements CustomItemsLib {
     }
 
     @Override
-    public void giveItem(@NotNull Player player, int itemID, int amount) {
+    public void giveItem(@NotNull Player player, String itemName, int amount) {
+        Integer itemID = nameToIDCache.get(itemName);
         ItemStack item = starCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);

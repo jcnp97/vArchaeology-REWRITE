@@ -23,6 +23,7 @@ public class CustomEXPLamps implements CustomItemsLib {
     public static final NamespacedKey NAME_KEY;
     private static final String ITEM_FILE = "items/exp-lamps.yml";
     private final Map<Integer, ItemStack> lampCache;
+    private final Map<String, Integer> nameToIDCache;
 
     static {
         ITEM_KEY = new NamespacedKey(Main.getInstance(), "exp_lamp");
@@ -32,6 +33,7 @@ public class CustomEXPLamps implements CustomItemsLib {
     public CustomEXPLamps(@NotNull StorageManager storageManager) {
         this.plugin = storageManager.getMain();
         this.lampCache = new HashMap<>();
+        this.nameToIDCache = new HashMap<>();
         createItems();
     }
 
@@ -48,13 +50,15 @@ public class CustomEXPLamps implements CustomItemsLib {
 
         lampCache.clear();
         lampCache.putAll(loadedItems);
+        populateNameToIDCache();
 
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 lampCache.size() + " items from " + ITEM_FILE);
     }
 
     @Override
-    public void giveItem(@NotNull Player player, int itemID, int amount) {
+    public void giveItem(@NotNull Player player, String itemName, int amount) {
+        Integer itemID = nameToIDCache.get(itemName);
         ItemStack item = lampCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
@@ -90,6 +94,20 @@ public class CustomEXPLamps implements CustomItemsLib {
             }
         }
         return itemNames;
+    }
+
+    private void populateNameToIDCache() {
+        nameToIDCache.clear();
+        for (Map.Entry<Integer, ItemStack> entry : lampCache.entrySet()) {
+            ItemStack item = entry.getValue();
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    nameToIDCache.put(name, entry.getKey());
+                }
+            }
+        }
     }
 
     public Map<Integer, ItemStack> getItemsCache() {

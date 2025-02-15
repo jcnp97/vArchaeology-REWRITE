@@ -3,6 +3,7 @@ package asia.virtualmc.vArchaeology.items;
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vLibrary.interfaces.CustomItemsLib;
+import asia.virtualmc.vLibrary.items.DropsLib;
 import asia.virtualmc.vLibrary.items.ItemsLib;
 import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import org.bukkit.NamespacedKey;
@@ -22,6 +23,7 @@ public class CustomUDArtefacts implements CustomItemsLib {
     public static final NamespacedKey NAME_KEY;
     private static final String ITEM_FILE = "items/unidentified-artefacts.yml";
     private final Map<Integer, ItemStack> udArtefactCache;
+    private final Map<String, Integer> nameToIDCache;
 
     static {
         ITEM_KEY = new NamespacedKey(Main.getInstance(), "unidentified_artefact");
@@ -31,6 +33,7 @@ public class CustomUDArtefacts implements CustomItemsLib {
     public CustomUDArtefacts(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
         this.udArtefactCache = new HashMap<>();
+        this.nameToIDCache = new HashMap<>();
         createItems();
     }
 
@@ -44,15 +47,18 @@ public class CustomUDArtefacts implements CustomItemsLib {
                 GlobalManager.prefix,
                 true
         );
+
         udArtefactCache.clear();
         udArtefactCache.putAll(loadedItems);
+        populateNameToIDCache();
 
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 udArtefactCache.size() + " items from " + ITEM_FILE);
     }
 
     @Override
-    public void giveItem(@NotNull Player player, int itemID, int amount) {
+    public void giveItem(@NotNull Player player, String itemName, int amount) {
+        Integer itemID = nameToIDCache.get(itemName);
         ItemStack item = udArtefactCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
@@ -88,6 +94,20 @@ public class CustomUDArtefacts implements CustomItemsLib {
             }
         }
         return itemNames;
+    }
+
+    private void populateNameToIDCache() {
+        nameToIDCache.clear();
+        for (Map.Entry<Integer, ItemStack> entry : udArtefactCache.entrySet()) {
+            ItemStack item = entry.getValue();
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    nameToIDCache.put(name, entry.getKey());
+                }
+            }
+        }
     }
 
     public Map<Integer, ItemStack> getItemsCache() {

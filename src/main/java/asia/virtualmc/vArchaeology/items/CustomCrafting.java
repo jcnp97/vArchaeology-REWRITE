@@ -24,6 +24,7 @@ public class CustomCrafting implements CustomItemsLib {
     public static final NamespacedKey NAME_KEY;
     private static final String ITEM_FILE = "items/crafting-materials.yml";
     private final Map<Integer, ItemStack> craftingCache;
+    private final Map<String, Integer> nameToIDCache;
 
     static {
         ITEM_KEY = new NamespacedKey(Main.getInstance(), "exp_lamp");
@@ -33,6 +34,7 @@ public class CustomCrafting implements CustomItemsLib {
     public CustomCrafting(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
         this.craftingCache = new HashMap<>();
+        this.nameToIDCache = new HashMap<>();
         createItems();
     }
 
@@ -49,12 +51,13 @@ public class CustomCrafting implements CustomItemsLib {
 
         craftingCache.clear();
         craftingCache.putAll(loadedItems);
+        populateNameToIDCache();
 
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 craftingCache.size() + " items from " + ITEM_FILE);
     }
 
-    public void dropItemNaturally(@NotNull Player player, Location blockLocation, int itemID) {
+    public void dropItem(@NotNull Player player, Location blockLocation, int itemID) {
         ItemStack item = craftingCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
@@ -69,7 +72,8 @@ public class CustomCrafting implements CustomItemsLib {
     }
 
     @Override
-    public void giveItem(@NotNull Player player, int itemID, int amount) {
+    public void giveItem(@NotNull Player player, String itemName, int amount) {
+        Integer itemID = nameToIDCache.get(itemName);
         ItemStack item = craftingCache.get(itemID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + itemID + " from " + ITEM_FILE);
@@ -114,6 +118,20 @@ public class CustomCrafting implements CustomItemsLib {
             }
         }
         return itemNames;
+    }
+
+    private void populateNameToIDCache() {
+        nameToIDCache.clear();
+        for (Map.Entry<Integer, ItemStack> entry : craftingCache.entrySet()) {
+            ItemStack item = entry.getValue();
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    nameToIDCache.put(name, entry.getKey());
+                }
+            }
+        }
     }
 
     public Map<Integer, ItemStack> getItemsCache() {

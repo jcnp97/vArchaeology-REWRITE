@@ -24,6 +24,7 @@ public class CustomTools {
     public static final NamespacedKey ADP_RATE;
     private static final String ITEM_FILE = "items/tools.yml";
     private final Map<Integer, ItemStack> toolCache;
+    private final Map<String, Integer> nameToIDCache;
 
     static {
         TOOL_KEY = new NamespacedKey(Main.getInstance(), "custom_tool");
@@ -36,6 +37,7 @@ public class CustomTools {
     public CustomTools(@NotNull ItemManager itemManager) {
         this.plugin = itemManager.getMain();
         this.toolCache = new HashMap<>();
+        this.nameToIDCache = new HashMap<>();
         createTools();
     }
 
@@ -45,14 +47,17 @@ public class CustomTools {
                 ITEM_FILE,
                 GlobalManager.prefix
         );
+
         toolCache.clear();
         toolCache.putAll(loadedItems);
+        populateNameToIDCache();
 
         ConsoleMessageUtil.printLegacy(GlobalManager.coloredPrefix + "Loaded " +
                 toolCache.size() + " items from " + ITEM_FILE);
     }
 
-    public void giveToolID(@NotNull Player player, int toolID) {
+    public void giveToolID(@NotNull Player player, String toolName) {
+        Integer toolID = nameToIDCache.get(toolName);
         ItemStack item = toolCache.get(toolID);
         if (item == null) {
             player.sendMessage("§cInvalid item ID: " + toolID + " from " + ITEM_FILE);
@@ -96,6 +101,20 @@ public class CustomTools {
             }
         }
         return itemNames;
+    }
+
+    private void populateNameToIDCache() {
+        nameToIDCache.clear();
+        for (Map.Entry<Integer, ItemStack> entry : toolCache.entrySet()) {
+            ItemStack item = entry.getValue();
+            if (item != null && item.hasItemMeta()) {
+                String name = item.getItemMeta().getPersistentDataContainer()
+                        .get(NAME_KEY, PersistentDataType.STRING);
+                if (name != null) {
+                    nameToIDCache.put(name, entry.getKey());
+                }
+            }
+        }
     }
 
     public Map<Integer, ItemStack> getToolsCache() {
