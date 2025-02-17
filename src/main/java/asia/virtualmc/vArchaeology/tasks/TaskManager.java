@@ -37,11 +37,7 @@ public class TaskManager {
 
     // All tasks
     private void repeatingTask1() {
-        try {
-            eventManager.getArtefactDiscoveryProgress().cleanupExpired();
-        } catch (Exception e) {
-            plugin.getLogger().severe(GlobalManager.prefix + "An error occurred while unloading ADP map: " + e.getMessage());
-        }
+        eventManager.maintenanceTasks();
         storageManager.saveAllPluginData();
     }
 }

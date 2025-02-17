@@ -49,19 +49,6 @@ public class CustomCollections implements CustomItemsLib {
                 collectionItemCache.size() + " items from " + ITEM_FILE);
     }
 
-    // Drop items naturally, used for block-break events
-//    public void dropItem(@NotNull Player player, int itemID, Location blockLocation) {
-//        String itemName = getRandomItem(itemID);
-//        ItemStack item = collectionItemCache.get(itemName).itemStack;
-//        UUID uuid = player.getUniqueId();
-//        if (item == null) {
-//            player.sendMessage("§cInvalid item ID: " + itemName + " from " + ITEM_FILE);
-//            return;
-//        }
-//        blockLocation.getWorld().dropItemNaturally(blockLocation, item.clone());
-//        collectionLog.addCustomValueData(uuid, itemID, 1);
-//    }
-
     private String getRandomName(int key) {
         List<String> items = collectionByGroup.get(key);
         if (items == null || items.isEmpty()) {

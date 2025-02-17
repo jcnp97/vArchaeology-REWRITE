@@ -1,12 +1,10 @@
 package asia.virtualmc.vArchaeology.exp;
 
-import asia.virtualmc.vArchaeology.global.TalentTreeValues;
+import asia.virtualmc.vArchaeology.global.TraitValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
-import asia.virtualmc.vLibrary.enums.EnumsLib;
-import asia.virtualmc.vLibrary.utils.EXPDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +46,7 @@ public class BlockBreakEXP {
 
         // Precompute the base multiplier for block-break EXP
         double blockBreakBaseMultiplier =
-                ((traitBonus * TalentTreeValues.wisdomEffects[0]) + (talentBonus1 * 15) + (rankBonus)) / 100.0
+                ((traitBonus * TraitValues.wisdomEffects[0]) + (talentBonus1 * 15) + (rankBonus)) / 100.0
                         + archXPMul;
 
         BlockBreakData blockBreakData = new BlockBreakData(

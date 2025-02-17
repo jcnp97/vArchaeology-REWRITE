@@ -1,10 +1,12 @@
 package asia.virtualmc.vArchaeology.handlers.block_break;
 
+import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.handlers.item_equip.ToolStats;
 import asia.virtualmc.vArchaeology.handlers.player_join.TraitData;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vLibrary.enums.EnumsLib;
 import asia.virtualmc.vLibrary.interfaces.BlockBreakHandler;
+import asia.virtualmc.vLibrary.utils.ConsoleMessageUtil;
 import asia.virtualmc.vLibrary.utils.EffectsUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -70,8 +72,13 @@ public class ArtefactDiscoveryProgress implements BlockBreakHandler {
     }
 
     public void cleanupExpired() {
-        long currentTime = System.currentTimeMillis();
-        adpCooldowns.entrySet().removeIf(entry ->
-                currentTime - entry.getValue() >= ADP_COOLDOWN);
+        try {
+            long currentTime = System.currentTimeMillis();
+            adpCooldowns.entrySet().removeIf(entry ->
+                    currentTime - entry.getValue() >= ADP_COOLDOWN);
+        } catch (Exception e) {
+            ConsoleMessageUtil.printSevere(GlobalManager.prefix +
+                    "An error has occurred when cleaning ADP map: " + e.getMessage());
+        }
     }
 }

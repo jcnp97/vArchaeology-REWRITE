@@ -18,6 +18,8 @@ public class CustomDrops implements CustomItemsLib {
     private final Main plugin;
     private final CollectionLog collectionLog;
     private static NamespacedKey ITEM_KEY;
+    private static NamespacedKey RARITY_KEY;
+    private static NamespacedKey GROUP_KEY;
     private static final String ITEM_FILE = "items/drops.yml";
     private final Map<String, DropsLib.DropDetails> dropCache;
     private final Map<Integer, List<String>> dropByRarity;
@@ -28,6 +30,8 @@ public class CustomDrops implements CustomItemsLib {
         this.dropCache = new HashMap<>();
         this.dropByRarity = new HashMap<>();
         ITEM_KEY = new NamespacedKey(plugin, "archaeology_drop");
+        RARITY_KEY = new NamespacedKey(plugin, "rarity_id");
+        GROUP_KEY = new NamespacedKey(plugin, "group_id");
         createItems();
     }
 
@@ -126,12 +130,19 @@ public class CustomDrops implements CustomItemsLib {
         }
     }
 
-
     public Map<String, DropsLib.DropDetails> getItemsCache() {
         return new HashMap<>(dropCache);
     }
 
     public static NamespacedKey getItemKey() {
         return ITEM_KEY;
+    }
+
+    public static NamespacedKey getRarityKey() {
+        return RARITY_KEY;
+    }
+
+    public static NamespacedKey getGroupKey() {
+        return GROUP_KEY;
     }
 }

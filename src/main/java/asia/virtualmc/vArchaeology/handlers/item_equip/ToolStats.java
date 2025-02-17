@@ -1,7 +1,7 @@
 package asia.virtualmc.vArchaeology.handlers.item_equip;
 
 import asia.virtualmc.vArchaeology.Main;
-import asia.virtualmc.vArchaeology.global.TalentTreeValues;
+import asia.virtualmc.vArchaeology.global.TraitValues;
 import asia.virtualmc.vArchaeology.items.CustomTools;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
@@ -79,9 +79,9 @@ public class ToolStats implements ItemEquipHandler {
         // Talent ID 3
         gatherRate += talentTree.getDataFromMap(uuid, 3) * 0.1;
         // Karma Trait
-        gatherRate += karmaLevel * TalentTreeValues.karmaEffects[0];
+        gatherRate += karmaLevel * TraitValues.karmaEffects[0];
         // Karma Trait (Max level bonus)
-        if (karmaLevel >= 50) gatherRate += TalentTreeValues.karmaEffects[3];
+        if (karmaLevel >= 50) gatherRate += TraitValues.karmaEffects[3];
 
         return gatherRate;
     }
@@ -95,9 +95,9 @@ public class ToolStats implements ItemEquipHandler {
         // Talent ID 17
         adpRate += talentTree.getDataFromMap(uuid, 17) * 0.15;
         // Dexterity Trait
-        adpRate += dexterityLevel * TalentTreeValues.dexterityEffects[0];
+        adpRate += dexterityLevel * TraitValues.dexterityEffects[0];
         // Dexterity Trait (Max level bonus)
-        if (dexterityLevel >= 50) adpRate += TalentTreeValues.dexterityEffects[3];
+        if (dexterityLevel >= 50) adpRate += TraitValues.dexterityEffects[3];
 
         return adpRate;
     }

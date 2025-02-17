@@ -13,7 +13,7 @@ public class GlobalManager {
 
     public GlobalManager(@NotNull Main plugin) {
         this.plugin = plugin;
-        TalentTreeValues talentTreeValues = new TalentTreeValues(this);
+        TraitValues talentTreeValues = new TraitValues(this);
         MaterialDrop materialDrop = new MaterialDrop(this);
     }
 

@@ -9,6 +9,7 @@ import asia.virtualmc.vArchaeology.handlers.block_break.DropProvider;
 import asia.virtualmc.vArchaeology.handlers.item_equip.ToolStats;
 import asia.virtualmc.vArchaeology.handlers.item_interact.BXPStar;
 import asia.virtualmc.vArchaeology.handlers.item_interact.EXPLamp;
+import asia.virtualmc.vArchaeology.handlers.player_join.SellData;
 import asia.virtualmc.vArchaeology.handlers.player_join.TraitData;
 import asia.virtualmc.vArchaeology.items.ItemManager;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
@@ -39,6 +40,7 @@ public class EventManager {
     private final ArtefactDiscoveryProgress artefactDiscoveryProgress;
     private final ToolStats toolStats;
     private final TraitData traitData;
+    private final SellData sellData;
     private final DropProvider dropProvider;
     private final CraftingProvider craftingProvider;
 
@@ -51,6 +53,7 @@ public class EventManager {
         this.miscellaneousEvent = new MiscellaneousEvent(this);
 
         this.traitData = new TraitData(storageManager.getPlayerData());
+        this.sellData = new SellData(storageManager);
         this.toolStats = new ToolStats(storageManager);
         this.artefactDiscoveryProgress = new ArtefactDiscoveryProgress(
                 storageManager.getPlayerData(), traitData, toolStats);
@@ -71,7 +74,8 @@ public class EventManager {
         );
 
         List<PlayerJoinHandler> playerJoin = Arrays.asList(
-                traitData
+                traitData,
+                sellData
         );
 
         List<ItemInteractHandler> itemInteract = Arrays.asList(
@@ -114,8 +118,18 @@ public class EventManager {
 
     public ArtefactDiscoveryProgress getArtefactDiscoveryProgress() { return artefactDiscoveryProgress; }
 
+    public TraitData getTraitData() { return traitData; }
+
+    public SellData getSellData() { return sellData; }
+
     public void unloadPlayerEventData(@NotNull UUID uuid) {
         toolStats.unloadToolData(uuid);
         expManager.unloadEXPData(uuid);
+    }
+
+    public void maintenanceTasks() {
+        sellData.reloadAllData();
+        traitData.reloadAllData();
+        artefactDiscoveryProgress.cleanupExpired();
     }
 }

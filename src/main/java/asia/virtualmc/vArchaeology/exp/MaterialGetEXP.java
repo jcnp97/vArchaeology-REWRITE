@@ -1,13 +1,11 @@
 package asia.virtualmc.vArchaeology.exp;
 
 import asia.virtualmc.vArchaeology.global.MaterialDrop;
-import asia.virtualmc.vArchaeology.global.TalentTreeValues;
+import asia.virtualmc.vArchaeology.global.TraitValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
-import asia.virtualmc.vLibrary.enums.EnumsLib;
-import asia.virtualmc.vLibrary.utils.EXPDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +47,7 @@ public class MaterialGetEXP {
 
         // Precompute the base multiplier for material-get EXP
         double materialGetBaseMultiplier =
-                (traitBonus * TalentTreeValues.wisdomEffects[1] + (talentBonus2 * 2) + (rankBonus * 0.5)) / 100.0
+                (traitBonus * TraitValues.wisdomEffects[1] + (talentBonus2 * 2) + (rankBonus * 0.5)) / 100.0
                         + archXPMul;
 
         MaterialGetData materialGetData = new MaterialGetData(

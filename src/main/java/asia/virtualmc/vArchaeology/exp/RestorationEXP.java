@@ -1,12 +1,10 @@
 package asia.virtualmc.vArchaeology.exp;
 
-import asia.virtualmc.vArchaeology.global.TalentTreeValues;
+import asia.virtualmc.vArchaeology.global.TraitValues;
 import asia.virtualmc.vArchaeology.storage.PlayerData;
 import asia.virtualmc.vArchaeology.storage.Statistics;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.storage.TalentTree;
-import asia.virtualmc.vLibrary.enums.EnumsLib;
-import asia.virtualmc.vLibrary.utils.EXPDisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +46,7 @@ public class RestorationEXP {
 
         // Precompute the base multiplier for material-get EXP
         double artefactRestoreBaseMultiplier =
-                (traitBonus * TalentTreeValues.wisdomEffects[2] + (talentBonus4) + (rankBonus * 0.25)) / 100.0
+                (traitBonus * TraitValues.wisdomEffects[2] + (talentBonus4) + (rankBonus * 0.25)) / 100.0
                         + archXPMul;
 
         ArtefactRestoreData artefactRestoreData = new ArtefactRestoreData(
