@@ -7,6 +7,7 @@ import asia.virtualmc.vArchaeology.exp.EXPManager;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.guis.GUIManager;
 import asia.virtualmc.vArchaeology.items.ItemManager;
+import asia.virtualmc.vArchaeology.scheduler.JavaScheduler;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import asia.virtualmc.vArchaeology.tasks.TaskManager;
 import asia.virtualmc.vLibrary.VLibrary;
@@ -25,6 +26,8 @@ public final class Main extends JavaPlugin {
     private GUIManager guiManager;
     // VLibrary (Core)
     private VLibrary vlib;
+    //
+    private JavaScheduler javaScheduler;
 
     @Override
     public void onEnable() {
@@ -44,6 +47,7 @@ public final class Main extends JavaPlugin {
         this.guiManager = new GUIManager(this);
         this.commandManager = new CommandManager(this);
         this.taskManager = new TaskManager(this);
+        this.javaScheduler = new JavaScheduler();
     }
 
     @Override
@@ -79,4 +83,8 @@ public final class Main extends JavaPlugin {
     public EXPManager getExpManager() { return expManager; }
 
     public GUIManager getGuiManager() { return guiManager; }
+
+    public JavaScheduler getScheduler() {
+        return javaScheduler;
+    }
 }

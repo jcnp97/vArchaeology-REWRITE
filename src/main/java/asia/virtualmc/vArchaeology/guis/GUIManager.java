@@ -8,13 +8,15 @@ public class GUIManager {
     private final Main plugin;
     private final StorageManager storageManager;
     private final CollectionLogGUI collectionLogGUI;
-    //private final RestoredArtefactGUI restoredArtefactGUI;
+    private final RestoredArtefactGUI restoredArtefactGUI;
+    private final SellGUI sellGUI;
 
     public GUIManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.storageManager = plugin.getStorageManager();
         this.collectionLogGUI = new CollectionLogGUI(this);
-        //this.restoredArtefactGUI = new RestoredArtefactGUI(plugin.getStorageManager());
+        this.restoredArtefactGUI = new RestoredArtefactGUI(storageManager);
+        this.sellGUI = new SellGUI(storageManager);
     }
 
     public Main getMain() {
@@ -27,5 +29,7 @@ public class GUIManager {
 
     public CollectionLogGUI getCollectionLogGUI() { return collectionLogGUI; }
 
-    //public RestoredArtefactGUI getRestoredArtefactGUI() { return restoredArtefactGUI; }
+    public RestoredArtefactGUI getRestoredArtefactGUI() { return restoredArtefactGUI; }
+
+    public SellGUI getSellGUI() { return sellGUI; }
 }

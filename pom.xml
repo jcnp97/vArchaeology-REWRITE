@@ -40,17 +40,7 @@
                         </goals>
                         <configuration>
                             <relocations>
-<!--                                &lt;!&ndash; CommandAPI relocation &ndash;&gt;-->
-<!--                                <relocation>-->
-<!--                                    <pattern>dev.jorel.commandapi</pattern>-->
-<!--                                    <shadedPattern>asia.virtualmc.vArchaeology.libs.commandapi</shadedPattern>-->
-<!--                                </relocation>-->
 
-<!--                                &lt;!&ndash; IF API relocation &ndash;&gt;-->
-<!--                                <relocation>-->
-<!--                                    <pattern>com.github.stefvanschie.inventoryframework</pattern>-->
-<!--                                    <shadedPattern>asia.virtualmc.vArchaeology.libs.inventoryframework</shadedPattern>-->
-<!--                                </relocation>-->
                             </relocations>
                         </configuration>
                     </execution>
@@ -112,18 +102,12 @@
             <scope>provided</scope>
         </dependency>
 
-<!--        &lt;!&ndash; CommandAPI &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>dev.jorel</groupId>-->
-<!--            <artifactId>commandapi-bukkit-shade</artifactId>-->
-<!--            <version>9.7.0</version>-->
-<!--        </dependency>-->
-
-<!--        &lt;!&ndash; IF API &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.stefvanschie.inventoryframework</groupId>-->
-<!--            <artifactId>IF</artifactId>-->
-<!--            <version>0.10.19</version>-->
-<!--        </dependency>-->
+        <!-- PacketEvents API -->
+        <dependency>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents-spigot</artifactId>
+            <version>2.7.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
