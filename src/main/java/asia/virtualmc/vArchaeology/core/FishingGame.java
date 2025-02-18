@@ -14,14 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.time.Duration;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,22 +28,19 @@ public class FishingGame implements Listener {
     private final Map<Player, MinigameState> activeMinigames = new ConcurrentHashMap<>();
     private final Map<Player, Long> fishingCooldown = new ConcurrentHashMap<>();
     private static final int DISPLAY_MAX = 30;
+    private final ForkJoinPool forkJoinPool = new ForkJoinPool();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
-    public FishingGame(@NotNull CoreManager coreManager) {
-        this.plugin = coreManager.getMain();
+    public FishingGame(Main plugin) {
+        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerFish(PlayerFishEvent event) {
         Player player = event.getPlayer();
-        PlayerFishEvent.State state = event.getState();
 
-        if (state == PlayerFishEvent.State.FISHING) {
-            return;
-        }
-
-        if (state == PlayerFishEvent.State.BITE) {
+        if (event.getState() == PlayerFishEvent.State.BITE) {
             if (activeMinigames.containsKey(player)) {
                 return;
             }
@@ -53,12 +48,11 @@ public class FishingGame implements Listener {
             Long cd = fishingCooldown.get(player);
             if (cd != null && System.currentTimeMillis() < cd) {
                 event.setCancelled(true);
-                player.sendMessage("§eYou must wait a few seconds before fishing again!");
+                player.sendMessage("§eWait a moment before fishing again!");
                 return;
             }
 
-            startFishingMinigame(player, 7, 2, 20, 10);
-            return;
+            startFishingMinigame(player, 3, 1, 100, 20);
         }
 
         if (activeMinigames.containsKey(player)) {
@@ -75,36 +69,15 @@ public class FishingGame implements Listener {
             return;
         }
 
-        if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK) {
-            event.setCancelled(true);
-            return;
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            forkJoinPool.execute(game::onPlayerClick);
+            //event.setCancelled(true);
         }
-
-        // Schedule the click handling on the main thread
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                game.onPlayerClick();
-            }
-        }.runTask(plugin);
-
-        event.setCancelled(true);
     }
 
     public void startFishingMinigame(Player player, int greenBarWidth, int arrowSpeed, int progressGain, int difficulty) {
-        if (greenBarWidth < 1 || greenBarWidth > DISPLAY_MAX) {
-            throw new IllegalArgumentException("Green bar width must be between 1 and " + DISPLAY_MAX);
-        }
-        if (arrowSpeed < 1) {
-            throw new IllegalArgumentException("Arrow speed must be positive");
-        }
-        if (progressGain < 1 || progressGain > 100) {
-            throw new IllegalArgumentException("Progress gain must be between 1 and 100");
-        }
-
-        MinigameState existing = activeMinigames.get(player);
-        if (existing != null) {
-            existing.endGame();
+        if (activeMinigames.containsKey(player)) {
+            activeMinigames.get(player).endGame();
         }
 
         MinigameState game = new MinigameState(player, greenBarWidth, arrowSpeed, progressGain, difficulty);
@@ -125,12 +98,6 @@ public class FishingGame implements Listener {
         private final AtomicBoolean running = new AtomicBoolean(false);
         private final AtomicBoolean movingRight = new AtomicBoolean(true);
         private final Random random = new Random();
-        private JavaScheduler.SchedulerTask task;
-
-        private static final int MIN_DIFFICULTY = 1;
-        private static final int MAX_DIFFICULTY = 10;
-        private static final double minSpeed = 1.0;
-        private static final double maxSpeed = 10.0;
 
         public MinigameState(Player player, int greenBarWidth, int arrowSpeed, int progressGain, int difficulty) {
             this.player = player;
@@ -142,92 +109,68 @@ public class FishingGame implements Listener {
 
         public void start() {
             running.set(true);
-            arrowPosition.set(0);
-            progress.set(0);
-            movingRight.set(true);
             randomizeGreenBar();
-            displayGame();
-            arrangeTask();
+            scheduler.scheduleAtFixedRate(this::gameTick, 0, mapValueToIntervalMilliseconds(difficulty), TimeUnit.MILLISECONDS);
         }
 
         public void onPlayerClick() {
-            if (!running.get()) {
-                return;
-            }
+            if (!running.get()) return;
 
-            int currentPosition = arrowPosition.get();
-            int currentStart = greenBarStart.get();
-            int currentEnd = greenBarEnd.get();
-
-            if (currentPosition >= currentStart && currentPosition <= currentEnd) {
+            int pos = arrowPosition.get();
+            if (pos >= greenBarStart.get() && pos <= greenBarEnd.get()) {
                 int newProgress = Math.min(100, progress.addAndGet(progressGain));
+
                 if (newProgress >= 100) {
                     endGame();
                     return;
                 }
+
                 randomizeGreenBar();
-                // Ensure UI updates happen on the main thread
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        displayGame();
-                    }
-                }.runTask(plugin);
+                plugin.getServer().getScheduler().runTask(plugin, this::displayGame);
             }
         }
 
-        private void arrangeTask() {
-            long period = mapValueToIntervalMilliseconds(difficulty);
-            task = plugin.getScheduler().asyncRepeating(() -> {
-                if (!running.get()) {
-                    return;
-                }
-                // Calculate new position asynchronously
-                updateArrowPosition();
-                // Update UI on the main thread
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        displayGame();
-                    }
-                }.runTask(plugin);
-            }, period, period, TimeUnit.MILLISECONDS);
+        private void gameTick() {
+            if (!running.get()) return;
+
+            updateArrowPosition();
+            plugin.getServer().getScheduler().runTask(plugin, this::displayGame);
         }
 
         private void updateArrowPosition() {
+            int current = arrowPosition.get();
             if (movingRight.get()) {
-                int newPos = arrowPosition.addAndGet(arrowSpeed);
-                if (newPos >= DISPLAY_MAX) {
+                if (current + arrowSpeed > DISPLAY_MAX) {
                     arrowPosition.set(DISPLAY_MAX);
                     movingRight.set(false);
+                } else {
+                    arrowPosition.addAndGet(arrowSpeed);
                 }
             } else {
-                int newPos = arrowPosition.addAndGet(-arrowSpeed);
-                if (newPos <= 0) {
+                if (current - arrowSpeed < 0) {
                     arrowPosition.set(0);
                     movingRight.set(true);
+                } else {
+                    arrowPosition.addAndGet(-arrowSpeed);
                 }
             }
         }
 
         private long mapValueToIntervalMilliseconds(int value) {
-            double frequency = minSpeed + ((double) (value - MIN_DIFFICULTY) / (MAX_DIFFICULTY - MIN_DIFFICULTY)) * (maxSpeed - minSpeed);
-            return (long) (1_000 / frequency);
+            int baseSpeed = 1000;
+            return Math.max(100, baseSpeed - (value * 80));
         }
 
         private void displayGame() {
             if (!running.get()) return;
 
             StringBuilder bar = new StringBuilder();
-            int currentPosition = arrowPosition.get();
-            int currentStart = greenBarStart.get();
-            int currentEnd = greenBarEnd.get();
-            boolean isMovingRight = movingRight.get();
+            int pos = arrowPosition.get();
 
             for (int i = 0; i <= DISPLAY_MAX; i++) {
-                if (i == currentPosition) {
-                    bar.append(isMovingRight ? "§f►" : "§f◄");
-                } else if (i >= currentStart && i <= currentEnd) {
+                if (i == pos) {
+                    bar.append(movingRight.get() ? "§f►" : "§f◄");
+                } else if (i >= greenBarStart.get() && i <= greenBarEnd.get()) {
                     bar.append("§a❙");
                 } else {
                     bar.append("§7❙");
@@ -235,63 +178,51 @@ public class FishingGame implements Listener {
             }
 
             int progressSegments = progress.get() / 10;
-            StringBuilder progressBar = new StringBuilder("Progress: [");
-            progressBar.append("§a").append("❙".repeat(progressSegments));
-            progressBar.append("§7").append("❙".repeat(10 - progressSegments));
-            progressBar.append("§f]");
+            String progressBar = "Progress: [" + "§a" + "❙".repeat(progressSegments) +
+                    "§7" + "❙".repeat(10 - progressSegments) +
+                    "]";
 
             Component titleComponent = Component.text(bar.toString());
-            Component subtitleComponent = Component.text(progressBar.toString());
+            Component subtitleComponent = Component.text(progressBar);
             Title.Times times = Title.Times.times(Duration.ofMillis(0), Duration.ofSeconds(1), Duration.ofMillis(0));
             Title title = Title.title(titleComponent, subtitleComponent, times);
+
             player.showTitle(title);
         }
 
         private void randomizeGreenBar() {
-            int maxStart = DISPLAY_MAX - greenBarWidth;
-            int start = random.nextInt(maxStart + 1);
+            int start = random.nextInt(DISPLAY_MAX - greenBarWidth + 1);
             greenBarStart.set(start);
             greenBarEnd.set(start + greenBarWidth - 1);
         }
 
         public void endGame() {
-            if (!running.compareAndSet(true, false)) {
-                return; // Already ended
-            }
-
+            running.set(false);
             activeMinigames.remove(player);
             fishingCooldown.put(player, System.currentTimeMillis() + 5000);
 
-            if (task != null) {
-                task.cancel();
-            }
-
-            // Ensure cleanup happens on the main thread
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (player.getFishHook() != null) {
-                        player.getFishHook().remove();
-                    }
-
-                    WrapperPlayServerEntityStatus fishingPacket = new WrapperPlayServerEntityStatus(
-                            player.getEntityId(),
-                            (byte) 0x0E
-                    );
-                    PacketEvents.getAPI().getPlayerManager().sendPacket(player, fishingPacket);
-
-                    player.swingMainHand();
-                    player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 1f, 1f);
-
-                    Component titleComponent = Component.text("§aFishing Complete!");
-                    Component subtitleComponent = Component.text("§eYou caught something!");
-                    Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(2), Duration.ofMillis(500));
-                    Title title = Title.title(titleComponent, subtitleComponent, times);
-                    player.showTitle(title);
-
-                    player.sendMessage("§aFishing successful!");
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                if (player.getFishHook() != null) {
+                    player.getFishHook().remove();
                 }
-            }.runTask(plugin);
+
+                WrapperPlayServerEntityStatus fishingPacket = new WrapperPlayServerEntityStatus(
+                        player.getEntityId(),
+                        (byte) 0x0E
+                );
+                PacketEvents.getAPI().getPlayerManager().sendPacket(player, fishingPacket);
+
+                player.swingMainHand();
+                player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 1f, 1f);
+
+                Component titleComponent = Component.text("§aFishing Complete!");
+                Component subtitleComponent = Component.text("§eYou caught something!");
+                Title.Times times = Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(2), Duration.ofMillis(500));
+                Title title = Title.title(titleComponent, subtitleComponent, times);
+                player.showTitle(title);
+
+                player.sendMessage("§aFishing successful!");
+            });
         }
     }
 }

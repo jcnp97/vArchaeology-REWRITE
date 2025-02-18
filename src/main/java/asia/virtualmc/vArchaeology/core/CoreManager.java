@@ -14,7 +14,7 @@ public class CoreManager {
         this.plugin = plugin;
         this.storageManager = plugin.getStorageManager();
         this.dropTable = new DropTable(storageManager);
-        this.fishingGame = new FishingGame(this);
+        this.fishingGame = new FishingGame(plugin);
     }
 
     public Main getMain() {
