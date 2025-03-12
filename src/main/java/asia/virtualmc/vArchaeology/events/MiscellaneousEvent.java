@@ -2,8 +2,8 @@ package asia.virtualmc.vArchaeology.events;
 
 import asia.virtualmc.vArchaeology.Main;
 
+import asia.virtualmc.vArchaeology.items.CustomTools;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,11 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class MiscellaneousEvent implements Listener {
     private final Main plugin;
-    private final NamespacedKey TOOL_KEY;
 
     public MiscellaneousEvent(@NotNull EventManager eventManager) {
         this.plugin = eventManager.getMain();
-        this.TOOL_KEY = new NamespacedKey(plugin, "varch_tool");
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -56,6 +54,6 @@ public class MiscellaneousEvent implements Listener {
             return false;
         }
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        return pdc.has(TOOL_KEY, PersistentDataType.INTEGER);
+        return pdc.has(CustomTools.getToolKey(), PersistentDataType.INTEGER);
     }
 }

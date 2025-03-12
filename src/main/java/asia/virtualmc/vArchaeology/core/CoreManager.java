@@ -8,13 +8,11 @@ public class CoreManager {
     private final Main plugin;
     private final StorageManager storageManager;
     private final DropTable dropTable;
-    private final FishingGame fishingGame;
 
     public CoreManager(@NotNull Main plugin) {
         this.plugin = plugin;
         this.storageManager = plugin.getStorageManager();
         this.dropTable = new DropTable(storageManager);
-        this.fishingGame = new FishingGame(plugin);
     }
 
     public Main getMain() {
@@ -26,6 +24,4 @@ public class CoreManager {
     }
 
     public DropTable getDropTable() { return  dropTable; };
-
-    public FishingGame getFishingGame() { return fishingGame; }
 }

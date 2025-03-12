@@ -1,6 +1,5 @@
 package asia.virtualmc.vArchaeology.commands;
 
-import asia.virtualmc.vArchaeology.core.FishingGame;
 import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.guis.CollectionLogGUI;
 import asia.virtualmc.vArchaeology.guis.GUIManager;
@@ -13,7 +12,6 @@ public class GUICommands {
     private final GUIManager guiManager;
     private final CollectionLogGUI collectionLogGUI;
     private final SellGUI sellGUI;
-    private final FishingGame fishingGame;
     private final String sPrefix = GlobalManager.severePrefix;
     private final String cPrefix = GlobalManager.coloredPrefix;
 
@@ -21,7 +19,6 @@ public class GUICommands {
         this.guiManager = guiManager;
         this.collectionLogGUI = guiManager.getCollectionLogGUI();
         this.sellGUI = guiManager.getSellGUI();
-        this.fishingGame = guiManager.getMain().getCoreManager().getFishingGame();
         registerCommands();
     }
 
@@ -56,16 +53,4 @@ public class GUICommands {
                     }
                 });
     }
-
-//    private CommandAPICommand fishingGame() {
-//        return new CommandAPICommand("game")
-//                .withPermission("varchaeology.use")
-//                .executes((sender, args) -> {
-//                    if (sender instanceof Player player) {
-//                        fishingGame.startFishingMinigame(player, 3, 1, 25);
-//                    } else {
-//                        sender.sendMessage("This command can only be used by players.");
-//                    }
-//                });
-//    }
 }

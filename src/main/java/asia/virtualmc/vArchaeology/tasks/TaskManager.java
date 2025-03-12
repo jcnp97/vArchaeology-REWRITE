@@ -2,7 +2,6 @@ package asia.virtualmc.vArchaeology.tasks;
 
 import asia.virtualmc.vArchaeology.Main;
 import asia.virtualmc.vArchaeology.events.EventManager;
-import asia.virtualmc.vArchaeology.global.GlobalManager;
 import asia.virtualmc.vArchaeology.storage.StorageManager;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
